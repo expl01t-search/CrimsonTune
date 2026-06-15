@@ -20,7 +20,9 @@
     <img src="https://img.shields.io/badge/v2.2.1-321_твик-d63031?style=for-the-badge" alt="v2.2.1" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
+    <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
+    <img src="https://img.shields.io/badge/Release-v2.2.1-d63031?style=for-the-badge" alt="Release v2.2.1" />
+    </a>
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/badge/Windows-10%20x64-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows 10" />
