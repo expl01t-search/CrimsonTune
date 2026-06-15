@@ -50,54 +50,6 @@ EASE_MS_FAST = 180
 EASE_MS_NAV = 200
 EASE_MS_PAGE = 260
 
-_CATEGORY_KEYS = (
-    "performance",
-    "ssd",
-    "gaming",
-    "graphics",
-    "directx",
-    "opengl",
-    "network",
-    "privacy",
-    "visual",
-    "system",
-    "nvidia",
-    "amd",
-    "expert",
-)
-_RISK_KEYS = ("safe", "medium", "high")
-
-
-class _I18nDict(dict):
-
-    def __init__(self, resolver) -> None:
-        self._resolver = resolver
-
-    def get(self, key, default=None):  # noqa: ANN001
-        try:
-            return self._resolver(key)
-        except Exception:
-            return default if default is not None else key
-
-    def __getitem__(self, key):  # noqa: ANN001
-        return self.get(key)
-
-
-def _category_label(key: str) -> str:
-    from core.i18n import category_label
-
-    return category_label(key)
-
-
-def _risk_label(key: str) -> str:
-    from core.i18n import risk_label
-
-    return risk_label(key)
-
-
-CATEGORY_LABELS = _I18nDict(_category_label)
-RISK_LABELS = _I18nDict(_risk_label)
-
 STAT_ACCENTS = ("crimson", "forge", "green", "violet")
 
 

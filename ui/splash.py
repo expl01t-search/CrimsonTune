@@ -11,6 +11,7 @@ from core.i18n import t
 from core.detector import detect_system
 from tweaks.base import TweakManager
 from ui.workers import ScanWorker
+from utils.compatibility import is_tweak_compatible
 
 
 class SplashWindow(QWidget):
@@ -33,6 +34,7 @@ class SplashWindow(QWidget):
 
         self._manager: Optional[TweakManager] = None
         self._worker: Optional[ScanWorker] = None
+        self._system_info = None
         self._ready = False
         self._fade: Optional[QPropertyAnimation] = None
 
@@ -103,16 +105,27 @@ class SplashWindow(QWidget):
         QTimer.singleShot(60, self._phase_detect)
 
     def _phase_detect(self) -> None:
-        info = detect_system()
+        self._system_info = detect_system()
+        info = self._system_info
         gpu = info.gpu_name or "GPU"
         self._set_progress(8, t("splash_system_detected", build=info.os_build, gpu=gpu))
         QTimer.singleShot(40, self._phase_scan)
 
     def _phase_scan(self) -> None:
-        if not self._manager:
+        if not self._manager or self._system_info is None:
             return
         self._set_progress(12, t("splash_scanning_state"))
-        worker = ScanWorker(self._manager)
+        info = self._system_info
+
+        def _compat(meta):
+            return is_tweak_compatible(
+                meta,
+                os_build=info.os_build,
+                gpu_vendor=info.gpu_vendor,
+                ram_total_gb=info.ram_total_gb,
+            )
+
+        worker = ScanWorker(self._manager, compat_fn=_compat)
         worker.progress.connect(self._on_scan_progress)
         worker.finished_ok.connect(self._on_scan_done)
         worker.finished.connect(self._on_worker_finished)

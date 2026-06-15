@@ -71,6 +71,9 @@ class ProfilesPage(QWidget):
         self._subtitle.setText(t("profiles_subtitle"))
         self._reload_cards()
 
+    def refresh_counts(self) -> None:
+        self._reload_cards()
+
     def _make_card(self, profile: dict) -> QFrame:
         card = QFrame()
         card.setObjectName("profileCard")

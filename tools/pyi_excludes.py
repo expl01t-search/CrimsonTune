@@ -84,9 +84,8 @@ STDLIB_EXCLUDES = (
     "setuptools",
     "pip",
     "distutils",
-    "email",
+    # email/http required by urllib (in-app update check + zip download)
     "html",
-    "http",
     "urllib3",
     "certifi",
     "numpy",

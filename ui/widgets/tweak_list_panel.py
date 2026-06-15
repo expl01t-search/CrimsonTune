@@ -7,6 +7,7 @@ from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QFrame, QLabel, QScrollArea, QSizePolicy, QVBoxLayout, QWidget
 
 from core.i18n import t
+from core.tweak_state import TweakStateInfo
 from tweaks.base import TweakManager, TweakMeta
 from ui.components.tweak_row import TweakRow
 from ui.performance import batch_widget_update
@@ -99,17 +100,28 @@ class TweakListPanel(QWidget):
         summary_prefix: str = "",
         empty_message: str = "",
         reload_applied: bool = False,
+        precomputed_states: dict | None = None,
     ) -> None:
         if reload_applied:
             self.manager.refresh_states()
         meta_list = list(metas)
         self._cancel_batch()
         if len(meta_list) >= _BATCH_THRESHOLD:
-            self._start_batched_populate(meta_list, summary_prefix=summary_prefix, empty_message=empty_message)
+            self._start_batched_populate(
+                meta_list,
+                summary_prefix=summary_prefix,
+                empty_message=empty_message,
+                precomputed_states=precomputed_states,
+            )
             return
         self.setUpdatesEnabled(False)
         try:
-            self._populate_impl(meta_list, summary_prefix=summary_prefix, empty_message=empty_message)
+            self._populate_impl(
+                meta_list,
+                summary_prefix=summary_prefix,
+                empty_message=empty_message,
+                precomputed_states=precomputed_states,
+            )
         finally:
             self.setUpdatesEnabled(True)
 
@@ -119,6 +131,7 @@ class TweakListPanel(QWidget):
         *,
         summary_prefix: str,
         empty_message: str,
+        precomputed_states: dict | None = None,
     ) -> None:
         if not meta_list:
             self._populate_impl([], summary_prefix=summary_prefix, empty_message=empty_message)
@@ -128,7 +141,7 @@ class TweakListPanel(QWidget):
         token = self._batch_token
         self._batch_pending = meta_list
         self._batch_compat = {m.id: self._is_compatible(m) for m in meta_list}
-        self._batch_states = {}
+        self._batch_states = dict(precomputed_states or {})
         self._batch_summary_prefix = summary_prefix
         self._batch_index = 0
 
@@ -157,11 +170,11 @@ class TweakListPanel(QWidget):
         end = min(start + _BATCH_SIZE, len(self._batch_pending))
         chunk = self._batch_pending[start:end]
         chunk_compat = {m.id: self._batch_compat[m.id] for m in chunk}
-        chunk_states = self.manager.state_detector.get_all_states(
-            [m.id for m in chunk],
-            chunk_compat,
-        )
-        self._batch_states.update(chunk_states)
+        missing = [m.id for m in chunk if m.id not in self._batch_states]
+        if missing:
+            chunk_states = self.manager.state_detector.get_all_states(missing, chunk_compat)
+            self._batch_states.update(chunk_states)
+        chunk_states = {m.id: self._batch_states[m.id] for m in chunk}
 
         self._container.setUpdatesEnabled(False)
         try:
@@ -211,6 +224,7 @@ class TweakListPanel(QWidget):
         *,
         summary_prefix: str = "",
         empty_message: str = "",
+        precomputed_states: dict | None = None,
     ) -> None:
         if not meta_list:
             self._summary.setText(summary_prefix or "")
@@ -237,7 +251,10 @@ class TweakListPanel(QWidget):
 
         compat_map = {m.id: self._is_compatible(m) for m in meta_list}
         ids = [m.id for m in meta_list]
-        states = self.manager.state_detector.get_all_states(ids, compat_map)
+        if precomputed_states is not None:
+            states = precomputed_states
+        else:
+            states = self.manager.state_detector.get_all_states(ids, compat_map)
 
         def _update() -> None:
             counts = self.manager.state_detector.count_active(ids, compat_map)

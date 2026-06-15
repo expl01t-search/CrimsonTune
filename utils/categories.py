@@ -1,20 +1,8 @@
 from __future__ import annotations
 
-GRAPHICS_CATEGORIES: tuple[str, ...] = ("nvidia", "amd", "directx", "opengl")
+GRAPHICS_CATEGORIES: tuple[str, ...] = ("nvidia", "directx", "opengl")
 SYSTEM_NAV_CATEGORIES: tuple[str, ...] = ("system", "visual")
 SSD_CATEGORIES: tuple[str, ...] = ("ssd",)
-
-TWEAK_CATEGORY_KEYS: tuple[str, ...] = (
-    "performance",
-    "ssd",
-    "gaming",
-    *GRAPHICS_CATEGORIES,
-    "network",
-    "privacy",
-    "visual",
-    "system",
-    "expert",
-)
 
 NAV_KEYS: tuple[str, ...] = (
     "dashboard",

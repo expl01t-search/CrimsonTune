@@ -39,34 +39,10 @@ from ui.sidebar import Sidebar
 from ui.theme import icon_path
 from ui.tweak_page import TweakPage
 from ui.widgets.animated_stack import AnimatedPageStack
-from ui.workers import RevertWorker, RestorePointWorker, ScanWorker, UpdateCheckWorker
+from ui.workers import ApplyWorker, RevertWorker, RestorePointWorker, ScanWorker, UpdateCheckWorker
 from utils.categories import CATEGORY_MAP, nav_categories
 from utils.compatibility import is_tweak_compatible
 from utils.tweak_ids import dedupe_preserve_order
-
-
-class ApplyWorker(QThread):
-    progress = Signal(int, int, str)
-    finished_apply = Signal(int, int, int)
-
-    def __init__(self, manager: TweakManager, tweak_ids: list[str]) -> None:
-        super().__init__()
-        self.manager = manager
-        self.tweak_ids = tweak_ids
-
-    def run(self) -> None:
-        ok, fail = 0, 0
-        total = len(self.tweak_ids)
-        for i, tid in enumerate(self.tweak_ids):
-            meta = self.manager.get_meta(tid)
-            name = meta.name if meta else tid
-            self.progress.emit(i + 1, total, name)
-            result = self.manager.apply_tweak(tid)
-            if result.success:
-                ok += 1
-            else:
-                fail += 1
-        self.finished_apply.emit(ok, fail, total)
 
 
 class MainWindow(QMainWindow):
@@ -361,11 +337,10 @@ class MainWindow(QMainWindow):
         if hasattr(profiles, "retranslate_ui"):
             profiles.retranslate_ui()
 
-        if self._current_page in self._tweak_pages:
-            page = self._tweak_pages[self._current_page]
+        for page in self._tweak_pages.values():
             if hasattr(page, "retranslate_ui"):
                 page.retranslate_ui()
-        elif self._current_page == "search" and hasattr(self._search_page, "retranslate_ui"):
+        if hasattr(self._search_page, "retranslate_ui"):
             self._search_page.retranslate_ui(self._search.text())
 
         settings = self._pages.get("settings")
@@ -562,17 +537,12 @@ class MainWindow(QMainWindow):
         if self._current_page == "search":
             self._search_page.refresh(self._search.text())
         self._update_dashboard_status()
-        self._start_background_scan()
+        profiles = self._pages.get("profiles")
+        if hasattr(profiles, "refresh_counts"):
+            profiles.refresh_counts()
         settings = self._pages.get("settings")
         if hasattr(settings, "refresh_stats"):
             settings.refresh_stats()
-
-    def _start_background_scan(self) -> None:
-        worker = ScanWorker(self.manager)
-        worker.finished_ok.connect(self._refresh_current_page)
-        worker.finished.connect(self._cleanup_worker)
-        worker.start()
-        self._workers.append(worker)
 
     def _apply_profile(self, profile: dict) -> None:
         ids = dedupe_preserve_order(profile.get("tweaks", []))
@@ -619,7 +589,7 @@ class MainWindow(QMainWindow):
     def _rescan(self) -> None:
         self._scan_btn.setEnabled(False)
         self._scan_btn.setText(t("scanning"))
-        worker = ScanWorker(self.manager)
+        worker = ScanWorker(self.manager, compat_fn=self._is_compatible)
         worker.finished_ok.connect(self._on_rescan_done)
         worker.finished.connect(self._cleanup_worker)
         worker.start()
@@ -637,6 +607,9 @@ class MainWindow(QMainWindow):
         if self._current_page == "search":
             self._search_page.refresh(self._search.text())
         self._update_dashboard_status()
+        profiles = self._pages.get("profiles")
+        if hasattr(profiles, "refresh_counts"):
+            profiles.refresh_counts()
 
     def _refresh_current_page(self) -> None:
         if self._current_page == "search":

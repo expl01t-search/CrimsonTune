@@ -205,7 +205,10 @@ class TweakManager:
 
     def get_by_categories(self, categories: tuple[str, ...]) -> list[TweakMeta]:
         allowed = set(categories)
-        return [m for m in self._meta.values() if m.category in allowed]
+        cat_order = {cat: idx for idx, cat in enumerate(categories)}
+        metas = [m for m in self._meta.values() if m.category in allowed]
+        metas.sort(key=lambda m: (cat_order.get(m.category, 99), m.name.casefold()))
+        return metas
 
     def get_all_meta(self) -> list[TweakMeta]:
         return list(self._meta.values())

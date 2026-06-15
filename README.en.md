@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/v2.2.0-321_tweaks-d63031?style=for-the-badge" alt="v2.2.0" />
+    <img src="https://img.shields.io/badge/v2.2.1-321_tweaks-d63031?style=for-the-badge" alt="v2.2.1" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
@@ -34,7 +34,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.0-win64.zip">
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip">
     <img src="https://img.shields.io/badge/⬇️_Download_.zip-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download ZIP" />
   </a>
 </p>
