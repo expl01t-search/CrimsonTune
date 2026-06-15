@@ -16,6 +16,9 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/tag/v1.2.16">
+    <img src="https://img.shields.io/badge/v1.2.16-179_твиков-d63031?style=for-the-badge" alt="v1.2.16" />
+  </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
   </a>
@@ -55,13 +58,25 @@
 
 | | |
 |---|---|
-| **129 твиков** | WinUtil, Winhance, Sophia, Optimize #Expl01t, DLCI, ReadyPC |
+| **179 твиков** | WinUtil, Winhance, Sophia, Optimize #Expl01t, Custom-DirectX, DLCI, ReadyPC |
+| **10 вкладок** | Главная · Производительность · Игры · **Графика** · Сеть · Приватность · **Система** · **Эксперт** · Профили · Настройки |
+| **Графика** | NVIDIA, AMD, DirectX и OpenGL в одной вкладке; метки подкатегорий на карточках |
+| **Эксперт** | Опасные твики отдельно: Defender/Firewall OFF, массовое отключение служб, полный WU OFF и др. |
+| **GPU / RAM** | Твики NVIDIA/AMD только на совместимом железе; RAM-профили SvHost (2–64 GB) |
 | **Умное сканирование** | Определяет уже активные настройки и не даёт включить их повторно |
 | **4 профиля** | Balanced, Gamer Pro, Max Performance, Privacy |
 | **Фильтры** | Все · Доступные · Активные · Разовые |
 | **Бэкап .reg** | Экспорт активных настроек прямо из приложения |
 | **Crimson Dark UI** | Тёмная тема, анимации, splash-экран и автоскан при старте |
 | **RU / EN** | Полная локализация интерфейса и описаний твиков |
+
+### Вкладки
+
+| Вкладка | Содержимое |
+|---------|------------|
+| **Графика** | NVIDIA (P-State, Telemetry, preemption), AMD Anti-Lag, DirectX/D3D (Custom-DirectX), OpenGL |
+| **Система** | Системные и визуальные твики (реестр, службы, интерфейс Windows) |
+| **Эксперт** | Деструктивные изменения — только при полном понимании последствий |
 
 ---
 
@@ -86,6 +101,7 @@ python main.py
 
 ```bash
 python tools/gen_icon.py
+python tools/gen_version_info.py   # метаданные версии для EXE (опционально — build.spec вызывает сам)
 pyinstaller build.spec
 ```
 
@@ -120,12 +136,14 @@ pyinstaller build.spec
 
 ```
 CrimsonTune/
-├── core/           # приложение, детектор, бэкапы, i18n
-├── tweaks/         # обработчики твиков по категориям
-├── ui/             # окна, компоненты, тема
-├── config/         # tweaks.json, профили
-├── locales/        # RU / EN
-├── tools/gen_icon.py
+├── core/              # приложение, детектор, бэкапы, i18n
+├── tweaks/            # обработчики (performance, nvidia, expert, directx…)
+├── ui/                # окна, компоненты, тема
+├── config/            # tweaks.json, профили
+├── locales/           # RU / EN
+├── tools/
+│   ├── gen_icon.py
+│   └── gen_version_info.py
 └── main.py
 ```
 

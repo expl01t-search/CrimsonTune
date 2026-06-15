@@ -16,6 +16,9 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/tag/v1.2.16">
+    <img src="https://img.shields.io/badge/v1.2.16-179_tweaks-d63031?style=for-the-badge" alt="v1.2.16" />
+  </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
   </a>
@@ -55,13 +58,25 @@
 
 | | |
 |---|---|
-| **129 tweaks** | WinUtil, Winhance, Sophia, Optimize #Expl01t, DLCI, ReadyPC |
+| **179 tweaks** | WinUtil, Winhance, Sophia, Optimize #Expl01t, Custom-DirectX, DLCI, ReadyPC |
+| **10 tabs** | Home · Performance · Gaming · **Graphics** · Network · Privacy · **System** · **Expert** · Profiles · Settings |
+| **Graphics** | NVIDIA, AMD, DirectX and OpenGL in one tab; subcategory chips on cards |
+| **Expert** | Risky tweaks separated: Defender/Firewall OFF, mass service disable, full WU OFF, etc. |
+| **GPU / RAM** | NVIDIA/AMD tweaks only on compatible hardware; SvHost RAM tiers (2–64 GB) |
 | **Smart scan** | Detects tweaks already active in Windows and prevents duplicate toggles |
 | **4 profiles** | Balanced, Gamer Pro, Max Performance, Privacy |
 | **Filters** | All · Available · Active · One-shot |
 | **`.reg` backup** | Export active tweak settings from the app |
 | **Crimson Dark UI** | Dark theme, animations, splash screen, auto-scan on launch |
 | **RU / EN** | Full UI and tweak description localization |
+
+### Tabs
+
+| Tab | Contents |
+|-----|----------|
+| **Graphics** | NVIDIA (P-State, Telemetry, preemption), AMD Anti-Lag, DirectX/D3D (Custom-DirectX), OpenGL |
+| **System** | System and visual tweaks (registry, services, Windows UI) |
+| **Expert** | Destructive changes — use only if you fully understand the consequences |
 
 ---
 
@@ -86,6 +101,7 @@ python main.py
 
 ```bash
 python tools/gen_icon.py
+python tools/gen_version_info.py   # EXE version metadata (optional — build.spec runs it)
 pyinstaller build.spec
 ```
 
@@ -120,12 +136,14 @@ Output: `dist/CrimsonTune.exe`
 
 ```
 CrimsonTune/
-├── core/           # app, detector, backups, i18n
-├── tweaks/         # tweak handlers by category
-├── ui/             # windows, components, theme
-├── config/         # tweaks.json, profiles
-├── locales/        # RU / EN
-├── tools/gen_icon.py
+├── core/              # app, detector, backups, i18n
+├── tweaks/            # handlers (performance, nvidia, expert, directx…)
+├── ui/                # windows, components, theme
+├── config/            # tweaks.json, profiles
+├── locales/           # RU / EN
+├── tools/
+│   ├── gen_icon.py
+│   └── gen_version_info.py
 └── main.py
 ```
 
