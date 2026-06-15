@@ -22,7 +22,8 @@ def is_tweak_compatible(
     if meta.compatible_os:
         build = f"10.0.{os_build}" if os_build and not os_build.startswith("10.") else os_build
         if not any(build.startswith(v) for v in meta.compatible_os):
-            return False
+            if not (build.startswith("10.0.") and "10.0" in meta.compatible_os):
+                return False
     vendors = meta.gpu_vendor
     if vendors and "all" not in vendors:
         if gpu_vendor not in vendors:

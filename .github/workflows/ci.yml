@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Verify imports
+        run: python -c "from core.brand import APP_VERSION; print('CrimsonTune', APP_VERSION)"
+
+      - name: Compile sources
+        run: python -m compileall -q core tweaks ui utils tools main.py

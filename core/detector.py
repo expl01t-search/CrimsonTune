@@ -28,6 +28,7 @@ class SystemInfo:
     gpu_vram_gb: float = 0.0
     uptime_hours: float = 0.0
     is_admin: bool = False
+    is_win11: bool = False
     game_mode_enabled: Optional[bool] = None
     hags_enabled: Optional[bool] = None
     power_plan: str = ""
@@ -286,6 +287,11 @@ def detect_system(*, force: bool = False) -> SystemInfo:
 
     version = platform.version()
     build = version.split(".")[-1] if version else ""
+    try:
+        build_num = int(build)
+    except ValueError:
+        build_num = 0
+    is_win11 = build_num >= 22000
 
     mem = psutil.virtual_memory()
     boot_time = psutil.boot_time()
@@ -317,6 +323,7 @@ def detect_system(*, force: bool = False) -> SystemInfo:
         gpu_vram_gb=gpu_vram_gb,
         uptime_hours=round(uptime, 1),
         is_admin=is_admin(),
+        is_win11=is_win11,
         game_mode_enabled=_read_registry_bool(
             r"HKCU\Software\Microsoft\GameBar", "AutoGameModeEnabled"
         ),

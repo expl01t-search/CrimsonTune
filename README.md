@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/v1.2.20-204_твика-d63031?style=for-the-badge" alt="v1.2.20" />
+    <img src="https://img.shields.io/badge/v2.1.2-204_твика-d63031?style=for-the-badge" alt="v2.1.2" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
@@ -28,14 +28,14 @@
   <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/requirements.txt">
     <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
   </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge" alt="License" />
+  <a href="https://github.com/expl01t-search/CrimsonTune/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/badge/CI-build-2ea44f?style=for-the-badge" alt="CI" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune.exe">
-    <img src="https://img.shields.io/badge/⬇️_Скачать_CrimsonTune.exe-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download" />
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.1.2-win64.zip">
+    <img src="https://img.shields.io/badge/⬇️_Скачать_.zip-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download ZIP" />
   </a>
 </p>
 
@@ -112,11 +112,11 @@
 
 ## Быстрый старт
 
-### Скачать EXE
+### Скачать
 
 1. [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
-2. `CrimsonTune.exe` или `CrimsonTune-v*-win64.zip`
-3. Запуск **от имени администратора**
+2. Архив `CrimsonTune-v*-win64.zip` — распакуйте и запустите `CrimsonTune.exe` **от администратора**
+3. К каждому релизу приложен `RELEASE_NOTES.md` (changelog этой версии)
 
 ### Из исходников
 
@@ -130,11 +130,23 @@ python main.py
 ### Сборка
 
 ```bash
+pip install -r requirements-dev.txt
 python tools/gen_icon.py
 pyinstaller build.spec
 ```
 
 → `dist/CrimsonTune.exe`
+
+### Зависимости
+
+| Файл | Назначение |
+|------|------------|
+| `requirements.txt` | **Только для запуска** — PySide6 и psutil |
+| `requirements-dev.txt` | **Сборка и CI** — подключает runtime + PyInstaller |
+
+Обычным пользователям достаточно скачать `.zip` из Releases. Два файла — чтобы не тянуть PyInstaller тем, кто просто запускает `python main.py`.
+
+> В репозитории нет папки `tests/` — она остаётся локально для разработки. В релизный архив попадает только `CrimsonTune.exe`.
 
 ---
 

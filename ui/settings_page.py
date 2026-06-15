@@ -32,12 +32,17 @@ class SettingsPage(QWidget):
         on_reg_backup: Callable[[], None],
         on_open_backups: Callable[[], None],
         on_language_changed: Callable[[str], None] | None = None,
+        on_check_update: Callable[[], None] | None = None,
+        on_install_update: Callable[[], None] | None = None,
         parent=None,
     ) -> None:
         super().__init__(parent)
         self.setObjectName("appPage")
         self._backup = backup
         self._on_language_changed = on_language_changed
+        self._on_check_update = on_check_update
+        self._on_install_update = on_install_update
+        self._pending_release = None
 
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -115,6 +120,47 @@ class SettingsPage(QWidget):
         ver.setObjectName("muted")
         info_layout.addWidget(ver)
         layout.addWidget(info_card)
+
+        update_card = QFrame()
+        update_card.setObjectName("settingsCard")
+        update_layout = QVBoxLayout(update_card)
+        update_layout.setContentsMargins(20, 18, 20, 18)
+        update_layout.setSpacing(10)
+
+        update_title = QLabel(t("settings_update_title"))
+        update_title.setObjectName("sectionTitle")
+        self._update_title = update_title
+        update_layout.addWidget(update_title)
+
+        update_hint = QLabel(t("settings_update_hint"))
+        update_hint.setObjectName("muted")
+        update_hint.setWordWrap(True)
+        self._update_hint = update_hint
+        update_layout.addWidget(update_hint)
+
+        self._update_status = QLabel(t("update_check_idle"))
+        self._update_status.setObjectName("muted")
+        self._update_status.setWordWrap(True)
+        self._update_status.setOpenExternalLinks(True)
+        update_layout.addWidget(self._update_status)
+
+        update_btn = QPushButton(t("settings_update_check_btn"))
+        update_btn.setObjectName("secondaryBtn")
+        update_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        update_btn.setMaximumWidth(360)
+        update_btn.clicked.connect(self._check_update)
+        self._update_btn = update_btn
+        update_layout.addWidget(update_btn)
+
+        self._install_update_btn = QPushButton(t("settings_update_install_btn"))
+        self._install_update_btn.setObjectName("applyBtn")
+        self._install_update_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._install_update_btn.setMaximumWidth(360)
+        self._install_update_btn.hide()
+        self._install_update_btn.clicked.connect(self._install_update)
+        update_layout.addWidget(self._install_update_btn)
+        layout.addWidget(update_card)
+
         self.refresh_stats()
 
         backup_card = QFrame()
@@ -195,6 +241,10 @@ class SettingsPage(QWidget):
         self._open_backups_btn.setText(t("settings_open_backups_btn"))
         self._restore_point_btn.setText(t("create_restore_point"))
         self._export_restore_btn.setText(t("settings_export_restore_btn"))
+        self._update_title.setText(t("settings_update_title"))
+        self._update_hint.setText(t("settings_update_hint"))
+        self._update_btn.setText(t("settings_update_check_btn"))
+        self._install_update_btn.setText(t("settings_update_install_btn"))
         current = get_language()
         self._lang_combo.blockSignals(True)
         self._lang_combo.clear()
@@ -210,3 +260,29 @@ class SettingsPage(QWidget):
     def refresh_stats(self) -> None:
         n = len(self._backup.get_all_applied())
         self._applied_lbl.setText(t("settings_applied_count", n=n))
+
+    def _check_update(self) -> None:
+        if self._on_check_update:
+            self.set_update_checking(True)
+            self._on_check_update()
+
+    def set_update_checking(self, checking: bool) -> None:
+        self._update_btn.setEnabled(not checking)
+        if checking:
+            self._update_status.setText(t("update_checking"))
+
+    def set_update_status(self, message: str, *, url: str = "", release=None) -> None:
+        self._update_btn.setEnabled(True)
+        self._pending_release = release
+        if release is not None:
+            self._install_update_btn.show()
+        else:
+            self._install_update_btn.hide()
+        if url:
+            self._update_status.setText(f'<a href="{url}">{message}</a>')
+        else:
+            self._update_status.setText(message)
+
+    def _install_update(self) -> None:
+        if self._on_install_update and self._pending_release is not None:
+            self._on_install_update()

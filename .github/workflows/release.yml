@@ -19,7 +19,22 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements-dev.txt
+
+      - name: Verify imports
+        run: python -c "from core.brand import APP_VERSION; print('CrimsonTune', APP_VERSION)"
+
+      - name: Resolve version from tag
+        id: ver
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $version = $tag.TrimStart('v','V')
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "Version: $version"
+
+      - name: Extract release notes from CHANGELOG
+        run: python tools/extract_release_notes.py ${{ steps.ver.outputs.version }} RELEASE_NOTES.md
 
       - name: Generate application icon
         run: python tools/gen_icon.py
@@ -38,7 +53,8 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          body_path: RELEASE_NOTES.md
+          generate_release_notes: false
           files: |
-            dist/CrimsonTune.exe
             CrimsonTune-${{ github.ref_name }}-win64.zip
+            RELEASE_NOTES.md

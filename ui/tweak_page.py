@@ -54,6 +54,7 @@ class TweakPage(QWidget):
         self._is_admin = is_admin
         self._search = search_query
         self._filter = FILTER_ALL
+        self._loaded = False
 
         outer = QVBoxLayout(self)
         outer.setSpacing(10)
@@ -99,7 +100,15 @@ class TweakPage(QWidget):
         outer.addWidget(self._panel, stretch=1)
 
         if autoload:
-            self.refresh("")
+            self.ensure_loaded()
+
+    def is_loaded(self) -> bool:
+        return self._loaded
+
+    def ensure_loaded(self) -> None:
+        if self._loaded:
+            return
+        self.refresh("")
 
     def retranslate_ui(self) -> None:
         self._header.setText(category_label(self.nav_key))
@@ -131,9 +140,11 @@ class TweakPage(QWidget):
             return metas
 
         compat_map = {m.id: self._is_compatible(m) for m in metas}
+        ids = [m.id for m in metas]
+        states = self.manager.state_detector.get_all_states(ids, compat_map)
         filtered = []
         for meta in metas:
-            state = self.manager.get_tweak_state(meta.id, compatible=compat_map[meta.id])
+            state = states[meta.id]
             if self._filter == FILTER_AVAILABLE:
                 if state.is_active and state.status != TweakStatus.ONE_SHOT:
                     continue
@@ -161,9 +172,15 @@ class TweakPage(QWidget):
             return t("category_all_applied")
         return t("list_empty")
 
-    def refresh(self, search_query: str = "") -> None:
+    def refresh(self, search_query: str = "", *, reload_applied: bool = False) -> None:
         self._search = search_query
+        self._loaded = True
         metas = self._filtered_metas(search_query)
         title = category_label(self.nav_key)
         empty_message = self._empty_message(search_query) if not metas else ""
-        self._panel.populate(metas, summary_prefix=title, empty_message=empty_message)
+        self._panel.populate(
+            metas,
+            summary_prefix=title,
+            empty_message=empty_message,
+            reload_applied=reload_applied,
+        )

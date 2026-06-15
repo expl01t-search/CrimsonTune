@@ -7,6 +7,16 @@ from core.backup import BackupManager
 from tweaks.base import TweakManager
 
 
+class UpdateCheckWorker(QThread):
+    finished_ok = Signal(object)
+
+    def run(self) -> None:
+        from core.updater import check_for_update
+
+        release, status = check_for_update()
+        self.finished_ok.emit((release, status))
+
+
 class ScanWorker(QThread):
 
     progress = Signal(int, int)
@@ -18,13 +28,19 @@ class ScanWorker(QThread):
 
     def run(self) -> None:
         self._manager.refresh_states()
-        metas = self._manager.get_all_meta()
-        ids = [m.id for m in metas]
-        total = len(ids)
-        for i, tid in enumerate(ids):
-            self._manager.get_tweak_state(tid, compatible=True)
-            if i % 8 == 0 or i == total - 1:
-                self.progress.emit(i + 1, total)
+        detector = self._manager.state_detector
+        detector.invalidate()
+        detector.begin_batch_scan()
+        try:
+            metas = self._manager.get_all_meta()
+            ids = [m.id for m in metas]
+            total = len(ids)
+            for i, tid in enumerate(ids):
+                detector.get_state(tid, compatible=True)
+                if i % 12 == 0 or i == total - 1:
+                    self.progress.emit(i + 1, total)
+        finally:
+            detector.end_batch_scan()
         self.finished_ok.emit()
 
 
@@ -39,8 +55,13 @@ class RevertWorker(QThread):
         results = self._manager.revert_all()
         ok = sum(1 for _, r in results if r.success)
         self._manager.refresh_states()
-        self._manager.state_detector.invalidate()
-        self._manager.state_detector.scan_all([m.id for m in self._manager.get_all_meta()])
+        detector = self._manager.state_detector
+        detector.invalidate()
+        detector.begin_batch_scan()
+        try:
+            detector.scan_all([m.id for m in self._manager.get_all_meta()])
+        finally:
+            detector.end_batch_scan()
         self.finished_ok.emit(ok)
 
 

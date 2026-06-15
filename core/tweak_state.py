@@ -16,6 +16,7 @@ class TweakStatus(str, Enum):
     INACTIVE = "inactive"
     ACTIVE_SYSTEM = "active_system"
     APPLIED_APP = "applied_app"
+    APPLIED_PENDING_REBOOT = "applied_pending_reboot"
     ACTIVE_BOTH = "active_both"
     UNKNOWN = "unknown"
     ONE_SHOT = "one_shot"
@@ -26,6 +27,7 @@ STATUS_LABELS = {
     TweakStatus.INACTIVE: "Доступен",
     TweakStatus.ACTIVE_SYSTEM: "Уже включено в системе",
     TweakStatus.APPLIED_APP: "Применено CrimsonTune",
+    TweakStatus.APPLIED_PENDING_REBOOT: "Применено · перезагрузка",
     TweakStatus.ACTIVE_BOTH: "Уже активно",
     TweakStatus.UNKNOWN: "Статус неизвестен",
     TweakStatus.ONE_SHOT: "Разовое действие",
@@ -36,6 +38,7 @@ STATUS_COLORS = {
     TweakStatus.INACTIVE: "#9aa3b8",
     TweakStatus.ACTIVE_SYSTEM: "#00c896",
     TweakStatus.APPLIED_APP: "#d63031",
+    TweakStatus.APPLIED_PENDING_REBOOT: "#ff8c42",
     TweakStatus.ACTIVE_BOTH: "#00c896",
     TweakStatus.UNKNOWN: "#6b7280",
     TweakStatus.ONE_SHOT: "#ffcc00",
@@ -72,27 +75,50 @@ ONE_SHOT_TWEAKS = {
 }
 
 
+def _normalize_reg_int(value) -> int:
+    if isinstance(value, int) and value < 0:
+        return value & 0xFFFFFFFF
+    return int(value)
+
+
 def _reg_eq(path: str, name: str, expected) -> bool:
     actual = reg.read_value(path, name, default=None)
     if actual is None:
         return False
     if isinstance(expected, str):
-        return str(actual).lower() == expected.lower()
-    return actual == expected
+        return str(actual).strip().lower() == expected.strip().lower()
+    if isinstance(expected, bool):
+        return bool(actual) == expected
+    try:
+        return _normalize_reg_int(actual) == _normalize_reg_int(expected)
+    except (TypeError, ValueError):
+        return actual == expected
 
 
 def _reg_bool(path: str, name: str, expected: bool) -> bool:
     val = reg.read_value(path, name, default=None)
     if val is None:
         return False
+    if isinstance(val, int):
+        return (val != 0) == expected
     return bool(val) == expected
 
 
 def _service_disabled(name: str) -> bool:
+    from utils.subprocess_helper import get_service_start_type
+
+    start = get_service_start_type(name)
+    if start == "disabled":
+        return True
+    if start in ("auto", "manual"):
+        return False
     code, out, _ = run_command(["sc", "query", name])
     if code != 0:
         return True
-    return "STOPPED" in out or "DISABLED" in out.upper()
+    upper = out.upper()
+    if "DISABLED" in upper:
+        return True
+    return False
 
 
 def _service_running(name: str) -> bool:
@@ -106,6 +132,14 @@ def _power_plan_active(guid: str) -> bool:
 
 
 def _hibernation_off() -> bool:
+    hiber = reg.read_value(
+        r"HKLM\SYSTEM\CurrentControlSet\Control\Power",
+        "HibernateEnabled",
+        default=None,
+    )
+    if hiber is not None:
+        return int(hiber) == 0
+
     code, out, _ = run_command(["powercfg", "/a"])
     if code != 0:
         return False
@@ -149,6 +183,21 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
     "optimize_svchost": _legacy_optimize_svchost_active,
     "disable_hags": lambda: _reg_eq(
         r"HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers", "HwSchMode", 1,
+    ),
+    "enable_game_mode": lambda: _reg_bool(
+        r"HKCU\Software\Microsoft\GameBar", "AutoGameModeEnabled", True,
+    ) and _reg_bool(r"HKCU\Software\Microsoft\GameBar", "AllowAutoGameMode", True),
+    "disable_game_mode": lambda: _reg_bool(
+        r"HKCU\Software\Microsoft\GameBar", "AutoGameModeEnabled", False,
+    ) and _reg_bool(r"HKCU\Software\Microsoft\GameBar", "AllowAutoGameMode", False),
+    "enable_hags": lambda: _reg_eq(
+        r"HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers", "HwSchMode", 2,
+    ),
+    "disable_mpo": lambda: _reg_eq(
+        r"HKLM\SOFTWARE\Microsoft\Windows\Dwm", "OverlayTestMode", 5,
+    ),
+    "win32_priority_separation": lambda: _reg_eq(
+        r"HKLM\SYSTEM\CurrentControlSet\Control\PriorityControl", "Win32PrioritySeparation", 38,
     ),
     "disable_game_dvr": lambda: _reg_bool(r"HKCU\System\GameConfigStore", "GameDVR_Enabled", False),
     "disable_fullscreen_optimizations": lambda: _reg_eq(
@@ -444,9 +493,21 @@ def _batch_reg_active(entries) -> bool:
     return True
 
 
+_netsh_global_cache: str | None = None
+
+
+def _clear_scan_helpers_cache() -> None:
+    global _netsh_global_cache
+    _netsh_global_cache = None
+
+
 def _netsh_tcp_global() -> str:
+    global _netsh_global_cache
+    if _netsh_global_cache is not None:
+        return _netsh_global_cache
     code, out, _ = run_command(["netsh", "int", "tcp", "show", "global"])
-    return out.lower() if code == 0 else ""
+    _netsh_global_cache = out.lower() if code == 0 else ""
+    return _netsh_global_cache
 
 
 def _nic_nagle_disabled() -> bool:
@@ -615,24 +676,45 @@ class TweakStateDetector:
     def __init__(self, applied_by_app: Optional[set[str]] = None) -> None:
         self._applied_by_app = applied_by_app or set()
         self._cache: dict[tuple[str, bool], TweakStateInfo] = {}
+        self._system_check_cache: dict[str, bool] = {}
+        self._batch_scan = False
+
+    def begin_batch_scan(self) -> None:
+        self._batch_scan = True
+        self._system_check_cache.clear()
+        _clear_scan_helpers_cache()
+
+    def end_batch_scan(self) -> None:
+        self._batch_scan = False
+        self._system_check_cache.clear()
+        _clear_scan_helpers_cache()
 
     def set_applied_by_app(self, tweak_ids: set[str]) -> None:
         self._applied_by_app = tweak_ids
         self._cache.clear()
 
     def check_system(self, tweak_id: str) -> bool:
+        if tweak_id in self._system_check_cache:
+            return self._system_check_cache[tweak_id]
+
         global _supplemental_checks_ready
         if not _supplemental_checks_ready:
             _register_supplemental_checks()
         if tweak_id in ONE_SHOT_TWEAKS:
-            return False
-        checker = SYSTEM_CHECKS.get(tweak_id)
-        if not checker:
-            return False
-        try:
-            return checker()
-        except Exception:
-            return False
+            result = False
+        else:
+            checker = SYSTEM_CHECKS.get(tweak_id)
+            if not checker:
+                result = False
+            else:
+                try:
+                    result = checker()
+                except Exception:
+                    result = False
+
+        if self._batch_scan:
+            self._system_check_cache[tweak_id] = result
+        return result
 
     def get_state(self, tweak_id: str, *, compatible: bool = True) -> TweakStateInfo:
         cache_key = (tweak_id, compatible)
@@ -679,16 +761,12 @@ class TweakStateDetector:
         else:
             status = TweakStatus.INACTIVE
 
-        is_active = active_sys or (applied_app and not checker_exists)
-        can_apply = not is_active or status == TweakStatus.APPLIED_APP and not active_sys
-
-        if active_sys:
-            can_apply = False
-
+        is_active = active_sys or applied_app
+        can_apply = not is_active
         info = TweakStateInfo(
             tweak_id=tweak_id,
             status=status,
-            is_active=is_active or active_sys,
+            is_active=is_active,
             can_apply=can_apply,
             applied_by_app=applied_app,
             active_in_system=active_sys,
@@ -729,11 +807,14 @@ class TweakStateDetector:
     def invalidate(self, tweak_ids: Iterable[str] | None = None) -> None:
         if tweak_ids is None:
             self._cache.clear()
+            self._system_check_cache.clear()
         else:
             drop = set(tweak_ids)
             for key in list(self._cache):
                 if key[0] in drop:
                     del self._cache[key]
+            for tid in drop:
+                self._system_check_cache.pop(tid, None)
 
     def clear_cache(self) -> None:
         self.invalidate()

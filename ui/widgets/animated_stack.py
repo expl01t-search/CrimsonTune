@@ -52,6 +52,18 @@ class AnimatedPageStack(QStackedWidget):
         super().resizeEvent(event)
         self._overlay.setGeometry(self.rect())
 
+    def set_current_instant(self, widget: QWidget) -> None:
+        if widget is self.currentWidget() and not self._busy:
+            return
+        self._pending = None
+        self._target = None
+        self._stop_fade_anim()
+        self._overlay.hide()
+        self._overlay.set_alpha(0.0)
+        self._busy = False
+        self.setCurrentWidget(widget)
+        self.page_shown.emit(widget)
+
     def set_current_animated(self, widget: QWidget) -> None:
         if widget is self.currentWidget() and not self._busy:
             return

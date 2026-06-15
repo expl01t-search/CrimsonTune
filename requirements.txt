@@ -1,4 +1,3 @@
+# Runtime — для запуска из исходников и внутри собранного EXE
 PySide6>=6.6.0
 psutil>=5.9.8
-pyinstaller>=6.3.0
-pytest>=8.0.0

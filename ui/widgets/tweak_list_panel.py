@@ -3,15 +3,18 @@ from __future__ import annotations
 
 from typing import Callable, Iterable
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QFrame, QLabel, QScrollArea, QSizePolicy, QVBoxLayout, QWidget
 
-from core.i18n import category_label, t
+from core.i18n import t
 from tweaks.base import TweakManager, TweakMeta
 from ui.components.tweak_row import TweakRow
 from ui.performance import batch_widget_update
 from ui.theme import style_scroll_area
-from utils.tweak_state_ui import build_admin_blocked_state, build_incompatible_state
+from utils.tweak_state_ui import build_admin_blocked_state, build_incompatible_state, enrich_state_for_display
+
+_BATCH_SIZE = 24
+_BATCH_THRESHOLD = 36
 
 
 class TweakListPanel(QWidget):
@@ -38,6 +41,12 @@ class TweakListPanel(QWidget):
         self._show_category = show_category
         self._rows: dict[str, TweakRow] = {}
         self._order: list[str] = []
+        self._batch_token = 0
+        self._batch_pending: list[TweakMeta] = []
+        self._batch_compat: dict[str, bool] = {}
+        self._batch_states: dict = {}
+        self._batch_summary_prefix = ""
+        self._batch_index = 0
 
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -46,6 +55,11 @@ class TweakListPanel(QWidget):
         self._summary = QLabel("")
         self._summary.setObjectName("muted")
         outer.addWidget(self._summary)
+
+        self._loading = QLabel("")
+        self._loading.setObjectName("loadingState")
+        self._loading.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self._loading.hide()
 
         self._empty = QLabel("")
         self._empty.setObjectName("emptyState")
@@ -73,19 +87,123 @@ class TweakListPanel(QWidget):
         panel_layout.addWidget(self._scroll)
         outer.addWidget(panel, stretch=1)
 
+    def _cancel_batch(self) -> None:
+        self._batch_token += 1
+        self._batch_pending.clear()
+        self._loading.hide()
+
     def populate(
         self,
         metas: Iterable[TweakMeta],
         *,
         summary_prefix: str = "",
         empty_message: str = "",
+        reload_applied: bool = False,
     ) -> None:
+        if reload_applied:
+            self.manager.refresh_states()
         meta_list = list(metas)
+        self._cancel_batch()
+        if len(meta_list) >= _BATCH_THRESHOLD:
+            self._start_batched_populate(meta_list, summary_prefix=summary_prefix, empty_message=empty_message)
+            return
         self.setUpdatesEnabled(False)
         try:
             self._populate_impl(meta_list, summary_prefix=summary_prefix, empty_message=empty_message)
         finally:
             self.setUpdatesEnabled(True)
+
+    def _start_batched_populate(
+        self,
+        meta_list: list[TweakMeta],
+        *,
+        summary_prefix: str,
+        empty_message: str,
+    ) -> None:
+        if not meta_list:
+            self._populate_impl([], summary_prefix=summary_prefix, empty_message=empty_message)
+            return
+
+        self._batch_token += 1
+        token = self._batch_token
+        self._batch_pending = meta_list
+        self._batch_compat = {m.id: self._is_compatible(m) for m in meta_list}
+        self._batch_states = {}
+        self._batch_summary_prefix = summary_prefix
+        self._batch_index = 0
+
+        self._empty.hide()
+        self._loading.setText(t("list_loading"))
+        self._loading.show()
+        if self._list.indexOf(self._loading) < 0:
+            self._list.addWidget(self._loading)
+
+        while self._list.count():
+            item = self._list.takeAt(0)
+            if item.widget() and item.widget() not in (self._loading, self._empty):
+                item.widget().deleteLater()
+        self._rows.clear()
+        self._order.clear()
+
+        prefix = f"{summary_prefix}  ·  " if summary_prefix else ""
+        self._summary.setText(prefix + t("list_loading"))
+        QTimer.singleShot(0, lambda: self._run_batch_step(token))
+
+    def _run_batch_step(self, token: int) -> None:
+        if token != self._batch_token:
+            return
+
+        start = self._batch_index
+        end = min(start + _BATCH_SIZE, len(self._batch_pending))
+        chunk = self._batch_pending[start:end]
+        chunk_compat = {m.id: self._batch_compat[m.id] for m in chunk}
+        chunk_states = self.manager.state_detector.get_all_states(
+            [m.id for m in chunk],
+            chunk_compat,
+        )
+        self._batch_states.update(chunk_states)
+
+        self._container.setUpdatesEnabled(False)
+        try:
+            if self._loading.isVisible() and self._list.indexOf(self._loading) >= 0:
+                self._list.removeWidget(self._loading)
+                self._loading.hide()
+
+            for meta in chunk:
+                state = self._resolve_row_state(meta, chunk_states)
+                row = TweakRow(
+                    meta,
+                    state,
+                    on_toggle=self._on_toggle,
+                    show_category=self._show_category,
+                )
+                self._rows[meta.id] = row
+                self._list.addWidget(row)
+        finally:
+            self._container.setUpdatesEnabled(True)
+
+        self._batch_index = end
+        if end < len(self._batch_pending):
+            QTimer.singleShot(0, lambda: self._run_batch_step(token))
+            return
+
+        self._order = [m.id for m in self._batch_pending]
+        counts = self.manager.state_detector.count_active(
+            self._order,
+            self._batch_compat,
+        )
+        prefix = f"{self._batch_summary_prefix}  ·  " if self._batch_summary_prefix else ""
+        self._summary.setText(
+            t(
+                "list_summary",
+                prefix=prefix,
+                active=counts["active"],
+                inactive=counts["inactive"],
+                oneshot=counts["one_shot"],
+            )
+        )
+        self._scroll.verticalScrollBar().setValue(0)
+        self._batch_pending.clear()
 
     def _populate_impl(
         self,
@@ -98,6 +216,7 @@ class TweakListPanel(QWidget):
             self._summary.setText(summary_prefix or "")
             self._empty.setText(empty_message or t("list_empty"))
             self._empty.show()
+            self._loading.hide()
             while self._list.count():
                 item = self._list.takeAt(0)
                 if item.widget():
@@ -110,11 +229,15 @@ class TweakListPanel(QWidget):
             return
 
         self._empty.hide()
+        self._loading.hide()
         if self._list.indexOf(self._empty) >= 0:
             self._list.removeWidget(self._empty)
+        if self._list.indexOf(self._loading) >= 0:
+            self._list.removeWidget(self._loading)
 
         compat_map = {m.id: self._is_compatible(m) for m in meta_list}
         ids = [m.id for m in meta_list]
+        states = self.manager.state_detector.get_all_states(ids, compat_map)
 
         def _update() -> None:
             counts = self.manager.state_detector.count_active(ids, compat_map)
@@ -139,20 +262,16 @@ class TweakListPanel(QWidget):
                     row.deleteLater()
 
             for meta in meta_list:
-                compatible = compat_map[meta.id]
-                if not compatible:
-                    state = build_incompatible_state(meta, self._gpu_vendor)
-                elif not self._is_admin and meta.requires_admin:
-                    state = build_admin_blocked_state(meta)
-                else:
-                    state = self.manager.get_tweak_state(meta.id, compatible=True)
                 if meta.id in self._rows:
                     self._rows[meta.id].update_meta(meta)
-                    self._rows[meta.id].apply_state(state, animate_toggle=False)
+                    self._rows[meta.id].apply_state(
+                        self._resolve_row_state(meta, states),
+                        animate_toggle=False,
+                    )
                 else:
                     row = TweakRow(
                         meta,
-                        state,
+                        self._resolve_row_state(meta, states),
                         on_toggle=self._on_toggle,
                         show_category=self._show_category,
                     )
@@ -169,3 +288,38 @@ class TweakListPanel(QWidget):
 
     def scroll_to_top(self) -> None:
         self._scroll.verticalScrollBar().setValue(0)
+
+    def _resolve_row_state(self, meta: TweakMeta, states: dict) -> TweakStateInfo:
+        compatible = self._is_compatible(meta)
+        if not compatible:
+            return build_incompatible_state(meta, self._gpu_vendor)
+        if not self._is_admin and meta.requires_admin and not self.manager.backup.is_applied(meta.id):
+            return build_admin_blocked_state(meta)
+        return enrich_state_for_display(states[meta.id], meta)
+
+    def refresh_visible_states(self) -> None:
+        if not self._rows:
+            return
+        self.manager.refresh_states()
+        ids = list(self._order)
+        self.manager.state_detector.invalidate(ids)
+        compat_map = {tid: self._is_compatible(m) for tid in ids if (m := self.manager.get_meta(tid))}
+        states = self.manager.state_detector.get_all_states(ids, compat_map)
+        for tid in ids:
+            row = self._rows.get(tid)
+            meta = self.manager.get_meta(tid)
+            if not row or not meta:
+                continue
+            row.apply_state(self._resolve_row_state(meta, states), animate_toggle=True)
+        counts = self.manager.state_detector.count_active(ids, compat_map)
+        prefix_parts = self._summary.text().split("  ·  ", 1)
+        prefix = prefix_parts[0] + "  ·  " if len(prefix_parts) > 1 and prefix_parts[0] else ""
+        self._summary.setText(
+            t(
+                "list_summary",
+                prefix=prefix,
+                active=counts["active"],
+                inactive=counts["inactive"],
+                oneshot=counts["one_shot"],
+            )
+        )

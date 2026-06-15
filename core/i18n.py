@@ -23,6 +23,7 @@ _STATUS_KEYS: dict[TweakStatus, str] = {
     TweakStatus.INACTIVE: "status_available",
     TweakStatus.ACTIVE_SYSTEM: "status_active_system",
     TweakStatus.APPLIED_APP: "status_applied_app",
+    TweakStatus.APPLIED_PENDING_REBOOT: "status_applied_pending_reboot",
     TweakStatus.ACTIVE_BOTH: "status_active",
     TweakStatus.UNKNOWN: "status_unknown",
     TweakStatus.ONE_SHOT: "status_oneshot",

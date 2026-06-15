@@ -100,13 +100,13 @@ class SplashWindow(QWidget):
     def begin(self, manager: TweakManager) -> None:
         self._manager = manager
         self._set_progress(0, t("splash_preparing_catalog"))
-        QTimer.singleShot(120, self._phase_detect)
+        QTimer.singleShot(60, self._phase_detect)
 
     def _phase_detect(self) -> None:
         info = detect_system()
         gpu = info.gpu_name or "GPU"
         self._set_progress(8, t("splash_system_detected", build=info.os_build, gpu=gpu))
-        QTimer.singleShot(80, self._phase_scan)
+        QTimer.singleShot(40, self._phase_scan)
 
     def _phase_scan(self) -> None:
         if not self._manager:
@@ -147,7 +147,7 @@ class SplashWindow(QWidget):
     def _on_scan_done(self) -> None:
         self._ready = True
         self._set_progress(100, t("splash_ready", app=APP_NAME))
-        QTimer.singleShot(450, self._emit_finished)
+        QTimer.singleShot(280, self._emit_finished)
 
     def _set_progress(self, pct: int, text: str) -> None:
         self._bar.setValue(max(0, min(100, pct)))

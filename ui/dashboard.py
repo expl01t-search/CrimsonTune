@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
 from core.disk_cleanup import format_freed_size
 from core.detector import SystemInfo, get_live_stats
 from core.i18n import t
-from core.tweak_state import TweakStatus
+from core.optimization_stats import compute_optimization_stats
 from tweaks.base import TweakManager
 from ui.components.gauge_widget import GaugeWidget
 from ui.components.pill_button import PillButton
@@ -159,43 +159,6 @@ def _parse_disk_json(result: tuple[int, str, str]) -> list[_DiskInfo]:
         return []
 
 
-def compute_optimization_stats(
-    manager: TweakManager,
-    is_compatible_fn: Callable,
-) -> dict[str, int | float]:
-    metas = manager.get_all_meta()
-    compat = {m.id: is_compatible_fn(m) for m in metas}
-    trackable: list[str] = []
-
-    for meta in metas:
-        if not compat.get(meta.id, False):
-            continue
-        state = manager.get_tweak_state(meta.id, compatible=True)
-        if state.status in (TweakStatus.ONE_SHOT, TweakStatus.UNKNOWN):
-            continue
-        trackable.append(meta.id)
-
-    counts = manager.state_detector.count_active(trackable, compat)
-    active = counts["active"]
-    total = len(trackable)
-    percent = round((active / total) * 100) if total else 0.0
-
-    applied_app = 0
-    for tid in trackable:
-        state = manager.get_tweak_state(tid, compatible=compat.get(tid, True))
-        if state.applied_by_app:
-            applied_app += 1
-
-    return {
-        "percent": percent,
-        "active": active,
-        "total": total,
-        "available": counts["inactive"],
-        "applied_app": applied_app,
-        "one_shot": counts["one_shot"],
-    }
-
-
 class _HardwareCard(QFrame):
 
     def __init__(
@@ -305,6 +268,7 @@ class _SystemCard(QFrame):
         os_version: str,
         os_build: str,
         disks: list[_DiskInfo],
+        is_win11: bool = False,
         parent=None,
     ) -> None:
         super().__init__(parent)
@@ -312,6 +276,7 @@ class _SystemCard(QFrame):
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
         self._os_version = os_version
         self._os_build = os_build
+        self._is_win11 = is_win11
         self._disks = disks
 
         layout = QHBoxLayout(self)
@@ -339,6 +304,14 @@ class _SystemCard(QFrame):
         os_lbl.setWordWrap(True)
         body.addWidget(os_lbl)
         self._os_lbl = os_lbl
+
+        if is_win11:
+            win11_badge = QLabel(t("win11_badge"))
+            win11_badge.setObjectName("win11Badge")
+            body.addWidget(win11_badge)
+            self._win11_badge = win11_badge
+        else:
+            self._win11_badge = None
 
         self._disk_host = QWidget()
         self._disk_layout = QVBoxLayout(self._disk_host)
@@ -520,6 +493,7 @@ class DashboardPage(QWidget):
             os_version=info.os_version,
             os_build=info.os_build or "—",
             disks=_list_system_disks_fast(),
+            is_win11=info.is_win11,
         )
         left.addWidget(self._system_card)
 
@@ -594,29 +568,18 @@ class DashboardPage(QWidget):
         gauge_row.addWidget(self._opt_gauge, 0, Qt.AlignmentFlag.AlignHCenter)
         gauge_row.addStretch(1)
         metrics_layout.addWidget(self._gauge_wrap)
-
-        self._opt_caption = QLabel("")
-        self._opt_caption.setObjectName("optCaption")
-        self._opt_caption.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._opt_caption.setWordWrap(True)
-        self._opt_caption.setMinimumHeight(44)
-        self._opt_caption.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum
-        )
-        metrics_layout.addWidget(self._opt_caption)
         self._metrics_block = metrics_block
         opt_layout.addWidget(metrics_block)
 
         stats_grid = QGridLayout()
         stats_grid.setHorizontalSpacing(12)
-        stats_grid.setVerticalSpacing(8)
+        stats_grid.setVerticalSpacing(6)
         self._stat_titles: dict[str, QLabel] = {}
         self._stat_labels: dict[str, QLabel] = {}
         for row, (key, title_key) in enumerate(
             [
-                ("active", "stat_active_system"),
-                ("available", "stat_available_more"),
-                ("applied_app", "stat_via_app"),
+                ("active", "stat_opt_active"),
+                ("available", "stat_opt_available"),
             ]
         ):
             title_lbl = QLabel(t(title_key))
@@ -734,7 +697,7 @@ class DashboardPage(QWidget):
         self._opt_gauge.apply_side(side)
         gauge_h = self._opt_gauge.height()
         self._gauge_wrap.setMinimumHeight(gauge_h + 4)
-        self._metrics_block.setMinimumHeight(gauge_h + 4 + self._opt_caption.minimumHeight() + 10)
+        self._metrics_block.setMinimumHeight(gauge_h + 8)
         self._gauge_wrap.updateGeometry()
         self._metrics_block.updateGeometry()
         self._opt_card.updateGeometry()
@@ -816,9 +779,8 @@ class DashboardPage(QWidget):
         self._system_card.retranslate()
 
         for key, title_key in (
-            ("active", "stat_active_system"),
-            ("available", "stat_available_more"),
-            ("applied_app", "stat_via_app"),
+            ("active", "stat_opt_active"),
+            ("available", "stat_opt_available"),
         ):
             self._stat_titles[key].setText(t(title_key))
 
@@ -857,14 +819,9 @@ class DashboardPage(QWidget):
     def _refresh_optimization(self) -> None:
         stats = compute_optimization_stats(self._manager, self._is_compatible)
         pct = float(stats["percent"])
-        self._opt_gauge.set_value(pct, animate=False)
+        self._opt_gauge.set_value(pct, animate=True)
         self._stat_labels["active"].setText(str(stats["active"]))
         self._stat_labels["available"].setText(str(stats["available"]))
-        self._stat_labels["applied_app"].setText(str(stats["applied_app"]))
-        total = stats["total"]
-        self._opt_caption.setText(
-            t("opt_caption", active=stats["active"], total=total)
-        )
 
     def _start_cleanup(self) -> None:
         if self._cleanup_worker and self._cleanup_worker.isRunning():

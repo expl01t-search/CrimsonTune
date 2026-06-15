@@ -36,7 +36,7 @@ class TweakRow(QFrame):
 
     def _build_ui(self, show_category: bool) -> None:
         root = QHBoxLayout(self)
-        root.setContentsMargins(12, 8, 12, 8)
+        root.setContentsMargins(14, 10, 14, 10)
         root.setSpacing(10)
 
         self._toggle = ForgeToggle(checked=False, enabled=True)
@@ -136,8 +136,6 @@ class TweakRow(QFrame):
                     mode = MODE_DISABLED
                 self._toggle.set_visual_mode(mode)
                 self._toggle.setChecked(self._selected, animate=animate_toggle and not self._selected)
-        self.style().unpolish(self)
-        self.style().polish(self)
         self._toggle.blockSignals(False)
 
     def _on_switch(self, checked: bool) -> None:

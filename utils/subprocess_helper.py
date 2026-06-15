@@ -2,7 +2,14 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 from typing import Optional
+
+
+def _windows_console_encoding() -> str:
+    if sys.platform != "win32":
+        return "utf-8"
+    return "cp866"
 
 
 def run_command(
@@ -16,6 +23,8 @@ def run_command(
             command,
             capture_output=True,
             text=True,
+            encoding=_windows_console_encoding(),
+            errors="replace",
             shell=shell,
             timeout=timeout,
             creationflags=subprocess.CREATE_NO_WINDOW,
@@ -44,6 +53,21 @@ def run_powershell(script: str, timeout: int = 60) -> tuple[int, str, str]:
 
 
 def get_service_start_type(service_name: str) -> Optional[str]:
+    from utils import registry as reg
+
+    start = reg.read_value(
+        rf"HKLM\SYSTEM\CurrentControlSet\Services\{service_name}",
+        "Start",
+        default=None,
+    )
+    if isinstance(start, int):
+        if start == 4:
+            return "disabled"
+        if start == 3:
+            return "manual"
+        if start in (2, 1, 0):
+            return "auto" if start == 2 else "manual"
+
     code, out, _ = run_command(["sc", "qc", service_name])
     if code != 0:
         return None

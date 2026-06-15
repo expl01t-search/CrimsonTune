@@ -1,15 +1,21 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(SPEC).parent
+sys.path.insert(0, str(ROOT))
 subprocess.run([sys.executable, str(ROOT / "tools" / "gen_version_info.py")], check=True)
+
+os.environ.setdefault("PYTHONOPTIMIZE", "1")
+
+from tools.pyi_excludes import all_excludes, filter_binaries, filter_datas
 
 a = Analysis(
     ['main.py'],
-    pathex=[],
+    pathex=[str(ROOT)],
     binaries=[],
     datas=[
         ('config', 'config'),
@@ -18,10 +24,6 @@ a = Analysis(
         ('icon.ico', '.'),
     ],
     hiddenimports=[
-        'PySide6',
-        'PySide6.QtCore',
-        'PySide6.QtGui',
-        'PySide6.QtWidgets',
         'tweaks.performance',
         'tweaks.gaming',
         'tweaks.nvidia',
@@ -45,9 +47,13 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['customtkinter', 'tkinter'],
+    excludes=all_excludes(),
     noarchive=False,
+    optimize=1,
 )
+
+a.binaries = filter_binaries(a.binaries)
+a.datas = filter_datas(a.datas)
 
 pyz = PYZ(a.pure, a.zipped_data)
 

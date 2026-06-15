@@ -55,7 +55,7 @@ def _seed_frozen_cache() -> Path:
     if cache.exists():
         shutil.rmtree(cache, ignore_errors=True)
     cache.mkdir(parents=True, exist_ok=True)
-    for folder in ("config", "locales", "ui"):
+    for folder in ("config", "locales"):
         src = meipass / folder
         if src.is_dir():
             shutil.copytree(src, cache / folder)

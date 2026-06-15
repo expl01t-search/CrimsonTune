@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
 
 from core.backup import BackupManager
 from core.paths import resource_path
-from core.brand import APP_NAME
+from core.brand import APP_NAME, APP_VERSION
 from core.i18n import category_label, t
 from core.detector import detect_system
 from core.tweak_state import TweakStatus
@@ -39,7 +39,7 @@ from ui.sidebar import Sidebar
 from ui.theme import icon_path
 from ui.tweak_page import TweakPage
 from ui.widgets.animated_stack import AnimatedPageStack
-from ui.workers import RevertWorker, RestorePointWorker, ScanWorker
+from ui.workers import RevertWorker, RestorePointWorker, ScanWorker, UpdateCheckWorker
 from utils.categories import CATEGORY_MAP, nav_categories
 from utils.compatibility import is_tweak_compatible
 from utils.tweak_ids import dedupe_preserve_order
@@ -76,7 +76,7 @@ class MainWindow(QMainWindow):
         self.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, True)
         self.manager = manager
         self.system_info = detect_system()
-        self.backup = BackupManager()
+        self.backup = manager.backup
         self._selected: set[str] = set()
         self._current_page = "dashboard"
         self._page_before_search = "dashboard"
@@ -207,6 +207,8 @@ class MainWindow(QMainWindow):
             on_reg_backup=self._export_reg_baseline,
             on_open_backups=self._open_backups_folder,
             on_language_changed=self.apply_language,
+            on_check_update=self._check_updates_manual,
+            on_install_update=self._install_pending_update,
         )
         self._stack.addWidget(self._pages["settings"])
 
@@ -225,6 +227,64 @@ class MainWindow(QMainWindow):
         self._current_page = "dashboard"
         self.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, False)
         QTimer.singleShot(250, self._maybe_show_onboarding)
+        QTimer.singleShot(3000, self._check_updates_silent)
+
+    def _install_pending_update(self) -> None:
+        settings = self._pages.get("settings")
+        release = getattr(settings, "_pending_release", None) if settings else None
+        if release is None:
+            return
+        from ui.components.modal import ConfirmModal
+        from core.update_installer import launch_update_swap
+
+        def _do_install() -> None:
+            ok, msg = launch_update_swap(release)
+            if ok:
+                self._toast.show(t("update_install_started"), "success")
+                from PySide6.QtWidgets import QApplication
+                QApplication.instance().quit()
+            else:
+                self._toast.show(t("update_install_failed", error=msg), "error")
+
+        ConfirmModal(
+            self,
+            t("update_install_title"),
+            t("update_install_confirm", version=release.version),
+            on_confirm=_do_install,
+        ).exec()
+
+    def _check_updates_silent(self) -> None:
+        worker = UpdateCheckWorker()
+        worker.finished_ok.connect(self._on_update_check_done)
+        worker.finished.connect(self._cleanup_worker)
+        worker.start()
+        self._workers.append(worker)
+
+    def _check_updates_manual(self) -> None:
+        settings = self._pages.get("settings")
+        if hasattr(settings, "set_update_checking"):
+            settings.set_update_checking(True)
+        worker = UpdateCheckWorker()
+        worker.finished_ok.connect(self._on_update_check_done)
+        worker.finished.connect(self._cleanup_worker)
+        worker.start()
+        self._workers.append(worker)
+
+    def _on_update_check_done(self, result) -> None:
+        release, status = result
+        settings = self._pages.get("settings")
+        if hasattr(settings, "set_update_checking"):
+            settings.set_update_checking(False)
+        if status == "available" and release is not None:
+            msg = t("update_available", version=release.version)
+            if hasattr(settings, "set_update_status"):
+                settings.set_update_status(msg, url=release.notes_url, release=release)
+            self._toast.show(msg, "info")
+            return
+        if status == "latest" and hasattr(settings, "set_update_status"):
+            settings.set_update_status(t("update_latest", version=APP_VERSION))
+        elif status == "error" and hasattr(settings, "set_update_status"):
+            settings.set_update_status(t("update_check_failed"))
 
     def _ensure_tweak_page(self, key: str) -> TweakPage:
         if key in self._tweak_pages:
@@ -244,7 +304,6 @@ class MainWindow(QMainWindow):
         self._tweak_pages[key] = page
         self._pages[key] = page
         self._stack.addWidget(page)
-        page.refresh("")
         return page
 
     def _prune_selected(self) -> None:
@@ -340,7 +399,12 @@ class MainWindow(QMainWindow):
             self._search.clear()
         self._current_page = key
         page.updateGeometry()
-        self._stack.set_current_animated(page)
+        if key in CATEGORY_MAP:
+            self._stack.set_current_instant(page)
+            if isinstance(page, TweakPage) and not page.is_loaded():
+                QTimer.singleShot(0, page.ensure_loaded)
+        else:
+            self._stack.set_current_animated(page)
         self._sidebar.set_active(key)
 
     def _is_compatible(self, meta) -> bool:
@@ -422,6 +486,11 @@ class MainWindow(QMainWindow):
         notes: list[str] = []
         if skipped:
             notes.append(t("apply_notes_skipped", n=len(skipped)))
+        from core.tweak_groups import overlapping_in_selection
+
+        for _group_key, overlap_ids in overlapping_in_selection(applicable):
+            names = self.manager.resolve_tweak_names(overlap_ids)
+            notes.append(t("apply_notes_overlap", list=", ".join(names)))
         conflicts = self.manager.get_conflicts(applicable)
         if conflicts:
             notes.append(t("apply_notes_conflicts", list="\n".join(conflicts)))
@@ -486,7 +555,13 @@ class MainWindow(QMainWindow):
         self._update_selected_badge()
         level = "success" if fail == 0 else "warning"
         self._toast.show(t("apply_done", ok=ok, fail=fail), level)
-        self._refresh_current_page()
+        self.manager.refresh_states()
+        for page in self._tweak_pages.values():
+            if page.is_loaded():
+                page._panel.refresh_visible_states()
+        if self._current_page == "search":
+            self._search_page.refresh(self._search.text())
+        self._update_dashboard_status()
         self._start_background_scan()
         settings = self._pages.get("settings")
         if hasattr(settings, "refresh_stats"):
@@ -555,13 +630,23 @@ class MainWindow(QMainWindow):
         self._scan_btn.setText(t("rescan"))
         self._toast.show(t("scan_done"), "success")
         self._prune_selected()
-        self._refresh_current_page()
+        self.manager.refresh_states()
+        for page in self._tweak_pages.values():
+            if page.is_loaded():
+                page.refresh(page._search, reload_applied=False)
+        if self._current_page == "search":
+            self._search_page.refresh(self._search.text())
+        self._update_dashboard_status()
 
     def _refresh_current_page(self) -> None:
         if self._current_page == "search":
             self._search_page.refresh(self._search.text())
         elif self._current_page in CATEGORY_MAP:
-            self._ensure_tweak_page(self._current_page).refresh(self._search.text())
+            page = self._ensure_tweak_page(self._current_page)
+            if page.is_loaded():
+                page._panel.refresh_visible_states()
+            else:
+                page.refresh(self._search.text(), reload_applied=True)
         self._update_dashboard_status()
 
     def _create_restore_point(self) -> None:

@@ -1,0 +1,3 @@
+# Сборка и разработка (CI, PyInstaller) — не нужен обычным пользователям
+-r requirements.txt
+pyinstaller>=6.3.0

@@ -35,7 +35,8 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Local / CI test artifacts (tests/ stays on disk, not in the repo)
+tests/
 htmlcov/
 .tox/
 .nox/

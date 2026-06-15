@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/v1.2.20-204_tweaks-d63031?style=for-the-badge" alt="v1.2.20" />
+    <img src="https://img.shields.io/badge/v2.1.2-204_tweaks-d63031?style=for-the-badge" alt="v2.1.2" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
@@ -34,8 +34,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune.exe">
-    <img src="https://img.shields.io/badge/⬇️_Download_CrimsonTune.exe-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download" />
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.1.2-win64.zip">
+    <img src="https://img.shields.io/badge/⬇️_Download_.zip-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download ZIP" />
   </a>
 </p>
 
@@ -112,11 +112,11 @@ The **SSD** profile also applies `ntfs_memory_ssd`, `large_system_cache_on`, `di
 
 ## Quick start
 
-### Download EXE
+### Download
 
 1. [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
-2. `CrimsonTune.exe` or `CrimsonTune-v*-win64.zip`
-3. Run **as Administrator**
+2. `CrimsonTune-v*-win64.zip` — extract and run `CrimsonTune.exe` **as Administrator**
+3. Each release includes `RELEASE_NOTES.md` (changelog for that version)
 
 ### From source
 
@@ -130,11 +130,23 @@ python main.py
 ### Build
 
 ```bash
+pip install -r requirements-dev.txt
 python tools/gen_icon.py
 pyinstaller build.spec
 ```
 
 → `dist/CrimsonTune.exe`
+
+### Dependencies
+
+| File | Purpose |
+|------|---------|
+| `requirements.txt` | **Runtime only** — PySide6 and psutil |
+| `requirements-dev.txt` | **Build & CI** — runtime deps + PyInstaller |
+
+End users only need the `.zip` from Releases. Two files keep PyInstaller out of a simple `python main.py` setup.
+
+> The `tests/` folder is not in the repository — keep it locally for development. Release archives contain only `CrimsonTune.exe`.
 
 ---
 

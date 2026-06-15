@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QVBoxLayout, QWidget
 
 from core.brand import APP_NAME, APP_VERSION
 from core.i18n import nav_label, t
-from ui.theme import SIDEBAR_WIDTH
+from ui.theme import EASE_MS_NAV, SIDEBAR_WIDTH
 from utils.categories import NAV_KEYS
 
 
@@ -163,7 +163,7 @@ class Sidebar(QFrame):
         self._stop_indicator_anim()
 
         anim = QPropertyAnimation(self._indicator, b"geometry", self)
-        anim.setDuration(220)
+        anim.setDuration(EASE_MS_NAV)
         anim.setStartValue(self._indicator.geometry())
         anim.setEndValue(target)
         anim.setEasingCurve(QEasingCurve.Type.OutCubic)
