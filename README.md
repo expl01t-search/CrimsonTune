@@ -1,4 +1,10 @@
 <p align="center">
+  <a href="README.md"><strong>🇷🇺 Русский</strong></a>
+  &nbsp;·&nbsp;
+  <a href="README.en.md"><strong>🇬🇧 English</strong></a>
+</p>
+
+<p align="center">
   <img src="icon.ico" alt="CrimsonTune" width="96" height="96" />
 </p>
 
@@ -22,6 +28,9 @@
   <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge" alt="License" />
   </a>
+  <a href="README.en.md">
+    <img src="https://img.shields.io/badge/UI-Русский_·_English-d63031?style=for-the-badge" alt="RU / EN" />
+  </a>
 </p>
 
 <p align="center">
@@ -38,6 +47,8 @@
 
 > Запускайте от имени администратора — большинство твиков работают с реестром и системными службами.
 
+> **Язык интерфейса:** русский и английский — переключается в **Настройки → Язык**.
+
 ---
 
 ## Возможности
@@ -50,6 +61,7 @@
 | **Фильтры** | Все · Доступные · Активные · Разовые |
 | **Бэкап .reg** | Экспорт активных настроек прямо из приложения |
 | **Crimson Dark UI** | Тёмная тема, анимации, splash-экран и автоскан при старте |
+| **RU / EN** | Полная локализация интерфейса и описаний твиков |
 
 ---
 
@@ -149,5 +161,6 @@ python main.py --restore-all
 ---
 
 <p align="center">
-  <sub>Сделано с ❤️ для точной настройки Windows</sub>
+  <sub>Сделано с ❤️ для точной настройки Windows</sub><br>
+  <sub><a href="README.en.md">Read in English</a></sub>
 </p>
