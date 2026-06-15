@@ -1,0 +1,18 @@
+{
+  "balanced": {
+    "name": "Balanced",
+    "description": "Safe tweaks with no risk — suitable for most users"
+  },
+  "privacy": {
+    "name": "Privacy",
+    "description": "Disable telemetry, ads, Cortana, and tracking"
+  },
+  "max_performance": {
+    "name": "Max Performance",
+    "description": "Maximum performance: CPU, RAM, services, visuals, and power"
+  },
+  "gamer_pro": {
+    "name": "Gaming Profile",
+    "description": "All gaming tweaks: Game Mode, HAGS, DVR off, network, and mouse"
+  }
+}

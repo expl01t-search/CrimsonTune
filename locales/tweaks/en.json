@@ -1,0 +1,647 @@
+{
+  "disable_sysmain": {
+    "name": "Disable SysMain (Superfetch)",
+    "description": "Stops background app preloading into RAM — useful on SSDs",
+    "hint": "May slow down program launches on HDDs"
+  },
+  "disable_search_indexing": {
+    "name": "Disable Search Indexing",
+    "description": "Reduces background disk load",
+    "hint": "Reduces background disk load. Results may differ on SSD and HDD. Requires administrator · Medium risk"
+  },
+  "disable_prefetch": {
+    "name": "Disable Prefetch",
+    "description": "Reduces background disk activity",
+    "hint": "Reduces background disk activity. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  },
+  "high_timer_resolution": {
+    "name": "High Timer Resolution",
+    "description": "Improves system timer precision — fewer micro-stutters in games",
+    "hint": "Improves system timer precision — fewer micro-stutters in games. Results may differ on SSD and HDD. Requires administrator"
+  },
+  "disable_background_apps": {
+    "name": "Disable Background UWP Apps",
+    "description": "Prevents Store apps from running in the background",
+    "hint": "Prevents Store apps from running in the background. Results may differ on SSD and HDD."
+  },
+  "disable_hibernation": {
+    "name": "Disable Hibernation",
+    "description": "Frees disk space equal to your RAM size",
+    "hint": "Frees disk space equal to your RAM size. Results may differ on SSD and HDD. Requires administrator"
+  },
+  "optimize_svchost": {
+    "name": "Optimize svchost",
+    "description": "Groups services to reduce the number of svchost processes",
+    "hint": "Groups services to reduce the number of svchost processes. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  },
+  "clear_temp_files": {
+    "name": "Clear Temporary Files",
+    "description": "Deletes contents of Temp folders",
+    "hint": "Deletes contents of Temp folders. Results may differ on SSD and HDD. One-time action"
+  },
+  "enable_game_mode": {
+    "name": "Enable Game Mode",
+    "description": "Windows prioritizes resources for the active game",
+    "hint": "Windows prioritizes resources for the active game. Restart the game after applying."
+  },
+  "disable_game_mode": {
+    "name": "Disable Game Mode",
+    "description": "Disables Windows Game Mode",
+    "hint": "Disables Windows Game Mode. Restart the game after applying."
+  },
+  "enable_hags": {
+    "name": "Enable HAGS",
+    "description": "Hardware-accelerated GPU scheduling — reduces frame latency",
+    "hint": "Requires a GPU with WDDM 2.7+ support"
+  },
+  "disable_hags": {
+    "name": "Disable HAGS",
+    "description": "Restores software GPU scheduling",
+    "hint": "Restores software GPU scheduling. Restart the game after applying. Requires administrator · Reboot"
+  },
+  "disable_game_dvr": {
+    "name": "Disable Xbox Game DVR",
+    "description": "Removes background game recording — can boost FPS by 3–10%",
+    "hint": "Removes background game recording — can boost FPS by 3–10%. Restart the game after applying."
+  },
+  "disable_fullscreen_optimizations": {
+    "name": "Disable Fullscreen Optimizations",
+    "description": "Games run in true fullscreen — less input lag",
+    "hint": "Games run in true fullscreen — less input lag. Restart the game after applying. Medium risk"
+  },
+  "disable_mouse_acceleration": {
+    "name": "Disable Mouse Acceleration",
+    "description": "Turns off \"Enhance pointer precision\" — 1:1 mouse movement",
+    "hint": "Turns off \"Enhance pointer precision\" — 1:1 mouse movement. Restart the game after applying."
+  },
+  "mmcss_games_priority": {
+    "name": "MMCSS Priority for Games",
+    "description": "Raises multimedia scheduler priority for games",
+    "hint": "Raises multimedia scheduler priority for games. Restart the game after applying. Requires administrator"
+  },
+  "disable_xbox_services": {
+    "name": "Disable Xbox Services",
+    "description": "Stops background Xbox Live services",
+    "hint": "Stops background Xbox Live services. Restart the game after applying. Requires administrator"
+  },
+  "enable_shader_cache": {
+    "name": "Optimize Shader Cache",
+    "description": "Improves DirectX shader caching",
+    "hint": "Improves DirectX shader caching. Close games before applying. Requires administrator"
+  },
+  "disable_dxgi_flip_model": {
+    "name": "Disable DXGI Flip Model Upgrade",
+    "description": "Prevents automatic display mode switching",
+    "hint": "Prevents automatic display mode switching. Close games before applying. Medium risk"
+  },
+  "clear_shader_cache": {
+    "name": "Clear Shader Cache",
+    "description": "Deletes DirectX shader cache (D3DSCache, NVIDIA, AMD)",
+    "hint": "Deletes DirectX shader cache (D3DSCache, NVIDIA, AMD). Close games before applying. One-time action"
+  },
+  "export_dxdiag": {
+    "name": "Export DxDiag",
+    "description": "Saves a DirectX report to the desktop",
+    "hint": "Saves a DirectX report to the desktop. Close games before applying. One-time action"
+  },
+  "directx_12_ultimate_hint": {
+    "name": "DirectX 12 Ultimate",
+    "description": "Information on enabling DX12 Ultimate via GPU driver",
+    "hint": "Information on enabling DX12 Ultimate via GPU driver. Close games before applying. One-time action"
+  },
+  "force_discrete_gpu_opengl": {
+    "name": "Discrete GPU for OpenGL",
+    "description": "Forces the dedicated GPU for OpenGL applications",
+    "hint": "Forces the dedicated GPU for OpenGL applications. For OpenGL games and emulators. NVIDIA/AMD only"
+  },
+  "disable_opengl_vsync": {
+    "name": "Disable VSync (OpenGL)",
+    "description": "Removes frame rate cap tied to monitor refresh rate",
+    "hint": "Removes frame rate cap tied to monitor refresh rate. For OpenGL games and emulators. Medium risk"
+  },
+  "nvidia_max_prerendered_frames": {
+    "name": "NVIDIA Pre-rendered Frames",
+    "description": "Optimizes frame queue to reduce latency",
+    "hint": "Optimizes frame queue to reduce latency. For OpenGL games and emulators. Requires administrator · Medium risk · NVIDIA only"
+  },
+  "nvidia_threaded_optimization": {
+    "name": "NVIDIA Threaded Optimization",
+    "description": "Tip: enable threaded optimization in NVIDIA Control Panel",
+    "hint": "Tip: enable threaded optimization in NVIDIA Control Panel. For OpenGL games and emulators. One-time action · NVIDIA only"
+  },
+  "amd_texture_quality_performance": {
+    "name": "AMD Texture Quality → Performance",
+    "description": "Tip: adjust texture filtering in Radeon Software",
+    "hint": "Tip: adjust texture filtering in Radeon Software. For OpenGL games and emulators. One-time action · AMD only"
+  },
+  "vulkan_validation_layers": {
+    "name": "Vulkan Validation Layers",
+    "description": "Enables Vulkan validation layers (for developers)",
+    "hint": "Enables Vulkan validation layers (for developers). For OpenGL games and emulators. High risk — create a restore point"
+  },
+  "set_dns_cloudflare": {
+    "name": "Cloudflare DNS (1.1.1.1)",
+    "description": "Fast, privacy-focused DNS from Cloudflare",
+    "hint": "Fast, privacy-focused DNS from Cloudflare. Use rollback if network issues occur. Requires administrator"
+  },
+  "set_dns_google": {
+    "name": "Google DNS (8.8.8.8)",
+    "description": "Reliable public DNS from Google",
+    "hint": "Reliable public DNS from Google. Use rollback if network issues occur. Requires administrator"
+  },
+  "flush_dns": {
+    "name": "Flush DNS Cache",
+    "description": "Clears the Windows DNS resolver cache",
+    "hint": "Clears the Windows DNS resolver cache. Use rollback if network issues occur. One-time action · Requires administrator"
+  },
+  "disable_nagle": {
+    "name": "Disable Nagle Algorithm",
+    "description": "Reduces network latency in online games",
+    "hint": "Reduces network latency in online games. Use rollback if network issues occur. Requires administrator · Reboot · Medium risk"
+  },
+  "network_throttling_disable": {
+    "name": "Disable Network Throttling",
+    "description": "Removes bandwidth throttling for multimedia",
+    "hint": "Removes bandwidth throttling for multimedia. Use rollback if network issues occur. Requires administrator"
+  },
+  "disable_tcp_autotuning": {
+    "name": "Disable TCP Auto-Tuning",
+    "description": "Locks TCP parameters for stable ping",
+    "hint": "Locks TCP parameters for stable ping. Use rollback if network issues occur. Requires administrator · Medium risk"
+  },
+  "reset_winsock": {
+    "name": "Reset Winsock",
+    "description": "Restores the Windows network stack. Requires reboot!",
+    "hint": "Restores the Windows network stack. Requires reboot! Use rollback if network issues occur. One-time action · Requires administrator · Reboot · High risk — create a restore point"
+  },
+  "disable_telemetry": {
+    "name": "Disable Telemetry",
+    "description": "Blocks Microsoft diagnostic data collection",
+    "hint": "Blocks Microsoft diagnostic data collection. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_advertising_id": {
+    "name": "Disable Advertising ID",
+    "description": "Prevents apps from using the advertising identifier",
+    "hint": "Prevents apps from using the advertising identifier. Some settings take effect after reboot."
+  },
+  "disable_cortana": {
+    "name": "Disable Cortana",
+    "description": "Removes the voice assistant from search",
+    "hint": "Removes the voice assistant from search. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_location": {
+    "name": "Disable Location",
+    "description": "Blocks apps from accessing your location",
+    "hint": "Blocks apps from accessing your location. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_feedback": {
+    "name": "Disable Feedback Requests",
+    "description": "Windows stops asking for your opinion",
+    "hint": "Windows stops asking for your opinion. Some settings take effect after reboot."
+  },
+  "disable_tailored_experiences": {
+    "name": "Disable Personalization",
+    "description": "Disables recommendations based on diagnostic data",
+    "hint": "Disables recommendations based on diagnostic data. Some settings take effect after reboot."
+  },
+  "disable_app_tracking": {
+    "name": "Limit App Tracking",
+    "description": "Blocks apps from accessing account information",
+    "hint": "Blocks apps from accessing account information. Some settings take effect after reboot."
+  },
+  "disable_animations": {
+    "name": "Disable Animations",
+    "description": "Removes window and menu animations — snappier UI",
+    "hint": "Removes window and menu animations — snappier UI. Effect is usually visible immediately."
+  },
+  "disable_transparency": {
+    "name": "Disable Transparency",
+    "description": "Removes blur and transparency effects",
+    "hint": "Removes blur and transparency effects. Effect is usually visible immediately."
+  },
+  "disable_shadows": {
+    "name": "Disable Window Shadows",
+    "description": "Removes shadows under windows and icons",
+    "hint": "Removes shadows under windows and icons. Effect is usually visible immediately."
+  },
+  "menu_show_delay_zero": {
+    "name": "Instant Menus (0 ms)",
+    "description": "Start menu and context menus open without delay",
+    "hint": "Start menu and context menus open without delay. Effect is usually visible immediately."
+  },
+  "compact_explorer": {
+    "name": "Compact File Explorer",
+    "description": "Reduces spacing in File Explorer",
+    "hint": "Reduces spacing in File Explorer. Effect is usually visible immediately."
+  },
+  "high_performance_power": {
+    "name": "Power Plan: High Performance",
+    "description": "Activates maximum CPU power mode",
+    "hint": "Activates maximum CPU power mode. Make sure you understand the consequences."
+  },
+  "ultimate_performance_power": {
+    "name": "Power Plan: Ultimate Performance",
+    "description": "Extreme mode with no power saving",
+    "hint": "Extreme mode with no power saving. Make sure you understand the consequences. Requires administrator · Medium risk"
+  },
+  "disable_fast_startup": {
+    "name": "Disable Fast Startup",
+    "description": "Full shutdown instead of hybrid — more stable drivers",
+    "hint": "Full shutdown instead of hybrid — more stable drivers. Make sure you understand the consequences. Requires administrator · Reboot"
+  },
+  "pause_windows_update": {
+    "name": "Pause Updates",
+    "description": "Delays feature update installation",
+    "hint": "Delays feature update installation. Make sure you understand the consequences. Requires administrator · Medium risk"
+  },
+  "small_taskbar_icons": {
+    "name": "Small Taskbar Icons",
+    "description": "Reduces taskbar icon size",
+    "hint": "Reduces taskbar icon size. Make sure you understand the consequences."
+  },
+  "hide_taskbar_search": {
+    "name": "Hide Taskbar Search",
+    "description": "Removes the search box — more taskbar space",
+    "hint": "Removes the search box — more taskbar space. Make sure you understand the consequences."
+  },
+  "nvidia_max_performance": {
+    "name": "NVIDIA: Max Performance",
+    "description": "Guide to configure maximum GPU performance",
+    "hint": "Guide to configure maximum GPU performance. Make sure you understand the consequences. One-time action · NVIDIA only"
+  },
+  "nvidia_low_latency": {
+    "name": "NVIDIA: Low Latency Ultra",
+    "description": "Guide to NVIDIA low latency mode",
+    "hint": "Guide to NVIDIA low latency mode. Make sure you understand the consequences. One-time action · NVIDIA only"
+  },
+  "amd_anti_lag": {
+    "name": "AMD: Anti-Lag",
+    "description": "Guide to enable AMD Anti-Lag in Radeon Software",
+    "hint": "Guide to enable AMD Anti-Lag in Radeon Software. Make sure you understand the consequences. One-time action · AMD only"
+  },
+  "intel_panel_refresh_off": {
+    "name": "Intel: Panel Self Refresh OFF",
+    "description": "Disables Intel integrated graphics power saving",
+    "hint": "Disables Intel integrated graphics power saving. Make sure you understand the consequences. Requires administrator · Reboot · Medium risk · Intel only"
+  },
+  "enable_hpet": {
+    "name": "Enable HPET",
+    "description": "Uses platform clock — may lower or raise FPS",
+    "hint": "Results depend on your system — test in games"
+  },
+  "disable_hpet": {
+    "name": "Disable HPET",
+    "description": "Removes forced HPET usage",
+    "hint": "Removes forced HPET usage. Make sure you understand the consequences. Requires administrator · Reboot · High risk — create a restore point"
+  },
+  "disable_game_bar_presence": {
+    "name": "Disable Xbox Presence",
+    "description": "Removes background Xbox Party processes",
+    "hint": "Removes background Xbox Party processes. Restart the game after applying."
+  },
+  "enable_end_task_rightclick": {
+    "name": "End Task in Right-Click Menu",
+    "description": "Adds an option to the taskbar context menu",
+    "hint": "Adds an option to the taskbar context menu. Make sure you understand the consequences."
+  },
+  "mmcss_audio_priority": {
+    "name": "MMCSS Audio Priority",
+    "description": "Raises audio scheduler priority",
+    "hint": "Raises audio scheduler priority. Restart the game after applying. Requires administrator"
+  },
+  "system_responsiveness_games": {
+    "name": "System Responsiveness = 0",
+    "description": "Minimum latency for gaming MMCSS",
+    "hint": "Minimum latency for gaming MMCSS. Restart the game after applying. Requires administrator"
+  },
+  "nvidia_reflex_hint": {
+    "name": "NVIDIA Reflex",
+    "description": "Guide to enable Reflex",
+    "hint": "Guide to enable Reflex. Restart the game after applying. One-time action · NVIDIA only"
+  },
+  "disable_mpo": {
+    "name": "Disable MPO",
+    "description": "Fix for Multiplane Overlay stutters",
+    "hint": "May affect HDR"
+  },
+  "win32_priority_separation": {
+    "name": "Win32PrioritySeparation = 38",
+    "description": "Foreground priority for games",
+    "hint": "Foreground priority for games. Restart the game after applying. Requires administrator · Medium risk"
+  },
+  "set_services_manual": {
+    "name": "Services → Manual",
+    "description": "Safe set of services set to manual start",
+    "hint": "Safe set of services set to manual start. Results may differ on SSD and HDD. One-time action · Requires administrator · Medium risk"
+  },
+  "disable_widgets_board": {
+    "name": "Disable Widgets and News",
+    "description": "Removes the widgets panel and news feed",
+    "hint": "Removes the widgets panel and news feed. Make sure you understand the consequences."
+  },
+  "disable_copilot": {
+    "name": "Hide Copilot",
+    "description": "Removes the Copilot button from the taskbar",
+    "hint": "Removes the Copilot button from the taskbar. Results may differ on SSD and HDD."
+  },
+  "disable_sticky_keys": {
+    "name": "Disable Sticky Keys Popup",
+    "description": "Removes the intrusive Sticky Keys prompt",
+    "hint": "Removes the intrusive Sticky Keys prompt. Results may differ on SSD and HDD."
+  },
+  "disable_tips_suggestions": {
+    "name": "Disable Windows Tips",
+    "description": "Removes tips and suggestions",
+    "hint": "Removes tips and suggestions. Results may differ on SSD and HDD."
+  },
+  "disable_delivery_optimization": {
+    "name": "Disable P2P Updates",
+    "description": "Windows Update without P2P distribution",
+    "hint": "Windows Update without P2P distribution. Results may differ on SSD and HDD. Requires administrator"
+  },
+  "disable_paging_executive": {
+    "name": "DisablePagingExecutive",
+    "description": "Keeps kernel in RAM — risk of running out of memory",
+    "hint": "Only with 16+ GB RAM"
+  },
+  "large_system_cache_off": {
+    "name": "LargeSystemCache = 0",
+    "description": "Cache optimization for applications",
+    "hint": "Cache optimization for applications. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  },
+  "disable_throttling_idle": {
+    "name": "Disable Power Throttling",
+    "description": "CPU will not reduce frequency in the background",
+    "hint": "CPU will not reduce frequency in the background. Results may differ on SSD and HDD. Requires administrator · Medium risk"
+  },
+  "disable_wifi_sense": {
+    "name": "Disable Wi-Fi Sense",
+    "description": "Blocks automatic Wi-Fi connections",
+    "hint": "Blocks automatic Wi-Fi connections. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_activity_history": {
+    "name": "Disable Activity History",
+    "description": "Timeline and Activity History off",
+    "hint": "Timeline and Activity History off. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_ink_suggestions": {
+    "name": "Disable Ink Workspace",
+    "description": "Removes handwriting data collection",
+    "hint": "Removes handwriting data collection. Some settings take effect after reboot."
+  },
+  "disable_store_suggestions": {
+    "name": "Microsoft Store Ads OFF",
+    "description": "Removes recommendations in Store",
+    "hint": "Removes recommendations in Store. Some settings take effect after reboot."
+  },
+  "disable_edge_telemetry": {
+    "name": "Edge Telemetry OFF",
+    "description": "Blocks Edge metrics reporting",
+    "hint": "Blocks Edge metrics reporting. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_defender_samples": {
+    "name": "Defender: Cloud Samples OFF",
+    "description": "Disables cloud sample submission (Defender still works)",
+    "hint": "Disables cloud sample submission (Defender still works). Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_ipv6": {
+    "name": "Disable IPv6",
+    "description": "Disables IPv6 on all adapters",
+    "hint": "May break some networks"
+  },
+  "disable_network_location": {
+    "name": "Network Location OFF",
+    "description": "Disables network location detection",
+    "hint": "Disables network location detection. Use rollback if network issues occur. Requires administrator · Medium risk"
+  },
+  "netsh_tcp_chimney": {
+    "name": "TCP Chimney Offload",
+    "description": "Enables hardware TCP offload",
+    "hint": "Enables hardware TCP offload. Use rollback if network issues occur. One-time action · Requires administrator · Medium risk"
+  },
+  "enable_dark_mode": {
+    "name": "Windows Dark Theme",
+    "description": "Enables dark mode for system and apps",
+    "hint": "Enables dark mode for system and apps. Effect is usually visible immediately."
+  },
+  "disable_bing_search": {
+    "name": "Remove Bing from Search",
+    "description": "Windows Search without Bing results",
+    "hint": "Windows Search without Bing results. Make sure you understand the consequences."
+  },
+  "show_hidden_files": {
+    "name": "Show Hidden Files",
+    "description": "Displays hidden files in File Explorer",
+    "hint": "Displays hidden files in File Explorer. Make sure you understand the consequences."
+  },
+  "remove_onedrive": {
+    "name": "Remove OneDrive",
+    "description": "Launches OneDrive uninstallation",
+    "hint": "Back up your OneDrive files first"
+  },
+  "keyboard_data_queue_size": {
+    "name": "Keyboard Queue (50)",
+    "description": "Reduces input latency — from Optimize #Expl01t",
+    "hint": "Reduces input latency — from Optimize #Expl01t. Restart the game after applying. Requires administrator · Reboot"
+  },
+  "mouse_data_queue_size": {
+    "name": "Mouse Queue (20)",
+    "description": "Reduces mouse movement buffering for responsiveness",
+    "hint": "Reduces mouse movement buffering for responsiveness. Restart the game after applying. Requires administrator · Reboot"
+  },
+  "usb_thread_priority": {
+    "name": "USB Thread Priority",
+    "description": "Raises USBHUB3/USBXHCI priority for lower peripheral latency",
+    "hint": "Raises USBHUB3/USBXHCI priority for lower peripheral latency. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  },
+  "show_seconds_in_clock": {
+    "name": "Seconds in Clock",
+    "description": "Shows seconds on the taskbar clock",
+    "hint": "Shows seconds on the taskbar clock. Effect is usually visible immediately."
+  },
+  "enable_numlock_on_boot": {
+    "name": "NumLock on Boot",
+    "description": "Enables NumLock when Windows starts",
+    "hint": "Enables NumLock when Windows starts. Make sure you understand the consequences."
+  },
+  "disable_search_suggestions": {
+    "name": "No Search Suggestions",
+    "description": "Disables \"See more results...\" in search",
+    "hint": "Disables \"See more results...\" in search. Some settings take effect after reboot."
+  },
+  "disable_autoplay": {
+    "name": "Disable AutoPlay",
+    "description": "Blocks autoplay for removable media",
+    "hint": "Blocks autoplay for removable media. Make sure you understand the consequences."
+  },
+  "accelerate_startup_delay": {
+    "name": "Speed Up Startup",
+    "description": "Removes the 4-second delay when startup programs launch",
+    "hint": "Removes the 4-second delay when startup programs launch. Results may differ on SSD and HDD."
+  },
+  "fast_app_shutdown": {
+    "name": "Fast App Shutdown",
+    "description": "AutoEndTasks and shorter shutdown timeouts",
+    "hint": "AutoEndTasks and shorter shutdown timeouts. Results may differ on SSD and HDD. Medium risk"
+  },
+  "ntfs_last_access_off": {
+    "name": "NTFS: No Last Access",
+    "description": "Disables updating last access time on files",
+    "hint": "Disables updating last access time on files. Results may differ on SSD and HDD. Requires administrator"
+  },
+  "ntfs_8dot3_off": {
+    "name": "NTFS: No 8.3 Names",
+    "description": "Disables short (DOS) file name creation",
+    "hint": "Disables short (DOS) file name creation. Results may differ on SSD and HDD. Requires administrator"
+  },
+  "ntfs_memory_ssd": {
+    "name": "NTFS for SSD",
+    "description": "NtfsMemoryUsage=0 — less RAM used for NTFS metadata",
+    "hint": "SSD/NVMe only"
+  },
+  "hdd_storage_optimize": {
+    "name": "HDD Optimization",
+    "description": "Settings bundle for hard drives from HDD.reg",
+    "hint": "HDD only — do not apply on SSD"
+  },
+  "disable_low_disk_warnings": {
+    "name": "No Low Disk Warnings",
+    "description": "Disables low disk space notifications",
+    "hint": "Disables low disk space notifications. Make sure you understand the consequences."
+  },
+  "nvme_fast_boot": {
+    "name": "NVMe Fast Boot",
+    "description": "Feature Management overrides for faster NVMe boot",
+    "hint": "Feature Management overrides for faster NVMe boot. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  },
+  "large_system_cache_on": {
+    "name": "Large System Cache ON",
+    "description": "Increases system cache — for PCs with large RAM",
+    "hint": "Increases system cache — for PCs with large RAM. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  },
+  "nvidia_disable_preemption": {
+    "name": "NVIDIA: Disable Preemption",
+    "description": "Reduces GPU driver interruptions — fewer micro-stutters",
+    "hint": "Reduces GPU driver interruptions — fewer micro-stutters. Restart the game after applying. Requires administrator · Reboot · Medium risk · NVIDIA only"
+  },
+  "disable_pc_experiments": {
+    "name": "Disable Microsoft Experiments",
+    "description": "Blocks Microsoft A/B experiments on your PC",
+    "hint": "Blocks Microsoft A/B experiments on your PC. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_voice_activation": {
+    "name": "Disable Voice Activation",
+    "description": "Blocks apps from listening for \"Hey Cortana\" and similar wake phrases",
+    "hint": "Blocks apps from listening for \"Hey Cortana\" and similar wake phrases. Some settings take effect after reboot."
+  },
+  "autotune_nic_ethernet": {
+    "name": "AutoTune NIC (Ethernet)",
+    "description": "Network adapter tuning: buffers, EEE, Interrupt Moderation",
+    "hint": "Network adapter tuning: buffers, EEE, Interrupt Moderation. Use rollback if network issues occur. One-time action · Requires administrator · Medium risk"
+  },
+  "disable_device_power_saving": {
+    "name": "Disable Device Power Saving",
+    "description": "Prevents Windows from powering off devices to save energy",
+    "hint": "Prevents Windows from powering off devices to save energy. Results may differ on SSD and HDD. One-time action · Requires administrator · Medium risk"
+  },
+  "disable_dynamic_tick": {
+    "name": "Disable Dynamic Tick",
+    "description": "bcdedit disabledynamictick — more stable timer for games",
+    "hint": "Without disabling mitigations — safer than Timer Fix.bat"
+  },
+  "disable_storage_sense": {
+    "name": "Disable Storage Sense",
+    "description": "Windows automatic disk cleanup",
+    "hint": "Windows automatic disk cleanup. Results may differ on SSD and HDD."
+  },
+  "disable_consumer_features": {
+    "name": "Consumer Features OFF",
+    "description": "Blocks auto-installation of games and apps from Store",
+    "hint": "Blocks auto-installation of games and apps from Store. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_folder_type_discovery": {
+    "name": "No Auto Folder Type",
+    "description": "FolderType=NotSpecified — faster File Explorer",
+    "hint": "FolderType=NotSpecified — faster File Explorer. Results may differ on SSD and HDD. Medium risk"
+  },
+  "disable_start_recommendations": {
+    "name": "No Start Recommendations",
+    "description": "Hides recommended sites in the Start menu",
+    "hint": "Hides recommended sites in the Start menu. Some settings take effect after reboot."
+  },
+  "disable_filter_keys": {
+    "name": "Disable Filter Keys",
+    "description": "Removes Filter Keys sticky behavior (Shift 8 sec)",
+    "hint": "Removes Filter Keys sticky behavior (Shift 8 sec). Make sure you understand the consequences."
+  },
+  "classic_context_menu": {
+    "name": "Classic Right-Click Menu",
+    "description": "Windows 10 context menu in Windows 11 File Explorer",
+    "hint": "Windows 10 context menu in Windows 11 File Explorer. Effect is usually visible immediately. One-time action · Medium risk"
+  },
+  "disable_error_reporting": {
+    "name": "Disable WerSvc",
+    "description": "Windows Error Reporting service",
+    "hint": "Windows Error Reporting service. Some settings take effect after reboot. Requires administrator"
+  },
+  "disable_teredo": {
+    "name": "Disable Teredo",
+    "description": "IPv6 tunnel — less network noise",
+    "hint": "IPv6 tunnel — less network noise. Use rollback if network issues occur. One-time action · Requires administrator · Medium risk"
+  },
+  "enable_long_paths": {
+    "name": "Long Paths (>260)",
+    "description": "LongPathsEnabled for development and backups",
+    "hint": "LongPathsEnabled for development and backups. Make sure you understand the consequences. Requires administrator · Reboot"
+  },
+  "disable_scrollbar_autohide": {
+    "name": "Always Show Scrollbars",
+    "description": "Do not auto-hide scrollbars",
+    "hint": "Do not auto-hide scrollbars. Effect is usually visible immediately."
+  },
+  "disable_wpbt": {
+    "name": "Disable WPBT",
+    "description": "Blocks vendor code at boot",
+    "hint": "Blocks vendor code at boot. Some settings take effect after reboot. Requires administrator · Reboot · Medium risk"
+  },
+  "disable_windows_ai_registry": {
+    "name": "Windows AI (Registry)",
+    "description": "Hides AI components in Settings",
+    "hint": "Hides AI components in Settings. Some settings take effect after reboot. Requires administrator · Medium risk"
+  },
+  "show_file_extensions": {
+    "name": "Show File Extensions",
+    "description": "HideFileExt=0 in File Explorer",
+    "hint": "HideFileExt=0 in File Explorer. Effect is usually visible immediately."
+  },
+  "disable_task_view_button": {
+    "name": "Hide Task View",
+    "description": "Removes the Task View button",
+    "hint": "Removes the Task View button. Effect is usually visible immediately."
+  },
+  "disable_acrylic_logon": {
+    "name": "No Blur on Login Screen",
+    "description": "Disables acrylic on the lock screen",
+    "hint": "Disables acrylic on the lock screen. Effect is usually visible immediately. Requires administrator"
+  },
+  "exclude_wu_drivers": {
+    "name": "Exclude Drivers from WU",
+    "description": "Do not install drivers via Windows Update",
+    "hint": "Do not install drivers via Windows Update. Make sure you understand the consequences. Requires administrator · Medium risk"
+  },
+  "mmcss_global_responsiveness": {
+    "name": "MMCSS: SystemResponsiveness 0",
+    "description": "Global background process priority for games",
+    "hint": "Global background process priority for games. Restart the game after applying. Requires administrator · Reboot · Medium risk"
+  },
+  "disable_meet_now": {
+    "name": "Hide Meet Now",
+    "description": "Removes the Meet Now button from the taskbar",
+    "hint": "Removes the Meet Now button from the taskbar. Effect is usually visible immediately."
+  },
+  "disable_s0_sleep_network": {
+    "name": "S0: Network During Sleep OFF",
+    "description": "Disables network in Modern Standby",
+    "hint": "Disables network in Modern Standby. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  }
+}

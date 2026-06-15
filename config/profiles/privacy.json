@@ -1,0 +1,21 @@
+{
+  "id": "privacy",
+  "name": "Приватность",
+  "description": "Отключение телеметрии, рекламы, Cortana и отслеживания",
+  "tweaks": [
+    "disable_telemetry",
+    "disable_advertising_id",
+    "disable_cortana",
+    "disable_location",
+    "disable_feedback",
+    "disable_tailored_experiences",
+    "disable_app_tracking",
+    "disable_consumer_features",
+    "disable_pc_experiments",
+    "disable_voice_activation",
+    "disable_windows_ai_registry",
+    "disable_error_reporting",
+    "disable_activity_history",
+    "disable_wpbt"
+  ]
+}

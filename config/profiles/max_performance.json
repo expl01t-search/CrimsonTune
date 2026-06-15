@@ -1,0 +1,46 @@
+{
+
+  "id": "max_performance",
+
+  "name": "Макс. производительность",
+
+  "description": "Максимальная производительность: CPU, RAM, службы, визуал, питание",
+
+  "tweaks": [
+
+    "ultimate_performance_power",
+
+    "disable_sysmain",
+
+    "disable_background_apps",
+
+    "disable_animations",
+
+    "best_performance_visual",
+
+    "disable_transparency",
+
+    "disable_hibernation",
+
+    "high_timer_resolution",
+
+    "optimize_svchost",
+
+    "disable_fast_startup",
+
+    "ntfs_last_access_off",
+
+    "ntfs_memory_ssd",
+
+    "accelerate_startup_delay",
+
+    "usb_thread_priority",
+
+    "disable_pc_experiments",
+
+    "disable_throttling_idle"
+
+  ]
+
+}
+

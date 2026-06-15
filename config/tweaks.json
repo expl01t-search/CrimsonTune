@@ -1,0 +1,2268 @@
+{
+  "tweaks": [
+    {
+      "id": "disable_sysmain",
+      "name": "Отключить SysMain (Superfetch)",
+      "description": "Убирает фоновую подгрузку приложений в RAM — полезно на SSD",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "На HDD может замедлить запуск программ"
+    },
+    {
+      "id": "disable_search_indexing",
+      "name": "Отключить индексацию поиска",
+      "description": "Снижает нагрузку на диск в фоне",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Снижает нагрузку на диск в фоне На SSD и HDD результат может отличаться. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "disable_prefetch",
+      "name": "Отключить Prefetch",
+      "description": "Уменьшает фоновую активность диска",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Уменьшает фоновую активность диска На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "high_timer_resolution",
+      "name": "Высокое разрешение таймера",
+      "description": "Повышает точность таймера системы — меньше микрофризов в играх",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Повышает точность таймера системы — меньше микрофризов в играх На SSD и HDD результат может отличаться. Нужен администратор"
+    },
+    {
+      "id": "disable_background_apps",
+      "name": "Отключить фоновые UWP-приложения",
+      "description": "Запрещает приложениям из Store работать в фоне",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Запрещает приложениям из Store работать в фоне На SSD и HDD результат может отличаться."
+    },
+    {
+      "id": "disable_hibernation",
+      "name": "Отключить гибернацию",
+      "description": "Освобождает место на диске, равное объёму RAM",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Освобождает место на диске, равное объёму RAM На SSD и HDD результат может отличаться. Нужен администратор"
+    },
+    {
+      "id": "optimize_svchost",
+      "name": "Оптимизация svchost",
+      "description": "Группирует службы для снижения количества процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Группирует службы для снижения количества процессов svchost На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "clear_temp_files",
+      "name": "Очистить временные файлы",
+      "description": "Удаляет содержимое папок Temp",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Удаляет содержимое папок Temp На SSD и HDD результат может отличаться. Разовое действие"
+    },
+    {
+      "id": "enable_game_mode",
+      "name": "Включить Game Mode",
+      "description": "Windows приоритизирует ресурсы для активной игры",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": true,
+      "hint": "Windows приоритизирует ресурсы для активной игры Перезапустите игру после применения."
+    },
+    {
+      "id": "disable_game_mode",
+      "name": "Отключить Game Mode",
+      "description": "Отключает игровой режим Windows",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Отключает игровой режим Windows Перезапустите игру после применения."
+    },
+    {
+      "id": "enable_hags",
+      "name": "Включить HAGS",
+      "description": "Аппаратное ускорение планирования GPU — снижает задержку кадра",
+      "category": "gaming",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Требует GPU с поддержкой WDDM 2.7+"
+    },
+    {
+      "id": "disable_hags",
+      "name": "Отключить HAGS",
+      "description": "Возвращает программное планирование GPU",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Возвращает программное планирование GPU Перезапустите игру после применения. Нужен администратор · Перезагрузка"
+    },
+    {
+      "id": "disable_game_dvr",
+      "name": "Отключить Xbox Game DVR",
+      "description": "Убирает фоновую запись игр — повышает FPS на 3–10%",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": true,
+      "hint": "Убирает фоновую запись игр — повышает FPS на 3–10% Перезапустите игру после применения."
+    },
+    {
+      "id": "disable_fullscreen_optimizations",
+      "name": "Отключить Fullscreen Optimizations",
+      "description": "Игры работают в настоящем полноэкранном режиме — меньше input lag",
+      "category": "gaming",
+      "risk": "medium",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": true,
+      "hint": "Игры работают в настоящем полноэкранном режиме — меньше input lag Перезапустите игру после применения. Средний риск"
+    },
+    {
+      "id": "disable_mouse_acceleration",
+      "name": "Отключить ускорение мыши",
+      "description": "Выключает «Повысить точность указателя» — 1:1 движение мыши",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": true,
+      "hint": "Выключает «Повысить точность указателя» — 1:1 движение мыши Перезапустите игру после применения."
+    },
+    {
+      "id": "mmcss_games_priority",
+      "name": "Приоритет MMCSS для игр",
+      "description": "Повышает приоритет мультимедийного планировщика для игр",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Повышает приоритет мультимедийного планировщика для игр Перезапустите игру после применения. Нужен администратор"
+    },
+    {
+      "id": "disable_xbox_services",
+      "name": "Отключить службы Xbox",
+      "description": "Останавливает фоновые службы Xbox Live",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Останавливает фоновые службы Xbox Live Перезапустите игру после применения. Нужен администратор"
+    },
+    {
+      "id": "enable_shader_cache",
+      "name": "Оптимизация Shader Cache",
+      "description": "Улучшает кэширование шейдеров DirectX",
+      "category": "directx",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Улучшает кэширование шейдеров DirectX Закройте игры перед применением. Нужен администратор"
+    },
+    {
+      "id": "disable_dxgi_flip_model",
+      "name": "Отключить DXGI Flip Model upgrade",
+      "description": "Предотвращает автоматическое переключение режима отображения",
+      "category": "directx",
+      "risk": "medium",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Предотвращает автоматическое переключение режима отображения Закройте игры перед применением. Средний риск"
+    },
+    {
+      "id": "clear_shader_cache",
+      "name": "Очистить Shader Cache",
+      "description": "Удаляет кэш шейдеров DirectX (D3DSCache, NVIDIA, AMD)",
+      "category": "directx",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Удаляет кэш шейдеров DirectX (D3DSCache, NVIDIA, AMD) Закройте игры перед применением. Разовое действие"
+    },
+    {
+      "id": "export_dxdiag",
+      "name": "Экспорт DxDiag",
+      "description": "Сохраняет отчёт DirectX на рабочий стол",
+      "category": "directx",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Сохраняет отчёт DirectX на рабочий стол Закройте игры перед применением. Разовое действие"
+    },
+    {
+      "id": "directx_12_ultimate_hint",
+      "name": "DirectX 12 Ultimate",
+      "description": "Информация об активации DX12 Ultimate через драйвер GPU",
+      "category": "directx",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Информация об активации DX12 Ultimate через драйвер GPU Закройте игры перед применением. Разовое действие"
+    },
+    {
+      "id": "force_discrete_gpu_opengl",
+      "name": "Дискретная GPU для OpenGL",
+      "description": "Принудительно использует мощную видеокарту для OpenGL-приложений",
+      "category": "opengl",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "nvidia",
+        "amd"
+      ],
+      "default": false,
+      "hint": "Принудительно использует мощную видеокарту для OpenGL-приложений Для OpenGL-игр и эмуляторов. Только NVIDIA/AMD"
+    },
+    {
+      "id": "disable_opengl_vsync",
+      "name": "Отключить VSync (OpenGL)",
+      "description": "Снимает ограничение кадров по частоте монитора",
+      "category": "opengl",
+      "risk": "medium",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Снимает ограничение кадров по частоте монитора Для OpenGL-игр и эмуляторов. Средний риск"
+    },
+    {
+      "id": "nvidia_max_prerendered_frames",
+      "name": "NVIDIA Pre-rendered Frames",
+      "description": "Оптимизация очереди кадров для снижения задержки",
+      "category": "opengl",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "nvidia"
+      ],
+      "default": false,
+      "hint": "Оптимизация очереди кадров для снижения задержки Для OpenGL-игр и эмуляторов. Нужен администратор · Средний риск · Только NVIDIA"
+    },
+    {
+      "id": "nvidia_threaded_optimization",
+      "name": "NVIDIA Threaded Optimization",
+      "description": "Подсказка: включите многопоточную оптимизацию в панели NVIDIA",
+      "category": "opengl",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "nvidia"
+      ],
+      "default": false,
+      "hint": "Подсказка: включите многопоточную оптимизацию в панели NVIDIA Для OpenGL-игр и эмуляторов. Разовое действие · Только NVIDIA"
+    },
+    {
+      "id": "amd_texture_quality_performance",
+      "name": "AMD Texture Quality → Performance",
+      "description": "Подсказка: настройка фильтрации текстур в Radeon Software",
+      "category": "opengl",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "amd"
+      ],
+      "default": false,
+      "hint": "Подсказка: настройка фильтрации текстур в Radeon Software Для OpenGL-игр и эмуляторов. Разовое действие · Только AMD"
+    },
+    {
+      "id": "vulkan_validation_layers",
+      "name": "Vulkan Validation Layers",
+      "description": "Включает слои валидации Vulkan (для разработчиков)",
+      "category": "opengl",
+      "risk": "high",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Включает слои валидации Vulkan (для разработчиков) Для OpenGL-игр и эмуляторов. Высокий риск — точка восстановления"
+    },
+    {
+      "id": "set_dns_cloudflare",
+      "name": "DNS Cloudflare (1.1.1.1)",
+      "description": "Быстрый и приватный DNS от Cloudflare",
+      "category": "network",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Быстрый и приватный DNS от Cloudflare При сбоях сети используйте откат. Нужен администратор"
+    },
+    {
+      "id": "set_dns_google",
+      "name": "DNS Google (8.8.8.8)",
+      "description": "Надёжный публичный DNS от Google",
+      "category": "network",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Надёжный публичный DNS от Google При сбоях сети используйте откат. Нужен администратор"
+    },
+    {
+      "id": "flush_dns",
+      "name": "Очистить DNS кэш",
+      "description": "Сбрасывает кэш DNS-резолвера Windows",
+      "category": "network",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Сбрасывает кэш DNS-резолвера Windows При сбоях сети используйте откат. Разовое действие · Нужен администратор"
+    },
+    {
+      "id": "disable_nagle",
+      "name": "Отключить алгоритм Nagle",
+      "description": "Снижает сетевую задержку в онлайн-играх",
+      "category": "network",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Снижает сетевую задержку в онлайн-играх При сбоях сети используйте откат. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "network_throttling_disable",
+      "name": "Отключить Network Throttling",
+      "description": "Убирает ограничение пропускной способности для мультимедиа",
+      "category": "network",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Убирает ограничение пропускной способности для мультимедиа При сбоях сети используйте откат. Нужен администратор"
+    },
+    {
+      "id": "disable_tcp_autotuning",
+      "name": "Отключить TCP Auto-Tuning",
+      "description": "Фиксирует параметры TCP для стабильного пинга",
+      "category": "network",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Фиксирует параметры TCP для стабильного пинга При сбоях сети используйте откат. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "reset_winsock",
+      "name": "Сброс Winsock",
+      "description": "Восстанавливает сетевой стек Windows. Требует перезагрузки!",
+      "category": "network",
+      "risk": "high",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Восстанавливает сетевой стек Windows. Требует перезагрузки! При сбоях сети используйте откат. Разовое действие · Нужен администратор · Перезагрузка · Высокий риск — точка восстановления"
+    },
+    {
+      "id": "disable_telemetry",
+      "name": "Отключить телеметрию",
+      "description": "Блокирует сбор диагностических данных Microsoft",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Блокирует сбор диагностических данных Microsoft Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_advertising_id",
+      "name": "Отключить рекламный ID",
+      "description": "Запрещает приложениям использовать рекламный идентификатор",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Запрещает приложениям использовать рекламный идентификатор Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_cortana",
+      "name": "Отключить Cortana",
+      "description": "Убирает голосового ассистента из поиска",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Убирает голосового ассистента из поиска Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_location",
+      "name": "Отключить геолокацию",
+      "description": "Запрещает приложениям доступ к местоположению",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Запрещает приложениям доступ к местоположению Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_feedback",
+      "name": "Отключить запросы отзывов",
+      "description": "Windows перестаёт спрашивать ваше мнение",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Windows перестаёт спрашивать ваше мнение Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_tailored_experiences",
+      "name": "Отключить персонализацию",
+      "description": "Отключает рекомендации на основе диагностических данных",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Отключает рекомендации на основе диагностических данных Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_app_tracking",
+      "name": "Ограничить отслеживание приложений",
+      "description": "Запрещает приложениям доступ к информации об аккаунте",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Запрещает приложениям доступ к информации об аккаунте Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_animations",
+      "name": "Отключить анимации",
+      "description": "Убирает анимации окон и меню — быстрее отклик UI",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Убирает анимации окон и меню — быстрее отклик UI Эффект обычно виден сразу."
+    },
+    {
+      "id": "disable_transparency",
+      "name": "Отключить прозрачность",
+      "description": "Убирает эффекты размытия и прозрачности",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Убирает эффекты размытия и прозрачности Эффект обычно виден сразу."
+    },
+    {
+      "id": "disable_shadows",
+      "name": "Отключить тени окон",
+      "description": "Убирает тени под окнами и иконками",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Убирает тени под окнами и иконками Эффект обычно виден сразу."
+    },
+    {
+      "id": "menu_show_delay_zero",
+      "name": "Мгновенное меню (0 мс)",
+      "description": "Меню Пуск и контекстные меню открываются без задержки",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Меню Пуск и контекстные меню открываются без задержки Эффект обычно виден сразу."
+    },
+    {
+      "id": "compact_explorer",
+      "name": "Компактный проводник",
+      "description": "Уменьшает отступы в проводнике Windows",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Уменьшает отступы в проводнике Windows Эффект обычно виден сразу."
+    },
+    {
+      "id": "high_performance_power",
+      "name": "План питания: Высокая производительность",
+      "description": "Активирует режим максимальной мощности CPU",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Активирует режим максимальной мощности CPU Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "ultimate_performance_power",
+      "name": "План питания: Ultimate Performance",
+      "description": "Экстремальный режим без энергосбережения",
+      "category": "system",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Экстремальный режим без энергосбережения Убедитесь, что понимаете последствия. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "disable_fast_startup",
+      "name": "Отключить быстрый запуск",
+      "description": "Полное выключение вместо гибридного — стабильнее драйверы",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Полное выключение вместо гибридного — стабильнее драйверы Убедитесь, что понимаете последствия. Нужен администратор · Перезагрузка"
+    },
+    {
+      "id": "pause_windows_update",
+      "name": "Приостановить обновления",
+      "description": "Откладывает установку обновлений функций",
+      "category": "system",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Откладывает установку обновлений функций Убедитесь, что понимаете последствия. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "small_taskbar_icons",
+      "name": "Мелкие иконки панели задач",
+      "description": "Уменьшает иконки на панели задач",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Уменьшает иконки на панели задач Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "hide_taskbar_search",
+      "name": "Скрыть поиск на панели задач",
+      "description": "Убирает поле поиска — больше места на панели",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Убирает поле поиска — больше места на панели Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "nvidia_max_performance",
+      "name": "NVIDIA: Max Performance",
+      "description": "Инструкция по настройке максимальной производительности GPU",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "nvidia"
+      ],
+      "default": false,
+      "hint": "Инструкция по настройке максимальной производительности GPU Убедитесь, что понимаете последствия. Разовое действие · Только NVIDIA"
+    },
+    {
+      "id": "nvidia_low_latency",
+      "name": "NVIDIA: Low Latency Ultra",
+      "description": "Инструкция по режиму минимальной задержки NVIDIA",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "nvidia"
+      ],
+      "default": false,
+      "hint": "Инструкция по режиму минимальной задержки NVIDIA Убедитесь, что понимаете последствия. Разовое действие · Только NVIDIA"
+    },
+    {
+      "id": "amd_anti_lag",
+      "name": "AMD: Anti-Lag",
+      "description": "Инструкция по включению AMD Anti-Lag в Radeon Software",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "amd"
+      ],
+      "default": false,
+      "hint": "Инструкция по включению AMD Anti-Lag в Radeon Software Убедитесь, что понимаете последствия. Разовое действие · Только AMD"
+    },
+    {
+      "id": "intel_panel_refresh_off",
+      "name": "Intel: Panel Self Refresh OFF",
+      "description": "Отключает энергосбережение встроенной графики Intel",
+      "category": "system",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "intel"
+      ],
+      "default": false,
+      "hint": "Отключает энергосбережение встроенной графики Intel Убедитесь, что понимаете последствия. Нужен администратор · Перезагрузка · Средний риск · Только Intel"
+    },
+    {
+      "id": "enable_hpet",
+      "name": "Включить HPET",
+      "description": "Использует платформенные часы — может снизить или повысить FPS",
+      "category": "system",
+      "risk": "high",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Результат зависит от системы — тестируйте в играх"
+    },
+    {
+      "id": "disable_hpet",
+      "name": "Отключить HPET",
+      "description": "Убирает принудительное использование HPET",
+      "category": "system",
+      "risk": "high",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "default": false,
+      "hint": "Убирает принудительное использование HPET Убедитесь, что понимаете последствия. Нужен администратор · Перезагрузка · Высокий риск — точка восстановления"
+    },
+    {
+      "id": "disable_game_bar_presence",
+      "name": "Отключить Xbox Presence",
+      "description": "Убирает фоновые процессы Xbox Party",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Убирает фоновые процессы Xbox Party Перезапустите игру после применения."
+    },
+    {
+      "id": "enable_end_task_rightclick",
+      "name": "Завершить задачу в ПКМ",
+      "description": "Добавляет пункт в контекстное меню панели задач",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Добавляет пункт в контекстное меню панели задач Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "mmcss_audio_priority",
+      "name": "MMCSS Audio Priority",
+      "description": "Повышает приоритет аудио-планировщика",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "DLCI",
+      "default": false,
+      "hint": "Повышает приоритет аудио-планировщика Перезапустите игру после применения. Нужен администратор"
+    },
+    {
+      "id": "system_responsiveness_games",
+      "name": "System Responsiveness = 0",
+      "description": "Минимальная задержка для игрового MMCSS",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "DLCI",
+      "default": false,
+      "hint": "Минимальная задержка для игрового MMCSS Перезапустите игру после применения. Нужен администратор"
+    },
+    {
+      "id": "nvidia_reflex_hint",
+      "name": "NVIDIA Reflex",
+      "description": "Инструкция по включению Reflex",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "nvidia"
+      ],
+      "source": "ReadyPC",
+      "default": false,
+      "hint": "Инструкция по включению Reflex Перезапустите игру после применения. Разовое действие · Только NVIDIA"
+    },
+    {
+      "id": "disable_mpo",
+      "name": "Отключить MPO",
+      "description": "Фикс стуттеров Multiplane Overlay",
+      "category": "gaming",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "DLCI",
+      "hint": "Может повлиять на HDR",
+      "default": false
+    },
+    {
+      "id": "win32_priority_separation",
+      "name": "Win32PrioritySeparation = 38",
+      "description": "Приоритет foreground для игр",
+      "category": "gaming",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Приоритет foreground для игр Перезапустите игру после применения. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "set_services_manual",
+      "name": "Службы → Manual",
+      "description": "Безопасный набор служб в ручной запуск",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Безопасный набор служб в ручной запуск На SSD и HDD результат может отличаться. Разовое действие · Нужен администратор · Средний риск"
+    },
+    {
+      "id": "disable_widgets_board",
+      "name": "Отключить виджеты и News",
+      "description": "Убирает панель виджетов и новости",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Winhance",
+      "default": false,
+      "hint": "Убирает панель виджетов и новости Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "disable_copilot",
+      "name": "Скрыть Copilot",
+      "description": "Убирает кнопку Copilot с панели задач",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Winhance",
+      "default": false,
+      "hint": "Убирает кнопку Copilot с панели задач На SSD и HDD результат может отличаться."
+    },
+    {
+      "id": "disable_sticky_keys",
+      "name": "Отключить Sticky Keys popup",
+      "description": "Убирает назойливое окно залипших клавиш",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Убирает назойливое окно залипших клавиш На SSD и HDD результат может отличаться."
+    },
+    {
+      "id": "disable_tips_suggestions",
+      "name": "Отключить советы Windows",
+      "description": "Убирает подсказки и предложения",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Убирает подсказки и предложения На SSD и HDD результат может отличаться."
+    },
+    {
+      "id": "disable_delivery_optimization",
+      "name": "Отключить P2P обновления",
+      "description": "Windows Update без раздачи через P2P",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Windows Update без раздачи через P2P На SSD и HDD результат может отличаться. Нужен администратор"
+    },
+    {
+      "id": "disable_paging_executive",
+      "name": "DisablePagingExecutive",
+      "description": "Держит ядро в RAM — риск нехватки памяти",
+      "category": "performance",
+      "risk": "high",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "hint": "Только при 16+ GB RAM",
+      "default": false
+    },
+    {
+      "id": "large_system_cache_off",
+      "name": "LargeSystemCache = 0",
+      "description": "Оптимизация кэша для приложений",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Оптимизация кэша для приложений На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "disable_throttling_idle",
+      "name": "Отключить Power Throttling",
+      "description": "CPU не снижает частоту в фоне",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "DLCI",
+      "default": false,
+      "hint": "CPU не снижает частоту в фоне На SSD и HDD результат может отличаться. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "disable_wifi_sense",
+      "name": "Отключить WiFi-Sense",
+      "description": "Блокирует автоматическое подключение к WiFi",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Блокирует автоматическое подключение к WiFi Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_activity_history",
+      "name": "Отключить историю активности",
+      "description": "Timeline и Activity History off",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Timeline и Activity History off Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_ink_suggestions",
+      "name": "Отключить Ink workspace",
+      "description": "Убирает сбор данных рукописного ввода",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Убирает сбор данных рукописного ввода Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_store_suggestions",
+      "name": "Реклама в Microsoft Store OFF",
+      "description": "Убирает рекомендации в Store",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Winhance",
+      "default": false,
+      "hint": "Убирает рекомендации в Store Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_edge_telemetry",
+      "name": "Телеметрия Edge OFF",
+      "description": "Блокирует отправку метрик Edge",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Блокирует отправку метрик Edge Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_defender_samples",
+      "name": "Defender: cloud samples OFF",
+      "description": "Отключает отправку образцов в облако (Defender работает)",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Winhance",
+      "default": false,
+      "hint": "Отключает отправку образцов в облако (Defender работает) Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_ipv6",
+      "name": "Отключить IPv6",
+      "description": "Отключает IPv6 на всех адаптерах",
+      "category": "network",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "hint": "Может сломать некоторые сети",
+      "default": false
+    },
+    {
+      "id": "disable_network_location",
+      "name": "Network Location OFF",
+      "description": "Отключает определение сетевого расположения",
+      "category": "network",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Отключает определение сетевого расположения При сбоях сети используйте откат. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "netsh_tcp_chimney",
+      "name": "TCP Chimney Offload",
+      "description": "Включает аппаратный offload TCP",
+      "category": "network",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Advanced",
+      "default": false,
+      "hint": "Включает аппаратный offload TCP При сбоях сети используйте откат. Разовое действие · Нужен администратор · Средний риск"
+    },
+    {
+      "id": "enable_dark_mode",
+      "name": "Тёмная тема Windows",
+      "description": "Включает тёмный режим системы и приложений",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Включает тёмный режим системы и приложений Эффект обычно виден сразу."
+    },
+    {
+      "id": "disable_bing_search",
+      "name": "Убрать Bing из поиска",
+      "description": "Поиск Windows без результатов Bing",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Поиск Windows без результатов Bing Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "show_hidden_files",
+      "name": "Показать скрытые файлы",
+      "description": "Отображает скрытые файлы в проводнике",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Отображает скрытые файлы в проводнике Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "remove_onedrive",
+      "name": "Удалить OneDrive",
+      "description": "Запускает деинсталляцию OneDrive",
+      "category": "system",
+      "risk": "high",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "hint": "Создайте бэкап файлов OneDrive",
+      "default": false
+    },
+    {
+      "id": "keyboard_data_queue_size",
+      "name": "Очередь клавиатуры (50)",
+      "description": "Уменьшает задержку ввода — из Optimize #Expl01t",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Уменьшает задержку ввода — из Optimize #Expl01t Перезапустите игру после применения. Нужен администратор · Перезагрузка"
+    },
+    {
+      "id": "mouse_data_queue_size",
+      "name": "Очередь мыши (20)",
+      "description": "Снижает буферизацию движений мыши для отзывчивости",
+      "category": "gaming",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Снижает буферизацию движений мыши для отзывчивости Перезапустите игру после применения. Нужен администратор · Перезагрузка"
+    },
+    {
+      "id": "usb_thread_priority",
+      "name": "Приоритет USB-потоков",
+      "description": "Повышает приоритет USBHUB3/USBXHCI для меньшей задержки периферии",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Повышает приоритет USBHUB3/USBXHCI для меньшей задержки периферии На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "show_seconds_in_clock",
+      "name": "Секунды в часах",
+      "description": "Показывает секунды на панели задач",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Показывает секунды на панели задач Эффект обычно виден сразу."
+    },
+    {
+      "id": "enable_numlock_on_boot",
+      "name": "NumLock при загрузке",
+      "description": "Включает NumLock при старте Windows",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Включает NumLock при старте Windows Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "disable_search_suggestions",
+      "name": "Без подсказок поиска",
+      "description": "Отключает «Ознакомиться с другими результатами...» в поиске",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Отключает «Ознакомиться с другими результатами...» в поиске Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_autoplay",
+      "name": "Отключить автозапуск",
+      "description": "Блокирует автозапуск съёмных носителей",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Блокирует автозапуск съёмных носителей Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "accelerate_startup_delay",
+      "name": "Ускорить автозагрузку",
+      "description": "Убирает задержку 4 сек при старте программ в автозагрузке",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Убирает задержку 4 сек при старте программ в автозагрузке На SSD и HDD результат может отличаться."
+    },
+    {
+      "id": "fast_app_shutdown",
+      "name": "Быстрое завершение приложений",
+      "description": "AutoEndTasks и короткие таймауты при выключении",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "AutoEndTasks и короткие таймауты при выключении На SSD и HDD результат может отличаться. Средний риск"
+    },
+    {
+      "id": "ntfs_last_access_off",
+      "name": "NTFS: без Last Access",
+      "description": "Отключает обновление времени последнего доступа к файлам",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Отключает обновление времени последнего доступа к файлам На SSD и HDD результат может отличаться. Нужен администратор"
+    },
+    {
+      "id": "ntfs_8dot3_off",
+      "name": "NTFS: без 8.3 имён",
+      "description": "Отключает создание коротких имён файлов (DOS)",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Отключает создание коротких имён файлов (DOS) На SSD и HDD результат может отличаться. Нужен администратор"
+    },
+    {
+      "id": "ntfs_memory_ssd",
+      "name": "NTFS для SSD",
+      "description": "NtfsMemoryUsage=0 — меньше RAM на метаданные NTFS",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "hint": "Только для SSD/NVMe",
+      "default": false
+    },
+    {
+      "id": "hdd_storage_optimize",
+      "name": "Оптимизация HDD",
+      "description": "Пакет настроек для жёстких дисков из HDD.reg",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "hint": "Только для HDD, не применяйте на SSD",
+      "default": false
+    },
+    {
+      "id": "disable_low_disk_warnings",
+      "name": "Без предупреждений о диске",
+      "description": "Отключает уведомления о нехватке места на диске",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Отключает уведомления о нехватке места на диске Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "nvme_fast_boot",
+      "name": "NVMe Fast Boot",
+      "description": "Feature Management overrides для быстрой загрузки NVMe",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Feature Management overrides для быстрой загрузки NVMe На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "large_system_cache_on",
+      "name": "Large System Cache ON",
+      "description": "Увеличивает системный кэш — для ПК с большим объёмом RAM",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Увеличивает системный кэш — для ПК с большим объёмом RAM На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "nvidia_disable_preemption",
+      "name": "NVIDIA: отключить preemption",
+      "description": "Снижает прерывания GPU-драйвера — меньше микрофризов",
+      "category": "gaming",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "nvidia"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Снижает прерывания GPU-драйвера — меньше микрофризов Перезапустите игру после применения. Нужен администратор · Перезагрузка · Средний риск · Только NVIDIA"
+    },
+    {
+      "id": "disable_pc_experiments",
+      "name": "Отключить эксперименты MS",
+      "description": "Запрещает A/B эксперименты Microsoft над ПК",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Запрещает A/B эксперименты Microsoft над ПК Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_voice_activation",
+      "name": "Без голосовой активации",
+      "description": "Запрещает приложениям слушать «Привет, Cortana» и аналоги",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Запрещает приложениям слушать «Привет, Cortana» и аналоги Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "autotune_nic_ethernet",
+      "name": "AutoTune NIC (Ethernet)",
+      "description": "Настройка сетевой карты: буферы, EEE, Interrupt Moderation",
+      "category": "network",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Настройка сетевой карты: буферы, EEE, Interrupt Moderation При сбоях сети используйте откат. Разовое действие · Нужен администратор · Средний риск"
+    },
+    {
+      "id": "disable_device_power_saving",
+      "name": "Отключить энергосбережение устройств",
+      "description": "Запрещает Windows отключать устройства для экономии энергии",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "Запрещает Windows отключать устройства для экономии энергии На SSD и HDD результат может отличаться. Разовое действие · Нужен администратор · Средний риск"
+    },
+    {
+      "id": "disable_dynamic_tick",
+      "name": "Отключить Dynamic Tick",
+      "description": "bcdedit disabledynamictick — стабильнее таймер для игр",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Optimize #Expl01t",
+      "hint": "Без отключения mitigations — безопаснее чем Timer Fix.bat",
+      "default": false
+    },
+    {
+      "id": "disable_storage_sense",
+      "name": "Отключить Storage Sense",
+      "description": "Автоочистка диска Windows",
+      "category": "performance",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Автоочистка диска Windows На SSD и HDD результат может отличаться."
+    },
+    {
+      "id": "disable_consumer_features",
+      "name": "Consumer Features OFF",
+      "description": "Блокирует автоустановку игр и приложений из Store",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Блокирует автоустановку игр и приложений из Store Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_folder_type_discovery",
+      "name": "Без авто-типа папок",
+      "description": "FolderType=NotSpecified — быстрее проводник",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "FolderType=NotSpecified — быстрее проводник На SSD и HDD результат может отличаться. Средний риск"
+    },
+    {
+      "id": "disable_start_recommendations",
+      "name": "Без рекомендаций Пуск",
+      "description": "Скрывает рекомендуемые сайты в меню Пуск",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Скрывает рекомендуемые сайты в меню Пуск Часть настроек активируется после перезагрузки."
+    },
+    {
+      "id": "disable_filter_keys",
+      "name": "Отключить Filter Keys",
+      "description": "Убирает залипание Filter Keys (Shift 8 сек)",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Winhance",
+      "default": false,
+      "hint": "Убирает залипание Filter Keys (Shift 8 сек) Убедитесь, что понимаете последствия."
+    },
+    {
+      "id": "classic_context_menu",
+      "name": "Классическое меню ПКМ",
+      "description": "Контекстное меню Win10 в проводнике Win11",
+      "category": "visual",
+      "risk": "medium",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Контекстное меню Win10 в проводнике Win11 Эффект обычно виден сразу. Разовое действие · Средний риск"
+    },
+    {
+      "id": "disable_error_reporting",
+      "name": "Отключить WerSvc",
+      "description": "Служба отчётов об ошибках Windows",
+      "category": "privacy",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Служба отчётов об ошибках Windows Часть настроек активируется после перезагрузки. Нужен администратор"
+    },
+    {
+      "id": "disable_teredo",
+      "name": "Отключить Teredo",
+      "description": "IPv6 туннель — меньше сетевого шума",
+      "category": "network",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "IPv6 туннель — меньше сетевого шума При сбоях сети используйте откат. Разовое действие · Нужен администратор · Средний риск"
+    },
+    {
+      "id": "enable_long_paths",
+      "name": "Длинные пути (>260)",
+      "description": "LongPathsEnabled для разработки и бэкапов",
+      "category": "system",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "LongPathsEnabled для разработки и бэкапов Убедитесь, что понимаете последствия. Нужен администратор · Перезагрузка"
+    },
+    {
+      "id": "disable_scrollbar_autohide",
+      "name": "Полосы прокрутки всегда",
+      "description": "Не скрывать scrollbar автоматически",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Sophia",
+      "default": false,
+      "hint": "Не скрывать scrollbar автоматически Эффект обычно виден сразу."
+    },
+    {
+      "id": "disable_wpbt",
+      "name": "Отключить WPBT",
+      "description": "Блокирует vendor-код при загрузке",
+      "category": "privacy",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Блокирует vendor-код при загрузке Часть настроек активируется после перезагрузки. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "disable_windows_ai_registry",
+      "name": "Windows AI (реестр)",
+      "description": "Скрывает AI-компоненты в настройках",
+      "category": "privacy",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Скрывает AI-компоненты в настройках Часть настроек активируется после перезагрузки. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "show_file_extensions",
+      "name": "Показывать расширения",
+      "description": "HideFileExt=0 в проводнике",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "HideFileExt=0 в проводнике Эффект обычно виден сразу."
+    },
+    {
+      "id": "disable_task_view_button",
+      "name": "Скрыть Task View",
+      "description": "Убирает кнопку представления задач",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Убирает кнопку представления задач Эффект обычно виден сразу."
+    },
+    {
+      "id": "disable_acrylic_logon",
+      "name": "Без blur на экране входа",
+      "description": "Отключает акрил на экране блокировки",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Отключает акрил на экране блокировки Эффект обычно виден сразу. Нужен администратор"
+    },
+    {
+      "id": "exclude_wu_drivers",
+      "name": "Исключить драйверы из WU",
+      "description": "Не ставить драйверы через Windows Update",
+      "category": "system",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Sophia",
+      "default": false,
+      "hint": "Не ставить драйверы через Windows Update Убедитесь, что понимаете последствия. Нужен администратор · Средний риск"
+    },
+    {
+      "id": "mmcss_global_responsiveness",
+      "name": "MMCSS: SystemResponsiveness 0",
+      "description": "Глобальный приоритет фоновых процессов для игр",
+      "category": "gaming",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "Winhance",
+      "default": false,
+      "hint": "Глобальный приоритет фоновых процессов для игр Перезапустите игру после применения. Нужен администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "disable_meet_now",
+      "name": "Скрыть Meet Now",
+      "description": "Убирает кнопку Meet Now из панели задач",
+      "category": "visual",
+      "risk": "safe",
+      "requires_admin": false,
+      "requires_reboot": false,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Убирает кнопку Meet Now из панели задач Эффект обычно виден сразу."
+    },
+    {
+      "id": "disable_s0_sleep_network",
+      "name": "S0: сеть при сне OFF",
+      "description": "Отключает сеть в современном standby",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "source": "WinUtil",
+      "default": false,
+      "hint": "Отключает сеть в современном standby На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+    }
+  ]
+}

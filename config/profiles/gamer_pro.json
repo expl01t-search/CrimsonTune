@@ -1,0 +1,48 @@
+{
+
+  "id": "gamer_pro",
+
+  "name": "Игровой профиль",
+
+  "description": "Все игровые твики: Game Mode, HAGS, отключение DVR, сеть, мышь",
+
+  "tweaks": [
+
+    "enable_game_mode",
+
+    "enable_hags",
+
+    "disable_game_dvr",
+
+    "disable_game_bar",
+
+    "disable_fullscreen_optimizations",
+
+    "disable_mouse_acceleration",
+
+    "disable_nagle",
+
+    "network_throttling_disable",
+
+    "disable_xbox_services",
+
+    "high_timer_resolution",
+
+    "high_performance_power",
+
+    "keyboard_data_queue_size",
+
+    "mouse_data_queue_size",
+
+    "autotune_nic_ethernet",
+
+    "disable_device_power_saving",
+
+    "disable_dynamic_tick",
+
+    "nvidia_disable_preemption"
+
+  ]
+
+}
+
