@@ -1,4 +1,3 @@
-"""Фоновые QThread-воркеры с сигналами в UI-поток."""
 
 from __future__ import annotations
 
@@ -9,7 +8,6 @@ from tweaks.base import TweakManager
 
 
 class ScanWorker(QThread):
-    """Сканирование твиков в фоне — не блокирует UI."""
 
     progress = Signal(int, int)
     finished_ok = Signal()
@@ -59,7 +57,6 @@ class RestorePointWorker(QThread):
 
 
 class DiskCleanupWorker(QThread):
-    """Очистка temp/log/bak в фоне."""
 
     progress = Signal(int, int, str, int)
     finished_ok = Signal(int, int, int)
@@ -72,3 +69,12 @@ class DiskCleanupWorker(QThread):
 
         result = run_disk_cleanup(on_progress)
         self.finished_ok.emit(result.bytes_freed, result.files_deleted, result.errors)
+
+
+class DiskLoadWorker(QThread):
+    finished_ok = Signal(object)
+
+    def run(self) -> None:
+        from ui.dashboard import _list_system_disks
+
+        self.finished_ok.emit(_list_system_disks())

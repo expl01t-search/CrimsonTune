@@ -1,4 +1,3 @@
-"""Работа с реестром Windows."""
 
 from __future__ import annotations
 
@@ -15,7 +14,6 @@ HKEY_MAP = {
 
 
 def _parse_path(path: str) -> tuple[int, str]:
-    """Разбирает путь вида HKCU\\Software\\..."""
     parts = path.split("\\", 1)
     if len(parts) != 2 or parts[0] not in HKEY_MAP:
         raise ValueError(f"Некорректный путь реестра: {path}")
@@ -23,7 +21,6 @@ def _parse_path(path: str) -> tuple[int, str]:
 
 
 def read_value(path: str, name: str, default: Any = None) -> Any:
-    """Читает значение из реестра."""
     root, subkey = _parse_path(path)
     try:
         with winreg.OpenKey(root, subkey, 0, winreg.KEY_READ) as key:
@@ -36,14 +33,12 @@ def read_value(path: str, name: str, default: Any = None) -> Any:
 
 
 def write_value(path: str, name: str, value: Any, value_type: int = winreg.REG_DWORD) -> None:
-    """Записывает значение в реестр, создавая ключ при необходимости."""
     root, subkey = _parse_path(path)
     with winreg.CreateKeyEx(root, subkey, 0, winreg.KEY_SET_VALUE) as key:
         winreg.SetValueEx(key, name, 0, value_type, value)
 
 
 def delete_value(path: str, name: str) -> bool:
-    """Удаляет значение из реестра. Возвращает True если удалено."""
     root, subkey = _parse_path(path)
     try:
         with winreg.OpenKey(root, subkey, 0, winreg.KEY_SET_VALUE) as key:
@@ -54,7 +49,6 @@ def delete_value(path: str, name: str) -> bool:
 
 
 def key_exists(path: str) -> bool:
-    """Проверяет существование ключа реестра."""
     root, subkey = _parse_path(path)
     try:
         with winreg.OpenKey(root, subkey, 0, winreg.KEY_READ):
@@ -64,7 +58,6 @@ def key_exists(path: str) -> bool:
 
 
 def export_key(path: str) -> dict[str, Any]:
-    """Экспортирует все значения ключа для бэкапа."""
     root, subkey = _parse_path(path)
     result: dict[str, Any] = {}
     try:

@@ -1,4 +1,3 @@
-"""Системные твики."""
 
 from __future__ import annotations
 
@@ -76,38 +75,6 @@ def hide_taskbar_search_revert(data) -> TweakResult:
     return reg_revert(data)
 
 
-def nvidia_max_performance_apply() -> TweakResult:
-    return TweakResult(
-        True,
-        "NVIDIA: Панель управления → Управление 3D → Режим управления питанием → Предпочтительно максимальная производительность",
-        revert_data=None,
-    )
-
-
-def nvidia_max_performance_revert(_data) -> TweakResult:
-    return TweakResult(True, "Настройте вручную в NVIDIA Control Panel")
-
-
-def nvidia_low_latency_apply() -> TweakResult:
-    return TweakResult(
-        True,
-        "NVIDIA: Управление 3D → Low Latency Mode → Ultra",
-        revert_data=None,
-    )
-
-
-def nvidia_low_latency_revert(_data) -> TweakResult:
-    return TweakResult(True, "Настройте вручную")
-
-
-def amd_anti_lag_apply() -> TweakResult:
-    return TweakResult(True, "AMD: Radeon Software → Графика → Anti-Lag → Включить", revert_data=None)
-
-
-def amd_anti_lag_revert(_data) -> TweakResult:
-    return TweakResult(True, "Настройте вручную")
-
-
 def intel_panel_refresh_off_apply() -> TweakResult:
     return reg_tweak(
         r"HKLM\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000",
@@ -145,9 +112,6 @@ HANDLERS = {
     "pause_windows_update": (pause_windows_update_apply, pause_windows_update_revert),
     "small_taskbar_icons": (small_taskbar_icons_apply, small_taskbar_icons_revert),
     "hide_taskbar_search": (hide_taskbar_search_apply, hide_taskbar_search_revert),
-    "nvidia_max_performance": (nvidia_max_performance_apply, nvidia_max_performance_revert),
-    "nvidia_low_latency": (nvidia_low_latency_apply, nvidia_low_latency_revert),
-    "amd_anti_lag": (amd_anti_lag_apply, amd_anti_lag_revert),
     "intel_panel_refresh_off": (intel_panel_refresh_off_apply, intel_panel_refresh_off_revert),
     "enable_hpet": (enable_hpet_apply, enable_hpet_revert),
     "disable_hpet": (disable_hpet_apply, disable_hpet_revert),

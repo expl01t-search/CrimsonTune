@@ -1,4 +1,3 @@
-"""Твики производительности."""
 
 from __future__ import annotations
 
@@ -72,14 +71,43 @@ def disable_hibernation_revert(data) -> TweakResult:
 
 
 def optimize_svchost_apply() -> TweakResult:
-    return reg_tweak(
-        r"HKLM\SYSTEM\CurrentControlSet\Control",
-        "SvcHostSplitThresholdInKB", 380000, 2097152, enabled=True,
-    )
+    from core.detector import detect_system
+    from utils.ram_tiers import match_ram_tier
+
+    tier = match_ram_tier(detect_system().ram_total_gb)
+    return build_svchost_tier_action(tier)()
 
 
 def optimize_svchost_revert(data) -> TweakResult:
     return reg_revert(data)
+
+
+def build_svchost_tier_action(tier_gb: int):
+    from utils.ram_tiers import RAM_SVCHOST_DEFAULT_KB, RAM_SVCHOST_THRESHOLD_KB
+
+    value = RAM_SVCHOST_THRESHOLD_KB[tier_gb]
+
+    def apply() -> TweakResult:
+        return reg_tweak(
+            r"HKLM\SYSTEM\CurrentControlSet\Control",
+            "SvcHostSplitThresholdInKB",
+            value,
+            RAM_SVCHOST_DEFAULT_KB,
+            enabled=True,
+        )
+
+    return apply
+
+
+def revert_svchost_tier(_data) -> TweakResult:
+    return reg_revert(_data)
+
+
+def _make_ram_svchost_handlers(tier_gb: int) -> tuple:
+    def apply() -> TweakResult:
+        return build_svchost_tier_action(tier_gb)()
+
+    return apply, revert_svchost_tier
 
 
 def clear_temp_apply() -> TweakResult:
@@ -95,6 +123,8 @@ def clear_temp_revert(_data) -> TweakResult:
     return TweakResult(True, "Очистка temp необратима")
 
 
+from utils.ram_tiers import RAM_SVCHOST_TIERS_GB, ram_svchost_tweak_id
+
 HANDLERS = {
     "disable_sysmain": (disable_sysmain_apply, disable_sysmain_revert),
     "disable_search_indexing": (disable_search_indexing_apply, disable_search_indexing_revert),
@@ -105,3 +135,7 @@ HANDLERS = {
     "optimize_svchost": (optimize_svchost_apply, optimize_svchost_revert),
     "clear_temp_files": (clear_temp_apply, clear_temp_revert),
 }
+
+for _tier in RAM_SVCHOST_TIERS_GB:
+    _tid = ram_svchost_tweak_id(_tier)
+    HANDLERS[_tid] = _make_ram_svchost_handlers(_tier)

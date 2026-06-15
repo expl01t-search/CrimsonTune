@@ -1,4 +1,3 @@
-"""Страница твиков по категории."""
 
 from __future__ import annotations
 
@@ -11,6 +10,7 @@ from core.i18n import category_label, t
 from core.tweak_state import TweakStatus
 from tweaks.base import TweakManager
 from ui.widgets.tweak_list_panel import TweakListPanel
+from utils.compatibility import is_tweak_visible
 
 FILTER_ALL = "all"
 FILTER_AVAILABLE = "available"
@@ -26,13 +26,13 @@ _FILTER_KEYS = [
 
 
 class TweakPage(QWidget):
-    """Страница категории твиков с фильтрами и пулом строк."""
 
     def __init__(
         self,
         manager: TweakManager,
-        category: str,
+        nav_key: str,
         *,
+        categories: tuple[str, ...] | None = None,
         is_compatible_fn: Callable,
         on_toggle: Callable[[str, bool], None],
         on_apply_category: Optional[Callable[[str], None]] = None,
@@ -44,9 +44,9 @@ class TweakPage(QWidget):
     ) -> None:
         super().__init__(parent)
         self.setObjectName("appPage")
-        self.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, True)
         self.manager = manager
-        self.category = category
+        self.nav_key = nav_key
+        self._categories = categories or (nav_key,)
         self._is_compatible = is_compatible_fn
         self._on_toggle = on_toggle
         self._on_apply_category = on_apply_category
@@ -58,8 +58,9 @@ class TweakPage(QWidget):
         outer = QVBoxLayout(self)
         outer.setSpacing(10)
 
-        header = QLabel(category_label(category))
+        header = QLabel(category_label(nav_key))
         header.setObjectName("pageTitle")
+        self._header = header
         outer.addWidget(header)
 
         filter_frame = QFrame()
@@ -68,6 +69,7 @@ class TweakPage(QWidget):
         filter_row.setContentsMargins(10, 6, 10, 6)
         filter_lbl = QLabel(t("filter_label"))
         filter_lbl.setObjectName("muted")
+        self._filter_lbl = filter_lbl
         filter_row.addWidget(filter_lbl)
         self._filter_combo = QComboBox()
         for label_key, _ in _FILTER_KEYS:
@@ -80,7 +82,7 @@ class TweakPage(QWidget):
         self._apply_cat_btn.setObjectName("applyCategoryBtn")
         self._apply_cat_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         if on_apply_category:
-            self._apply_cat_btn.clicked.connect(lambda: on_apply_category(self.category))
+            self._apply_cat_btn.clicked.connect(lambda: on_apply_category(self.nav_key))
         else:
             self._apply_cat_btn.setEnabled(False)
         filter_row.addWidget(self._apply_cat_btn)
@@ -92,12 +94,25 @@ class TweakPage(QWidget):
             on_toggle=on_toggle,
             gpu_vendor=gpu_vendor,
             is_admin=is_admin,
-            show_category=False,
+            show_category=len(self._categories) > 1,
         )
         outer.addWidget(self._panel, stretch=1)
 
         if autoload:
             self.refresh("")
+
+    def retranslate_ui(self) -> None:
+        self._header.setText(category_label(self.nav_key))
+        self._filter_lbl.setText(t("filter_label"))
+        idx = max(0, self._filter_combo.currentIndex())
+        self._filter_combo.blockSignals(True)
+        self._filter_combo.clear()
+        for label_key, _ in _FILTER_KEYS:
+            self._filter_combo.addItem(t(label_key))
+        self._filter_combo.setCurrentIndex(min(idx, self._filter_combo.count() - 1))
+        self._filter_combo.blockSignals(False)
+        self._apply_cat_btn.setText(t("apply_category_btn"))
+        self.refresh(self._search)
 
     def _on_filter_changed(self, index: int) -> None:
         self._filter = _FILTER_KEYS[index][1]
@@ -106,9 +121,11 @@ class TweakPage(QWidget):
     def _filtered_metas(self, search_query: str):
         if search_query:
             metas = self.manager.search(search_query)
-            metas = [m for m in metas if m.category == self.category]
+            metas = [m for m in metas if m.category in self._categories]
         else:
-            metas = self.manager.get_by_category(self.category)
+            metas = self.manager.get_by_categories(self._categories)
+
+        metas = [m for m in metas if is_tweak_visible(m, self._is_compatible)]
 
         if self._filter == FILTER_ALL:
             return metas
@@ -132,7 +149,7 @@ class TweakPage(QWidget):
             return t("search_no_results")
         if self._filter != FILTER_ALL:
             return t("filter_no_results")
-        all_metas = self.manager.get_by_category(self.category)
+        all_metas = self.manager.get_by_categories(self._categories)
         if not all_metas:
             return t("category_empty")
         compat_map = {m.id: self._is_compatible(m) for m in all_metas}
@@ -147,6 +164,6 @@ class TweakPage(QWidget):
     def refresh(self, search_query: str = "") -> None:
         self._search = search_query
         metas = self._filtered_metas(search_query)
-        title = category_label(self.category)
+        title = category_label(self.nav_key)
         empty_message = self._empty_message(search_query) if not metas else ""
         self._panel.populate(metas, summary_prefix=title, empty_message=empty_message)

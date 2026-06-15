@@ -1,4 +1,3 @@
-"""Проверка и запрос прав администратора."""
 
 from __future__ import annotations
 
@@ -7,7 +6,6 @@ import sys
 
 
 def is_admin() -> bool:
-    """Проверяет, запущено ли приложение с правами администратора."""
     try:
         return bool(ctypes.windll.shell32.IsUserAnAdmin())
     except OSError:
@@ -15,7 +13,6 @@ def is_admin() -> bool:
 
 
 def request_admin_restart() -> bool:
-    """Перезапускает приложение с правами администратора."""
     if is_admin():
         return True
     try:

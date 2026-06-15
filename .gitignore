@@ -48,6 +48,7 @@ coverage.xml
 *.py.cover
 .hypothesis/
 .pytest_cache/
+pytest-cache-files-*/
 cover/
 
 # Translations
@@ -139,3 +140,4 @@ __marimo__/
 releases/
 CrimsonTune-*.zip
 *.zip
+version_info.txt

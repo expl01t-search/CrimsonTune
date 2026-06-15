@@ -1,4 +1,3 @@
-"""Безопасные анимации без QGraphicsOpacityEffect на сложных виджетах."""
 
 from __future__ import annotations
 
@@ -9,7 +8,6 @@ from PySide6.QtWidgets import QWidget
 
 
 class AnimationHelper:
-    """Помощник анимаций — только windowOpacity и geometry (без graphics effects)."""
 
     _animations: list = []
 
@@ -21,7 +19,6 @@ class AnimationHelper:
 
     @classmethod
     def fade_window_in(cls, window: QWidget, duration: int = 350) -> None:
-        """Fade-in только для top-level окон через windowOpacity."""
         if not window.isWindow():
             return
         window.setWindowOpacity(0.0)
@@ -51,7 +48,6 @@ class AnimationHelper:
 
     @classmethod
     def slide_in_widget(cls, widget: QWidget, offset: int = 30, duration: int = 280) -> None:
-        """Сдвиг виджета без opacity effect."""
         end_pos = widget.pos()
         start_pos = end_pos
         widget.move(start_pos.x() + offset, start_pos.y())
@@ -65,7 +61,6 @@ class AnimationHelper:
 
     @classmethod
     def stagger_reveal(cls, widgets: list[QWidget], delay: int = 35) -> None:
-        """Появление карточек с задержкой (без сдвига — совместимо с layout)."""
         for i, w in enumerate(widgets):
             w.setVisible(False)
             QTimer.singleShot(i * delay, w.show)

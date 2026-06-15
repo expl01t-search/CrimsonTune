@@ -1,4 +1,3 @@
-"""Определение характеристик системы."""
 
 from __future__ import annotations
 
@@ -15,7 +14,6 @@ from utils.subprocess_helper import run_command, run_powershell
 
 @dataclass
 class SystemInfo:
-    """Информация о системе."""
 
     os_name: str = "Windows"
     os_version: str = ""
@@ -37,7 +35,6 @@ class SystemInfo:
 
 _cached_system_info: SystemInfo | None = None
 
-# WMI AdapterRAM — UInt32, ломается на VRAM > 4 ГБ (RTX 3050 6GB → часто 4 GB).
 _WMI_VRAM_OVERFLOW_GB = 4.2
 
 
@@ -53,7 +50,6 @@ def _classify_gpu_vendor(name: str) -> str:
 
 
 def _parse_nvidia_smi_vram(output: str, gpu_name: str = "") -> float:
-    """Парсит `nvidia-smi --query-gpu=name,memory.total --format=csv,noheader,nounits`."""
     if not output.strip():
         return 0.0
     target = gpu_name.lower().strip()
@@ -81,7 +77,6 @@ def _parse_nvidia_smi_vram(output: str, gpu_name: str = "") -> float:
         name_l = name.lower()
         if target in name_l or name_l in target:
             return gb
-        # Частичное совпадение: RTX 3050 vs GeForce RTX 3050
         for token in target.replace("(", " ").replace(")", " ").split():
             if len(token) >= 4 and token in name_l:
                 return gb
@@ -100,7 +95,6 @@ def _vram_from_nvidia_smi(gpu_name: str = "") -> float:
 
 
 def _vram_from_nvidia_registry() -> float:
-    """QWORD HardwareInformation.qwMemorySize — точный VRAM на Win10+."""
     code, out, _ = run_powershell(
         r"Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Class"
         r"\{4d36e968-e325-11ce-bfc1-08002be10318}' -ErrorAction SilentlyContinue | "
@@ -120,7 +114,6 @@ def _vram_from_nvidia_registry() -> float:
 
 
 def _vram_from_dxgi() -> float:
-    """DedicatedVideoMemory через DXGI (корректно для >4 ГБ)."""
     script = r"""
 Add-Type @"
 using System;
@@ -198,7 +191,6 @@ def _vram_from_wmi() -> float:
 
 
 def _detect_gpu_name() -> tuple[str, str]:
-    """Имя и вендор GPU без WMI VRAM (он часто неверен)."""
     code, out, _ = run_powershell(
         "Get-CimInstance Win32_VideoController | "
         "Where-Object { $_.Name -notmatch 'Microsoft|Basic|Remote' } | "
@@ -220,7 +212,6 @@ def _detect_gpu_name() -> tuple[str, str]:
 
 
 def _detect_gpu_vram(gpu_name: str, vendor: str) -> float:
-    """Точный VRAM: nvidia-smi / DXGI, WMI только как запасной вариант."""
     if vendor == "nvidia":
         vram = _vram_from_nvidia_smi(gpu_name)
         if vram > 0:
@@ -258,14 +249,12 @@ def _detect_gpu_vram(gpu_name: str, vendor: str) -> float:
 
 
 def _detect_gpu() -> tuple[str, str, float]:
-    """Определяет GPU, вендора и объём VRAM (ГБ)."""
     name, vendor = _detect_gpu_name()
     vram = _detect_gpu_vram(name, vendor)
     return name, vendor, vram
 
 
 def _get_power_plan() -> str:
-    """Возвращает активный план питания."""
     code, out, _ = run_command(["powercfg", "/getactivescheme"])
     if code == 0 and out:
         return out
@@ -273,7 +262,6 @@ def _get_power_plan() -> str:
 
 
 def _read_registry_bool(path: str, name: str) -> Optional[bool]:
-    """Читает DWORD из реестра как bool."""
     try:
         import winreg
 
@@ -290,7 +278,6 @@ def _read_registry_bool(path: str, name: str) -> Optional[bool]:
 
 
 def detect_system(*, force: bool = False) -> SystemInfo:
-    """Собирает полную информацию о системе (кэшируется)."""
     global _cached_system_info
     if _cached_system_info is not None and not force:
         return _cached_system_info
@@ -342,7 +329,6 @@ def detect_system(*, force: bool = False) -> SystemInfo:
 
 
 def get_live_stats() -> dict[str, float]:
-    """Возвращает текущую загрузку CPU/RAM."""
     mem = psutil.virtual_memory()
     return {
         "cpu_percent": psutil.cpu_percent(interval=0.1),

@@ -1,4 +1,3 @@
-"""Запуск GUI CrimsonTune."""
 
 from __future__ import annotations
 
@@ -20,7 +19,6 @@ logger = setup_logger(__name__)
 
 
 def run_app() -> None:
-    """Splash → сканирование → одно главное окно."""
     init_locale(load_language())
     logger.info("Starting %s", APP_NAME)
     app = QApplication(sys.argv)

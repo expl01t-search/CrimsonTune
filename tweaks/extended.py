@@ -1,4 +1,3 @@
-"""Расширенные твики из WinUtil, Winhance, DLCI, ReadyPC."""
 
 from __future__ import annotations
 
@@ -9,7 +8,6 @@ from tweaks.helpers import reg_batch_apply, reg_batch_revert, reg_revert, reg_tw
 from utils.subprocess_helper import run_command, run_powershell, set_service_start_type
 
 
-# --- Gaming ---
 
 def disable_game_bar_presence_apply() -> TweakResult:
     return reg_tweak(r"HKCU\Software\Microsoft\GameBar", "ShowStartupPanel", 0, 1, enabled=True)
@@ -52,14 +50,6 @@ def system_responsiveness_games_revert(data) -> TweakResult:
     return reg_revert(data)
 
 
-def nvidia_reflex_hint_apply() -> TweakResult:
-    return TweakResult(True, "NVIDIA Reflex: включите в игре + NVIDIA Control Panel → Low Latency Ultra")
-
-
-def nvidia_reflex_hint_revert(_data) -> TweakResult:
-    return TweakResult(True, "Нет изменений")
-
-
 def disable_mpo_apply() -> TweakResult:
     return reg_tweak(
         r"HKLM\SOFTWARE\Microsoft\Windows\Dwm",
@@ -82,7 +72,6 @@ def win32_priority_separation_revert(data) -> TweakResult:
     return reg_revert(data)
 
 
-# --- Performance ---
 
 MANUAL_SERVICES = [
     "DiagTrack", "dmwappushservice", "MapsBroker", "lfsvc",
@@ -193,7 +182,6 @@ def disable_throttling_idle_revert(data) -> TweakResult:
     return reg_revert(data)
 
 
-# --- Privacy ---
 
 def disable_wifi_sense_apply() -> TweakResult:
     return reg_tweak(
@@ -262,7 +250,6 @@ def disable_defender_samples_revert(data) -> TweakResult:
     return reg_revert(data)
 
 
-# --- Network ---
 
 def disable_ipv6_apply() -> TweakResult:
     code, out, err = run_powershell(
@@ -297,7 +284,6 @@ def netsh_tcp_chimney_revert(_data) -> TweakResult:
     return TweakResult(True, "Chimney отключён")
 
 
-# --- Visual / System ---
 
 def enable_dark_mode_apply() -> TweakResult:
     return reg_batch_apply([
@@ -350,7 +336,6 @@ HANDLERS = {
     "enable_end_task_rightclick": (enable_end_task_rightclick_apply, enable_end_task_rightclick_revert),
     "mmcss_audio_priority": (mmcss_audio_priority_apply, mmcss_audio_priority_revert),
     "system_responsiveness_games": (system_responsiveness_games_apply, system_responsiveness_games_revert),
-    "nvidia_reflex_hint": (nvidia_reflex_hint_apply, nvidia_reflex_hint_revert),
     "disable_mpo": (disable_mpo_apply, disable_mpo_revert),
     "win32_priority_separation": (win32_priority_separation_apply, win32_priority_separation_revert),
     "set_services_manual": (set_services_manual_apply, set_services_manual_revert),

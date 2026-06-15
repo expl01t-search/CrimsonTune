@@ -1,4 +1,3 @@
-"""Бейдж статуса твика."""
 
 from __future__ import annotations
 
@@ -10,7 +9,6 @@ from core.tweak_state import TweakStatus
 
 
 class StatusBadge(QLabel):
-    """Цветной бейдж состояния твика."""
 
     def __init__(self, status: TweakStatus, text: str = "", parent=None) -> None:
         super().__init__(parent)

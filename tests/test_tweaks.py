@@ -1,4 +1,3 @@
-"""Тесты загрузки конфигурации и менеджера твиков."""
 
 from __future__ import annotations
 
@@ -55,14 +54,13 @@ def test_handlers_match_all_tweaks():
 
 def test_tweak_meta_fields():
     from tweaks import create_manager
+    from utils.categories import TWEAK_CATEGORY_KEYS
 
     manager = create_manager()
+    allowed = set(TWEAK_CATEGORY_KEYS)
     for meta in manager.get_all_meta():
         assert meta.id
         assert meta.name
         assert meta.description
-        assert meta.category in {
-            "performance", "gaming", "directx", "opengl",
-            "network", "privacy", "visual", "system",
-        }
+        assert meta.category in allowed
         assert meta.risk in {"safe", "medium", "high"}

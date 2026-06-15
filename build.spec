@@ -1,5 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(SPEC).parent
+subprocess.run([sys.executable, str(ROOT / "tools" / "gen_version_info.py")], check=True)
+
 a = Analysis(
     ['main.py'],
     pathex=[],
@@ -17,13 +24,21 @@ a = Analysis(
         'PySide6.QtWidgets',
         'tweaks.performance',
         'tweaks.gaming',
+        'tweaks.nvidia',
+        'tweaks.amd',
         'tweaks.directx',
         'tweaks.opengl',
         'tweaks.network',
         'tweaks.privacy',
         'tweaks.visual',
         'tweaks.system',
+        'tweaks.expert',
+        'tweaks.exploit_extras',
         'tweaks.extended',
+        'tweaks.optimize_pack',
+        'tweaks.opensource',
+        'tweaks.registry',
+        'tweaks.supplemental_catalog',
     ],
     hookspath=[],
     hooksconfig={},
@@ -49,4 +64,5 @@ exe = EXE(
     console=False,
     disable_windowed_traceback=False,
     icon='icon.ico',
+    version=str(ROOT / 'version_info.txt'),
 )

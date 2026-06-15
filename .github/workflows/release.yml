@@ -24,6 +24,9 @@ jobs:
       - name: Generate application icon
         run: python tools/gen_icon.py
 
+      - name: Generate version metadata
+        run: python tools/gen_version_info.py
+
       - name: Build executable
         run: pyinstaller build.spec
 

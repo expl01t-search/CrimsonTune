@@ -1,4 +1,3 @@
-"""Главное окно CrimsonTune на PySide6."""
 
 from __future__ import annotations
 
@@ -15,7 +14,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QMainWindow,
     QPushButton,
-    QStackedWidget,
+    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
@@ -39,20 +38,11 @@ from ui.settings_page import SettingsPage
 from ui.sidebar import Sidebar
 from ui.theme import icon_path
 from ui.tweak_page import TweakPage
+from ui.widgets.animated_stack import AnimatedPageStack
 from ui.workers import RevertWorker, RestorePointWorker, ScanWorker
+from utils.categories import CATEGORY_MAP, nav_categories
 from utils.compatibility import is_tweak_compatible
 from utils.tweak_ids import dedupe_preserve_order
-
-CATEGORY_MAP = {
-    "performance": "performance",
-    "gaming": "gaming",
-    "directx": "directx",
-    "opengl": "opengl",
-    "network": "network",
-    "privacy": "privacy",
-    "visual": "visual",
-    "system": "system",
-}
 
 
 class ApplyWorker(QThread):
@@ -80,7 +70,6 @@ class ApplyWorker(QThread):
 
 
 class MainWindow(QMainWindow):
-    """Главное окно CrimsonTune."""
 
     def __init__(self, manager: TweakManager) -> None:
         super().__init__()
@@ -137,30 +126,36 @@ class MainWindow(QMainWindow):
         self._search = QLineEdit()
         self._search.setObjectName("searchBar")
         self._search.setPlaceholderText(t("search_placeholder"))
+        self._search.setMinimumWidth(150)
+        self._search.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self._search.textChanged.connect(self._on_search)
-        top.addWidget(self._search, stretch=1)
+        top.addWidget(self._search, stretch=2)
 
         self._selected_badge = QLabel(t("selected_count", n=0))
         self._selected_badge.setObjectName("selectedBadge")
+        self._selected_badge.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         top.addWidget(self._selected_badge)
 
         self._scan_btn = QPushButton(t("rescan"))
         self._scan_btn.setObjectName("secondaryBtn")
         self._scan_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._scan_btn.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         self._scan_btn.clicked.connect(self._rescan)
         top.addWidget(self._scan_btn)
 
-        revert_btn = QPushButton(t("revert_all"))
-        revert_btn.setObjectName("dangerBtn")
-        revert_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        revert_btn.clicked.connect(self._revert_all)
-        top.addWidget(revert_btn)
+        self._revert_btn = QPushButton(t("revert_all"))
+        self._revert_btn.setObjectName("dangerBtn")
+        self._revert_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._revert_btn.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self._revert_btn.clicked.connect(self._revert_all)
+        top.addWidget(self._revert_btn)
 
-        apply_btn = QPushButton(t("apply_selected"))
-        apply_btn.setObjectName("applyBtn")
-        apply_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        apply_btn.clicked.connect(self._apply_selected)
-        top.addWidget(apply_btn)
+        self._apply_btn = QPushButton(t("apply_selected"))
+        self._apply_btn.setObjectName("applyBtn")
+        self._apply_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._apply_btn.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self._apply_btn.clicked.connect(self._apply_selected)
+        top.addWidget(self._apply_btn)
 
         right.addWidget(toolbar)
 
@@ -172,7 +167,7 @@ class MainWindow(QMainWindow):
         content_layout.setContentsMargins(0, 0, 0, 0)
         content_layout.setSpacing(0)
 
-        self._stack = QStackedWidget()
+        self._stack = AnimatedPageStack()
         self._stack.setObjectName("pageStack")
         self._stack.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self._stack.setAutoFillBackground(True)
@@ -211,6 +206,7 @@ class MainWindow(QMainWindow):
             on_export_restore=self._export_restore,
             on_reg_backup=self._export_reg_baseline,
             on_open_backups=self._open_backups_folder,
+            on_language_changed=self.apply_language,
         )
         self._stack.addWidget(self._pages["settings"])
 
@@ -224,62 +220,34 @@ class MainWindow(QMainWindow):
         self._onboarding = WelcomeOverlay(central)
         self._apply_worker: Optional[ApplyWorker] = None
 
-        self._preload_all_pages()
+        self._stack.page_shown.connect(self._on_page_shown)
         self._stack.setCurrentWidget(self._pages["dashboard"])
-        self._release_preload_hidden()
+        self._current_page = "dashboard"
         self.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, False)
         QTimer.singleShot(250, self._maybe_show_onboarding)
 
-    def _preload_all_pages(self) -> None:
-        """Все вкладки и списки твиков — при старте, скрыто до показа главного окна."""
-        central = self.centralWidget()
-        self.setUpdatesEnabled(False)
-        if central:
-            central.setUpdatesEnabled(False)
-        self._stack.setUpdatesEnabled(False)
-        self._stack.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, True)
-        try:
-            for key, cat in CATEGORY_MAP.items():
-                page = TweakPage(
-                    self.manager,
-                    cat,
-                    is_compatible_fn=self._is_compatible,
-                    on_toggle=self._on_toggle,
-                    on_apply_category=self._apply_category,
-                    gpu_vendor=self.system_info.gpu_vendor,
-                    is_admin=self.system_info.is_admin,
-                    autoload=False,
-                )
-                page.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, True)
-                self._tweak_pages[key] = page
-                self._pages[key] = page
-                self._stack.addWidget(page)
-
-            for page in self._tweak_pages.values():
-                page.setUpdatesEnabled(False)
-                try:
-                    page.refresh("")
-                finally:
-                    page.setUpdatesEnabled(True)
-        finally:
-            self._stack.setUpdatesEnabled(True)
-            if central:
-                central.setUpdatesEnabled(True)
-            self.setUpdatesEnabled(True)
-
-    def _release_preload_hidden(self) -> None:
-        """Снимает скрытие только когда всё дерево виджетов уже построено."""
-        self._stack.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, False)
-        for page in self._tweak_pages.values():
-            page.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, False)
-            panel = getattr(page, "_panel", None)
-            if panel is not None:
-                panel.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, False)
-                for row in panel._rows.values():
-                    row.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, False)
+    def _ensure_tweak_page(self, key: str) -> TweakPage:
+        if key in self._tweak_pages:
+            return self._tweak_pages[key]
+        cats = nav_categories(key)
+        page = TweakPage(
+            self.manager,
+            key,
+            categories=cats,
+            is_compatible_fn=self._is_compatible,
+            on_toggle=self._on_toggle,
+            on_apply_category=self._apply_category,
+            gpu_vendor=self.system_info.gpu_vendor,
+            is_admin=self.system_info.is_admin,
+            autoload=False,
+        )
+        self._tweak_pages[key] = page
+        self._pages[key] = page
+        self._stack.addWidget(page)
+        page.refresh("")
+        return page
 
     def _prune_selected(self) -> None:
-        """Убирает из выбора несовместимые и недоступные твики."""
         drop: set[str] = set()
         for tid in self._selected:
             meta = self.manager.get_meta(tid)
@@ -295,6 +263,56 @@ class MainWindow(QMainWindow):
         if not is_onboarding_done():
             self._onboarding.show_overlay()
 
+    def apply_language(self, lang: str) -> None:
+        from core.i18n import set_language
+        from PySide6.QtWidgets import QApplication
+
+        set_language(lang)
+        self.manager.reload_translations()
+
+        ico = icon_path()
+        if ico.exists():
+            qicon = QIcon(str(ico))
+            app = QApplication.instance()
+            if app:
+                app.setWindowIcon(qicon)
+            self.setWindowIcon(qicon)
+
+        self.setWindowTitle(f"{APP_NAME} — {t('app_subtitle')}")
+        self._sidebar.retranslate_ui(tweak_count=self._tweak_count)
+        self._search.setPlaceholderText(t("search_placeholder"))
+        if self._scan_btn.isEnabled():
+            self._scan_btn.setText(t("rescan"))
+        else:
+            self._scan_btn.setText(t("scanning"))
+        self._revert_btn.setText(t("revert_all"))
+        self._apply_btn.setText(t("apply_selected"))
+        self._update_selected_badge()
+
+        if hasattr(self._overlay, "retranslate_ui"):
+            self._overlay.retranslate_ui()
+        if hasattr(self._onboarding, "retranslate_ui") and self._onboarding.isVisible():
+            self._onboarding.retranslate_ui()
+
+        dashboard = self._pages.get("dashboard")
+        if hasattr(dashboard, "retranslate_ui"):
+            dashboard.retranslate_ui()
+
+        profiles = self._pages.get("profiles")
+        if hasattr(profiles, "retranslate_ui"):
+            profiles.retranslate_ui()
+
+        if self._current_page in self._tweak_pages:
+            page = self._tweak_pages[self._current_page]
+            if hasattr(page, "retranslate_ui"):
+                page.retranslate_ui()
+        elif self._current_page == "search" and hasattr(self._search_page, "retranslate_ui"):
+            self._search_page.retranslate_ui(self._search.text())
+
+        settings = self._pages.get("settings")
+        if hasattr(settings, "retranslate_ui"):
+            settings.retranslate_ui()
+
     def _update_dashboard_status(self) -> None:
         dashboard = self._pages.get("dashboard")
         if hasattr(dashboard, "update_status"):
@@ -303,13 +321,26 @@ class MainWindow(QMainWindow):
                 manager=self.manager,
             )
 
+    def _on_page_shown(self, widget: QWidget) -> None:
+        for key, page in self._pages.items():
+            if page is widget:
+                self._current_page = key
+                break
+
     def show_page(self, key: str) -> None:
-        if key == "search" or key not in self._pages:
+        if key == "search":
             return
+        if key in CATEGORY_MAP:
+            page = self._ensure_tweak_page(key)
+        elif key not in self._pages:
+            return
+        else:
+            page = self._pages[key]
         if self._search.text().strip():
             self._search.clear()
-        self._stack.setCurrentWidget(self._pages[key])
         self._current_page = key
+        page.updateGeometry()
+        self._stack.set_current_animated(page)
         self._sidebar.set_active(key)
 
     def _is_compatible(self, meta) -> bool:
@@ -319,6 +350,7 @@ class MainWindow(QMainWindow):
             meta,
             os_build=self.system_info.os_build,
             gpu_vendor=self.system_info.gpu_vendor,
+            ram_total_gb=self.system_info.ram_total_gb,
         )
 
     def _update_selected_badge(self) -> None:
@@ -356,12 +388,12 @@ class MainWindow(QMainWindow):
             if self._current_page != "search":
                 self._page_before_search = self._current_page
             self._search_page.refresh(q)
-            self._stack.setCurrentWidget(self._search_page)
             self._current_page = "search"
+            self._stack.set_current_animated(self._search_page)
         elif self._current_page == "search":
             self.show_page(self._page_before_search)
-        elif self._current_page in self._tweak_pages:
-            self._tweak_pages[self._current_page].refresh("")
+        elif self._current_page in CATEGORY_MAP:
+            self._ensure_tweak_page(self._current_page).refresh("")
 
     def _filter_tweaks(self, ids: list[str]) -> tuple[list[str], list[str]]:
         unique_ids = dedupe_preserve_order(ids)
@@ -411,14 +443,14 @@ class MainWindow(QMainWindow):
             on_confirm=lambda: self._run_apply(applicable),
         ).exec()
 
-    def _apply_category(self, category: str) -> None:
-        metas = self.manager.get_by_category(category)
+    def _apply_category(self, nav_key: str) -> None:
+        metas = self.manager.get_by_categories(nav_categories(nav_key))
         ids = [m.id for m in metas]
         applicable, skipped = self._filter_tweaks(ids)
         if not applicable:
             self._toast.show(t("nothing_to_apply"), "info")
             return
-        title = category_label(category)
+        title = category_label(nav_key)
         self._show_apply_confirm(t("apply_all_category", category=title), applicable, skipped)
 
     def _apply_selected(self) -> None:
@@ -501,7 +533,9 @@ class MainWindow(QMainWindow):
             ).exec()
             return
         path = resource_path("config", "profiles", f"{action}.json")
-        if path.exists():
+        if ".." in action or "/" in action or "\\" in action:
+            return
+        if path.exists() and path.resolve().parent == resource_path("config", "profiles").resolve():
             from core.i18n import localize_profile
 
             with open(path, encoding="utf-8") as f:
@@ -526,8 +560,8 @@ class MainWindow(QMainWindow):
     def _refresh_current_page(self) -> None:
         if self._current_page == "search":
             self._search_page.refresh(self._search.text())
-        elif self._current_page in self._tweak_pages:
-            self._tweak_pages[self._current_page].refresh(self._search.text())
+        elif self._current_page in CATEGORY_MAP:
+            self._ensure_tweak_page(self._current_page).refresh(self._search.text())
         self._update_dashboard_status()
 
     def _create_restore_point(self) -> None:

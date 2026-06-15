@@ -1,4 +1,3 @@
-"""Адаптивное размещение и масштабирование окон."""
 
 from __future__ import annotations
 
@@ -30,15 +29,14 @@ def _screen_geometry(widget: QWidget):
 
 
 def place_main_window(window: QMainWindow) -> None:
-    """Оконный режим: компактное окно по центру, без полноэкранного старта."""
     geo = _screen_geometry(window)
     if geo is None:
         window.resize(1120, 720)
-        window.setMinimumSize(900, 580)
+        window.setMinimumSize(960, 580)
         return
 
-    min_w = max(860, min(960, int(geo.width() * 0.50)))
-    min_h = max(520, min(600, int(geo.height() * 0.45)))
+    min_w = max(960, min(1000, int(geo.width() * 0.52)))
+    min_h = max(580, min(640, int(geo.height() * 0.50)))
     width = max(min_w, min(1180, int(geo.width() * 0.72)))
     height = max(min_h, min(820, int(geo.height() * 0.72)))
 
@@ -52,7 +50,6 @@ def place_main_window(window: QMainWindow) -> None:
 
 
 def place_modal(dialog: QDialog, parent: QWidget | None = None) -> None:
-    """Размер модалки относительно родителя/экрана."""
     ref = parent or dialog.parentWidget()
     geo = _screen_geometry(ref or dialog)
     if geo is None:

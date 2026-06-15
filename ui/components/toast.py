@@ -1,4 +1,3 @@
-"""Toast-уведомления."""
 
 from __future__ import annotations
 
@@ -7,7 +6,6 @@ from PySide6.QtWidgets import QFrame, QLabel, QVBoxLayout
 
 
 class ToastManager:
-    """Менеджер toast — только slide, без graphics effects."""
 
     def __init__(self, parent) -> None:
         self._parent = parent

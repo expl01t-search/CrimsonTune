@@ -1,4 +1,3 @@
-"""Твики приватности."""
 
 from __future__ import annotations
 

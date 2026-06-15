@@ -1,4 +1,3 @@
-"""CrimsonTune — Crimson Dark theme (Fusion + palette + QSS)."""
 
 from __future__ import annotations
 
@@ -9,7 +8,6 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QFont, QFontDatabase, QPainter, QPalette
 from PySide6.QtWidgets import QScrollArea, QWidget
 
-# Crimson Dark palette — глубокий тёплый красный (не неоновый)
 BG_DEEP = "#0a0a0f"
 BG_SURFACE = "#121218"
 BG_ELEVATED = "#181820"
@@ -41,18 +39,21 @@ SIDEBAR_WIDTH = 220
 _CATEGORY_KEYS = (
     "performance",
     "gaming",
+    "graphics",
     "directx",
     "opengl",
     "network",
     "privacy",
     "visual",
     "system",
+    "nvidia",
+    "amd",
+    "expert",
 )
 _RISK_KEYS = ("safe", "medium", "high")
 
 
 class _I18nDict(dict):
-    """Dict-like labels resolved through core.i18n at access time."""
 
     def __init__(self, resolver) -> None:
         self._resolver = resolver
@@ -189,7 +190,6 @@ def qss_path() -> Path:
 
 
 def _apply_accent_colors(template: str) -> str:
-    """Подставляет актуальные accent-цвета в QSS."""
     r, g, b = int(ACCENT_CRIMSON[1:3], 16), int(ACCENT_CRIMSON[3:5], 16), int(ACCENT_CRIMSON[5:7], 16)
     replacements = {
         "#ff2d55": ACCENT_CRIMSON,

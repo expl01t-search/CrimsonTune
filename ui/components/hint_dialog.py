@@ -1,4 +1,3 @@
-"""Компактный диалог подсказки в тёмной теме."""
 
 from __future__ import annotations
 
@@ -11,7 +10,6 @@ from utils.tweak_hints import build_display_hint
 
 
 class HintDialog(QDialog):
-    """Подсказка к твику — без системного белого QMessageBox."""
 
     def __init__(self, parent, meta: TweakMeta) -> None:
         super().__init__(parent)

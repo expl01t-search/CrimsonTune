@@ -1,4 +1,3 @@
-"""Отдельное окно splash — инициализация до главного окна."""
 
 from __future__ import annotations
 
@@ -15,7 +14,6 @@ from ui.workers import ScanWorker
 
 
 class SplashWindow(QWidget):
-    """Frameless splash: каталог → сканирование → сигнал finished."""
 
     finished = Signal()
 
@@ -127,7 +125,6 @@ class SplashWindow(QWidget):
             self._worker = None
 
     def shutdown_worker(self) -> None:
-        """Дожидается завершения фонового скана перед уничтожением splash."""
         worker = self._worker
         self._worker = None
         if worker is None:
@@ -161,7 +158,6 @@ class SplashWindow(QWidget):
         self.finished.emit()
 
     def prepare_for_handoff(self) -> None:
-        """Снимает always-on-top перед передачей управления MainWindow."""
         flags = self.windowFlags()
         self.setWindowFlags(flags & ~Qt.WindowType.WindowStaysOnTopHint)
         self.show()

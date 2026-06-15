@@ -1,4 +1,3 @@
-"""Настройка логирования."""
 
 from __future__ import annotations
 
@@ -12,7 +11,6 @@ from core.brand import APP_DATA_DIR, APP_NAME, LEGACY_DATA_DIRS
 
 
 def get_app_data_dir() -> Path:
-    """Папка данных с миграцией из VeloForge / WinTweaker."""
     base = Path(os.environ.get("APPDATA", os.path.expanduser("~")))
     path = base / APP_DATA_DIR
 
@@ -31,7 +29,6 @@ def get_app_data_dir() -> Path:
 
 
 def setup_logger(name: str = APP_NAME) -> logging.Logger:
-    """Инициализирует логгер с записью в файл и консоль."""
     log_dir = get_app_data_dir() / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
 

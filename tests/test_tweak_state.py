@@ -1,4 +1,3 @@
-"""Тесты определения состояния твиков."""
 
 from __future__ import annotations
 

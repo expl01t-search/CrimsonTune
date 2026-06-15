@@ -1,4 +1,3 @@
-"""Приветственный overlay при первом запуске."""
 
 from __future__ import annotations
 
@@ -27,7 +26,6 @@ def mark_onboarding_done() -> None:
 
 
 class WelcomeOverlay(QFrame):
-    """Одноразовое приветствие после splash."""
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -42,23 +40,36 @@ class WelcomeOverlay(QFrame):
 
         title = QLabel(t("onboarding_title", app=APP_NAME))
         title.setObjectName("welcomeTitle")
+        self._title = title
         layout.addWidget(title)
 
+        self._lines: list[QLabel] = []
         for key in ("onboarding_line_1", "onboarding_line_2", "onboarding_line_3"):
             lbl = QLabel(f"·  {t(key)}")
             lbl.setObjectName("welcomeText")
             lbl.setWordWrap(True)
+            self._lines.append(lbl)
             layout.addWidget(lbl)
 
         btn = QPushButton(t("btn_got_it"))
         btn.setObjectName("applyBtn")
         btn.setCursor(Qt.CursorShape.PointingHandCursor)
         btn.clicked.connect(self._dismiss)
+        self._btn = btn
         layout.addWidget(btn, alignment=Qt.AlignmentFlag.AlignRight)
 
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
         root.addWidget(card, alignment=Qt.AlignmentFlag.AlignCenter)
+
+    def retranslate_ui(self) -> None:
+        self._title.setText(t("onboarding_title", app=APP_NAME))
+        for key, lbl in zip(
+            ("onboarding_line_1", "onboarding_line_2", "onboarding_line_3"),
+            self._lines,
+        ):
+            lbl.setText(f"·  {t(key)}")
+        self._btn.setText(t("btn_got_it"))
 
     def show_overlay(self) -> None:
         if self.parent():

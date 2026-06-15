@@ -1,4 +1,3 @@
-"""Генерация icon.ico для CrimsonTune (multi-size, crimson C mark)."""
 
 from __future__ import annotations
 
@@ -33,7 +32,6 @@ def _rgba_pixel(x: int, y: int, size: int) -> bytes:
     if r > outer:
         return bytes(BG)
 
-    # Soft crimson ring
     ring_r = size * 0.36
     ring_w = max(1.2, size * 0.055)
     if abs(r - ring_r) <= ring_w:
@@ -41,7 +39,6 @@ def _rgba_pixel(x: int, y: int, size: int) -> bytes:
         c = tuple(int(BG[i] + (CRIMSON[i] - BG[i]) * t) for i in range(3)) + (255,)
         return bytes(c)
 
-    # C-shaped arc
     angle = math.atan2(dy, dx)
     inner, outer_c = size * 0.14, size * 0.30
     on_arc = inner < r < outer_c and -2.35 < angle < 2.35
@@ -51,7 +48,6 @@ def _rgba_pixel(x: int, y: int, size: int) -> bytes:
         if edge < max(1.0, size * 0.05):
             return bytes(HIGHLIGHT if edge < size * 0.02 else CRIMSON)
 
-    # Inner glow
     if r < inner and -1.6 < angle < 1.6:
         t = max(0.0, 1.0 - r / inner)
         c = tuple(int(BG[i] + (CRIMSON_GLOW[i] - BG[i]) * t * 0.35) for i in range(3)) + (255,)

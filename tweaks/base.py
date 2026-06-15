@@ -1,4 +1,3 @@
-"""Базовый класс и менеджер твиков."""
 
 from __future__ import annotations
 
@@ -25,7 +24,6 @@ class RiskLevel(str, Enum):
 
 @dataclass
 class TweakMeta:
-    """Метаданные твика из конфигурации."""
 
     id: str
     name: str
@@ -36,13 +34,13 @@ class TweakMeta:
     requires_reboot: bool = False
     compatible_os: list[str] = field(default_factory=list)
     gpu_vendor: list[str] = field(default_factory=lambda: ["all"])
+    ram_tier_gb: int | None = None
     default: bool = False
     hint: str = ""
 
 
 @dataclass
 class TweakResult:
-    """Результат применения/отката твика."""
 
     success: bool
     message: str
@@ -50,21 +48,18 @@ class TweakResult:
 
 
 class BaseTweak(ABC):
-    """Абстрактный базовый класс твика."""
 
     def __init__(self, meta: TweakMeta) -> None:
         self.meta = meta
 
     @abstractmethod
     def apply(self) -> TweakResult:
-        """Применяет твик."""
+        ...
 
     @abstractmethod
     def revert(self, revert_data: Any = None) -> TweakResult:
-        """Откатывает твик."""
-
+        ...
     def is_compatible(self, os_build: str, gpu_vendor: str) -> bool:
-        """Проверяет совместимость с текущей системой."""
         if self.meta.compatible_os:
             if not any(os_build.startswith(v) for v in self.meta.compatible_os):
                 return False
@@ -80,7 +75,6 @@ RevertFunc = Callable[[Any], TweakResult]
 
 
 class FunctionTweak(BaseTweak):
-    """Твик на основе функций apply/revert."""
 
     def __init__(
         self,
@@ -100,28 +94,15 @@ class FunctionTweak(BaseTweak):
 
 
 class TweakManager:
-    """Центральный менеджер всех твиков."""
 
     def __init__(self, config_path: Optional[Path] = None) -> None:
         self.config_path = config_path or resource_path("config", "tweaks.json")
-        self.blacklist_path = self.config_path.parent / "blacklist.json"
         self.backup = BackupManager()
         self.state_detector = TweakStateDetector(set(self.backup.get_all_applied()))
         self._tweaks: dict[str, BaseTweak] = {}
         self._meta: dict[str, TweakMeta] = {}
         self._handlers: dict[str, tuple[HandlerFunc, RevertFunc]] = {}
-        self._blacklist: set[str] = self._load_blacklist()
-
-    def _load_blacklist(self) -> set[str]:
-        if not self.blacklist_path.exists():
-            return set()
-        try:
-            with open(self.blacklist_path, encoding="utf-8") as f:
-                data = json.load(f)
-            return {item["id"] for item in data if item.get("id")}
-        except (OSError, json.JSONDecodeError, KeyError, TypeError):
-            logger.warning("Не удалось загрузить blacklist.json")
-            return set()
+        self._source_items: dict[str, dict[str, Any]] = {}
 
     def register_handler(
         self,
@@ -129,11 +110,9 @@ class TweakManager:
         apply_fn: HandlerFunc,
         revert_fn: RevertFunc,
     ) -> None:
-        """Регистрирует обработчик для твика."""
         self._handlers[tweak_id] = (apply_fn, revert_fn)
 
     def load_config(self) -> list[TweakMeta]:
-        """Загружает метаданные твиков из JSON."""
         if not self.config_path.exists():
             raise FileNotFoundError(
                 f"Не найден {self.config_path}. Переустановите CrimsonTune или соберите EXE с config/."
@@ -152,10 +131,8 @@ class TweakManager:
                 logger.warning("Дубликат id в tweaks.json, пропущен: %s", tid)
                 continue
             seen_ids.add(tid)
-            if tid in self._blacklist:
-                logger.warning("Твик в blacklist, пропущен: %s", item.get("id"))
-                continue
             filtered = {k: v for k, v in item.items() if k in known}
+            self._source_items[tid] = filtered
             meta = TweakMeta(**filtered)
             from core.i18n import localize_meta
 
@@ -167,9 +144,39 @@ class TweakManager:
                 self._tweaks[meta.id] = FunctionTweak(meta, apply_fn, revert_fn)
             metas.append(meta)
 
+        from tweaks.supplemental_catalog import supplemental_meta_items
+
+        for item in supplemental_meta_items():
+            tid = item.get("id")
+            if not tid or tid in seen_ids:
+                continue
+            seen_ids.add(tid)
+            filtered = {k: v for k, v in item.items() if k in known}
+            self._source_items[tid] = filtered
+            meta = TweakMeta(**filtered)
+            from core.i18n import localize_meta
+
+            meta = localize_meta(meta)
+            self._meta[meta.id] = meta
+            if meta.id in self._handlers:
+                apply_fn, revert_fn = self._handlers[meta.id]
+                self._tweaks[meta.id] = FunctionTweak(meta, apply_fn, revert_fn)
+            metas.append(meta)
+
         self._handlers = {tid: self._handlers[tid] for tid in self._meta if tid in self._handlers}
         logger.info("Загружено %d твиков, %d с обработчиками", len(metas), len(self._tweaks))
         return metas
+
+    def reload_translations(self) -> None:
+        from core.i18n import localize_meta
+
+        for tid, raw in self._source_items.items():
+            if tid not in self._meta:
+                continue
+            meta = localize_meta(TweakMeta(**raw))
+            self._meta[tid] = meta
+            if tid in self._tweaks:
+                self._tweaks[tid].meta = meta
 
     def get_meta(self, tweak_id: str) -> Optional[TweakMeta]:
         return self._meta.get(tweak_id)
@@ -177,11 +184,14 @@ class TweakManager:
     def get_by_category(self, category: str) -> list[TweakMeta]:
         return [m for m in self._meta.values() if m.category == category]
 
+    def get_by_categories(self, categories: tuple[str, ...]) -> list[TweakMeta]:
+        allowed = set(categories)
+        return [m for m in self._meta.values() if m.category in allowed]
+
     def get_all_meta(self) -> list[TweakMeta]:
         return list(self._meta.values())
 
     def apply_tweak(self, tweak_id: str, session_dir: Optional[Path] = None) -> TweakResult:
-        """Применяет один твик."""
         tweak = self._tweaks.get(tweak_id)
         if not tweak:
             return TweakResult(False, f"Обработчик для '{tweak_id}' не реализован")
@@ -204,7 +214,6 @@ class TweakManager:
             return TweakResult(False, str(exc))
 
     def revert_tweak(self, tweak_id: str) -> TweakResult:
-        """Откатывает один твик."""
         tweak = self._tweaks.get(tweak_id)
         if not tweak:
             return TweakResult(False, f"Обработчик для '{tweak_id}' не реализован")
@@ -223,7 +232,6 @@ class TweakManager:
             return TweakResult(False, str(exc))
 
     def apply_multiple(self, tweak_ids: list[str]) -> list[tuple[str, TweakResult]]:
-        """Применяет несколько твиков с бэкапом."""
         session = self.backup.create_session_backup(tweak_ids)
         results: list[tuple[str, TweakResult]] = []
         for tid in tweak_ids:
@@ -232,7 +240,6 @@ class TweakManager:
         return results
 
     def revert_all(self) -> list[tuple[str, TweakResult]]:
-        """Откатывает все применённые твики (кроме one-shot)."""
         applied = [tid for tid in self.backup.get_all_applied() if tid not in ONE_SHOT_TWEAKS]
         results: list[tuple[str, TweakResult]] = []
         for tid in reversed(applied):
@@ -241,32 +248,17 @@ class TweakManager:
         return results
 
     def get_conflicts(self, tweak_ids: list[str]) -> list[str]:
-        """Предупреждает о конфликтующих твиках на одном ключе реестра."""
-        from core.i18n import t
-
-        groups = {
-            "nvidia_preempt": {"nvidia_max_prerendered_frames", "nvidia_disable_preemption"},
-        }
-        selected = set(tweak_ids)
-        warnings: list[str] = []
-        for _, members in groups.items():
-            overlap = selected & members
-            if len(overlap) > 1:
-                warnings.append(t("conflict_line", list=", ".join(sorted(overlap))))
-        return warnings
+        return []
 
     def get_tweak_state(self, tweak_id: str, *, compatible: bool = True) -> TweakStateInfo:
-        """Возвращает текущее состояние твика."""
         return self.state_detector.get_state(tweak_id, compatible=compatible)
 
     def filter_applicable(
         self, tweak_ids: list[str], compatible_map: dict[str, bool]
     ) -> tuple[list[str], list[str]]:
-        """Фильтрует уже активные твики."""
         return self.state_detector.filter_applicable(tweak_ids, compatible_map)
 
     def resolve_tweak_names(self, tweak_ids: list[str]) -> list[str]:
-        """Человекочитаемые имена без дубликатов."""
         from utils.tweak_ids import dedupe_preserve_order
 
         names: list[str] = []
@@ -276,11 +268,9 @@ class TweakManager:
         return names
 
     def refresh_states(self) -> None:
-        """Синхронизирует applied_by_app без сброса кэша (для UI)."""
         self.state_detector.set_applied_by_app(set(self.backup.get_all_applied()))
 
     def search(self, query: str) -> list[TweakMeta]:
-        """Поиск твиков по названию и описанию."""
         q = query.lower().strip()
         if not q:
             return self.get_all_meta()

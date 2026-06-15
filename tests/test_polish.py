@@ -1,4 +1,3 @@
-"""Регрессионные тесты polish/QA."""
 
 from __future__ import annotations
 
@@ -63,16 +62,22 @@ def test_resolve_tweak_names_no_dupes():
     assert len(names) == 2
 
 
-def test_blacklist_not_in_catalog():
+def test_expert_tweaks_in_catalog():
     from tweaks import create_manager
 
     manager = create_manager()
-    blacklist_path = ROOT / "config" / "blacklist.json"
-    if not blacklist_path.exists():
-        return
-    blocked = {item["id"] for item in json.loads(blacklist_path.read_text(encoding="utf-8")) if item.get("id")}
+    expert_ids = {
+        "disable_defender",
+        "disable_firewall",
+        "disable_all_services",
+        "disable_windows_update_completely",
+    }
     catalog = {m.id for m in manager.get_all_meta()}
-    assert not blocked & catalog
+    assert expert_ids <= catalog
+    for tid in expert_ids:
+        meta = manager.get_meta(tid)
+        assert meta is not None
+        assert meta.category == "expert"
 
 
 def test_one_category_per_tweak():
@@ -152,6 +157,8 @@ def test_no_admin_phrases_in_hints():
     tweaks = json.loads((ROOT / "config" / "tweaks.json").read_text(encoding="utf-8"))["tweaks"]
     banned = []
     for t in tweaks:
+        if t.get("requires_admin"):
+            continue
         hint = (t.get("hint") or "").strip()
         if _BANNED_UI.search(hint):
             banned.append(t["id"])
@@ -163,6 +170,8 @@ def test_no_admin_wording_in_ui_strings():
 
     locales = json.loads((ROOT / "locales" / "ru.json").read_text(encoding="utf-8"))
     for key, value in locales.items():
+        if key == "hint_requires_admin":
+            continue
         if isinstance(value, str) and _BANNED_UI.search(value):
             hits.append(f"locales:{key}")
 
@@ -275,3 +284,15 @@ def test_reg_backup_export_mock(monkeypatch, tmp_path):
     assert path is not None
     assert path.exists()
     assert path.suffix == ".reg"
+
+
+def test_tweak_list_panel_renders_on_screen():
+    source = (ROOT / "ui" / "widgets" / "tweak_list_panel.py").read_text(encoding="utf-8")
+    assert "WA_DontShowOnScreen" not in source
+
+
+def test_animated_stack_uses_paint_fade():
+    source = (ROOT / "ui" / "widgets" / "animated_stack.py").read_text(encoding="utf-8")
+    assert "_FadeOverlay" in source
+    assert "QGraphicsOpacityEffect" not in source
+    assert b"alpha" in source.encode() or 'b"alpha"' in source

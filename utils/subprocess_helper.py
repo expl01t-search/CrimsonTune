@@ -1,4 +1,3 @@
-"""Безопасный запуск системных команд."""
 
 from __future__ import annotations
 
@@ -12,7 +11,6 @@ def run_command(
     shell: bool = False,
     timeout: int = 60,
 ) -> tuple[int, str, str]:
-    """Выполняет команду и возвращает (код, stdout, stderr)."""
     try:
         result = subprocess.run(
             command,
@@ -30,7 +28,6 @@ def run_command(
 
 
 def run_powershell(script: str, timeout: int = 60) -> tuple[int, str, str]:
-    """Выполняет PowerShell-скрипт без всплывающего окна консоли."""
     return run_command(
         [
             "powershell",
@@ -47,7 +44,6 @@ def run_powershell(script: str, timeout: int = 60) -> tuple[int, str, str]:
 
 
 def get_service_start_type(service_name: str) -> Optional[str]:
-    """Возвращает тип запуска службы: auto, manual, disabled или None."""
     code, out, _ = run_command(["sc", "qc", service_name])
     if code != 0:
         return None
@@ -64,7 +60,6 @@ def get_service_start_type(service_name: str) -> Optional[str]:
 
 
 def set_service_start_type(service_name: str, start_type: str) -> tuple[int, str]:
-    """Меняет тип запуска службы: auto, manual, disabled."""
     type_map = {"auto": "auto", "manual": "demand", "disabled": "disabled"}
     sc_type = type_map.get(start_type, start_type)
     code, out, err = run_command(["sc", "config", service_name, f"start={sc_type}"])
@@ -72,6 +67,5 @@ def set_service_start_type(service_name: str, start_type: str) -> tuple[int, str
 
 
 def stop_service(service_name: str) -> tuple[int, str]:
-    """Останавливает службу Windows."""
     code, out, err = run_command(["sc", "stop", service_name])
     return code, out or err

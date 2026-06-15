@@ -1,4 +1,3 @@
-"""Твики из открытых проектов: WinUtil, Sophia, Winhance."""
 
 from __future__ import annotations
 

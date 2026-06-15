@@ -1,4 +1,3 @@
-"""Состояние несовместимого твика для UI."""
 
 from __future__ import annotations
 

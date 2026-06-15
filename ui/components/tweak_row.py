@@ -1,4 +1,3 @@
-"""Минималистичная строка твика."""
 
 from __future__ import annotations
 
@@ -15,7 +14,6 @@ from ui.components.status_badge import StatusBadge
 
 
 class TweakRow(QFrame):
-    """Строка твика: toggle отражает реальное состояние."""
 
     def __init__(
         self,
@@ -54,9 +52,11 @@ class TweakRow(QFrame):
         self._name.setToolTip(self.meta.description or self.meta.name)
         self._name.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         title_row.addWidget(self._name, stretch=1)
+        self._category_chip: QLabel | None = None
         if show_category:
             chip = QLabel(category_label(self.meta.category))
             chip.setObjectName("categoryChip")
+            self._category_chip = chip
             title_row.addWidget(chip, alignment=Qt.AlignmentFlag.AlignVCenter)
         text_col.addLayout(title_row)
 
@@ -88,6 +88,16 @@ class TweakRow(QFrame):
         self.style().polish(self)
         self._name.style().unpolish(self._name)
         self._name.style().polish(self._name)
+
+    def update_meta(self, meta: TweakMeta) -> None:
+        self.meta = meta
+        self._name.setText(meta.name)
+        self._name.setToolTip(meta.description or meta.name)
+        self._desc.setText(meta.description)
+        if self._category_chip is not None:
+            self._category_chip.setText(category_label(meta.category))
+        self._hint_btn.setToolTip(t("tweak_hint_tooltip"))
+        self._badge.update_status(self.state.status, self.state.detail or "")
 
     def apply_state(self, state: TweakStateInfo, *, animate_toggle: bool = False) -> None:
         self.state = state

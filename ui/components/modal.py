@@ -1,4 +1,3 @@
-"""Модальные окна подтверждения."""
 
 from __future__ import annotations
 
@@ -23,7 +22,6 @@ from ui.window_utils import place_modal
 
 
 class ConfirmModal(QDialog):
-    """Простой диалог подтверждения."""
 
     def __init__(
         self,
@@ -81,7 +79,6 @@ class ConfirmModal(QDialog):
 
 
 class ApplyConfirmModal(QDialog):
-    """Подтверждение применения со списком твиков."""
 
     def __init__(
         self,

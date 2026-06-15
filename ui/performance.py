@@ -1,4 +1,3 @@
-"""Утилиты производительности UI."""
 
 from __future__ import annotations
 
@@ -7,7 +6,6 @@ from PySide6.QtWidgets import QWidget
 
 
 class UiDebouncer(QObject):
-    """Debounce для поиска и фильтров — не перерисовывает UI на каждый символ."""
 
     def __init__(self, delay_ms: int = 280, parent=None) -> None:
         super().__init__(parent)
@@ -35,7 +33,6 @@ class UiDebouncer(QObject):
 
 
 def batch_widget_update(widget: QWidget, fn, *, repaint: bool = True) -> None:
-    """Группирует перерисовку — меньше фризов при массовом обновлении списка."""
     widget.setUpdatesEnabled(False)
     try:
         fn()

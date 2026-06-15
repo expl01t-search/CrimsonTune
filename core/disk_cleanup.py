@@ -1,4 +1,3 @@
-"""Фоновая очистка временных и мусорных файлов Windows."""
 
 from __future__ import annotations
 
@@ -62,7 +61,6 @@ def _unique_existing_dirs(paths: Iterable[Path]) -> list[Path]:
 
 
 def _purge_directory(path: Path) -> tuple[int, int, int]:
-    """Удаляет содержимое папки, возвращает (байты, файлы, ошибки)."""
     freed = files = errors = 0
     if not path.exists():
         return 0, 0, 0
@@ -92,7 +90,6 @@ def _purge_extensions_in_dirs(
     dirs: list[Path],
     extensions: tuple[str, ...],
 ) -> tuple[int, int, int]:
-    """Удаляет файлы с указанными расширениями только в переданных папках."""
     freed = files = errors = 0
     ext_set = {e.lower() for e in extensions}
     for base in dirs:
@@ -115,10 +112,6 @@ def _purge_extensions_in_dirs(
 
 
 def run_disk_cleanup(on_progress: ProgressFn | None = None) -> CleanupResult:
-    """
-    Очистка Temp, Prefetch и мусорных *.log / *.bak / *.gid
-    только в безопасных системных и пользовательских temp-папках.
-    """
     paths = _env_paths()
     windir = paths["windir"]
 

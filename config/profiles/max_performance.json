@@ -16,7 +16,7 @@
 
     "disable_animations",
 
-    "best_performance_visual",
+    "menu_show_delay_zero",
 
     "disable_transparency",
 
@@ -24,7 +24,14 @@
 
     "high_timer_resolution",
 
-    "optimize_svchost",
+    "ram_svchost_2gb",
+    "ram_svchost_4gb",
+    "ram_svchost_6gb",
+    "ram_svchost_8gb",
+    "ram_svchost_12gb",
+    "ram_svchost_16gb",
+    "ram_svchost_32gb",
+    "ram_svchost_64gb",
 
     "disable_fast_startup",
 

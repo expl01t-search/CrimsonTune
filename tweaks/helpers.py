@@ -1,4 +1,3 @@
-"""Вспомогательные функции для твиков реестра и служб."""
 
 from __future__ import annotations
 
@@ -21,7 +20,6 @@ def reg_tweak(
     value_type: int = winreg.REG_DWORD,
     enabled: bool = True,
 ) -> TweakResult:
-    """Универсальный твик реестра с сохранением старого значения."""
     old = reg.read_value(path, name, default=None)
     new_value = enable_value if enabled else disable_value
     try:
@@ -36,7 +34,6 @@ def reg_tweak(
 
 
 def reg_revert(data: Optional[dict]) -> TweakResult:
-    """Откат значения реестра."""
     if not data:
         return TweakResult(False, "Нет данных для отката")
     if "entries" in data:
@@ -61,7 +58,6 @@ def _parse_reg_entry(entry: RegEntry) -> tuple[str, str, Any, Any, int]:
 
 
 def reg_batch_apply(entries: list[RegEntry], *, message: str = "Применено") -> TweakResult:
-    """Применяет несколько ключей реестра и сохраняет снимки для отката."""
     snapshots: list[dict] = []
     try:
         for entry in entries:
@@ -77,7 +73,6 @@ def reg_batch_apply(entries: list[RegEntry], *, message: str = "Применен
 
 
 def reg_batch_revert(data: Optional[dict]) -> TweakResult:
-    """Откатывает пакет изменений реестра."""
     entries = (data or {}).get("entries") or []
     if not entries:
         return TweakResult(False, "Нет данных для отката")
@@ -96,7 +91,6 @@ def capture_reg_snapshot(path: str, name: str, value_type: int = winreg.REG_DWOR
 
 
 def service_tweak(service: str, disabled: bool = True) -> TweakResult:
-    """Отключает или включает службу."""
     from utils.subprocess_helper import get_service_start_type
 
     original = get_service_start_type(service)
@@ -115,7 +109,6 @@ def service_tweak(service: str, disabled: bool = True) -> TweakResult:
 
 
 def services_batch_apply(services: list[str], *, disabled: bool = True, message: str = "Службы настроены") -> TweakResult:
-    """Пакетное изменение служб с сохранением исходных типов запуска."""
     snapshots: list[dict] = []
     for service in services:
         result = service_tweak(service, disabled=disabled)
@@ -153,7 +146,6 @@ def service_revert(data: Optional[dict]) -> TweakResult:
 
 
 def power_plan_tweak(guid: str) -> TweakResult:
-    """Активирует план питания по GUID."""
     code, out, err = run_command(["powercfg", "/setactive", guid])
     if code == 0:
         return TweakResult(True, "План питания активирован", revert_data={"guid": guid})
@@ -161,7 +153,6 @@ def power_plan_tweak(guid: str) -> TweakResult:
 
 
 def run_cmd_tweak(cmd: list[str], revert_cmd: Optional[list[str]] = None) -> TweakResult:
-    """Твик через команду."""
     code, out, err = run_command(cmd)
     if code == 0:
         return TweakResult(True, out or "Выполнено", revert_data={"revert_cmd": revert_cmd})

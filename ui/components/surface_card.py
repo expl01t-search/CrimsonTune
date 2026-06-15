@@ -1,4 +1,3 @@
-"""Плоская карточка-поверхность — Modern Clarity."""
 
 from __future__ import annotations
 
@@ -6,7 +5,6 @@ from PySide6.QtWidgets import QFrame, QVBoxLayout, QWidget
 
 
 class SurfaceCard(QFrame):
-    """Минималистичная панель без glow и custom paint."""
 
     def __init__(self, *, variant: str = "default", parent=None) -> None:
         super().__init__(parent)

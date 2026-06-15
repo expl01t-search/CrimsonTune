@@ -1,4 +1,3 @@
-"""Тесты путей к bundled-ресурсам."""
 
 from __future__ import annotations
 

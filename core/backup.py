@@ -1,4 +1,3 @@
-"""Система резервного копирования и отката."""
 
 from __future__ import annotations
 
@@ -15,7 +14,6 @@ logger = setup_logger(__name__)
 
 
 class BackupManager:
-    """Управляет бэкапами состояния твиков."""
 
     def __init__(self) -> None:
         self.backup_dir = get_app_data_dir() / "backups"
@@ -37,7 +35,6 @@ class BackupManager:
             json.dump(self._applied, f, ensure_ascii=False, indent=2)
 
     def create_session_backup(self, tweak_ids: list[str]) -> Path:
-        """Создаёт бэкап-сессию перед применением твиков."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         session_dir = self.backup_dir / f"session_{timestamp}"
         session_dir.mkdir(parents=True, exist_ok=True)
@@ -61,7 +58,6 @@ class BackupManager:
         path: str,
         snapshot: dict[str, Any],
     ) -> None:
-        """Сохраняет снимок реестра для твика."""
         meta_path = session_dir / "meta.json"
         with open(meta_path, encoding="utf-8") as f:
             meta = json.load(f)
@@ -74,7 +70,6 @@ class BackupManager:
             json.dump(meta, f, ensure_ascii=False, indent=2)
 
     def record_applied(self, tweak_id: str, revert_data: Any) -> None:
-        """Записывает применённый твик для отката."""
         self._applied[tweak_id] = {
             "applied_at": datetime.now().isoformat(),
             "revert_data": revert_data,
@@ -82,27 +77,22 @@ class BackupManager:
         self._save_state()
 
     def remove_applied(self, tweak_id: str) -> None:
-        """Удаляет запись о применённом твике."""
         self._applied.pop(tweak_id, None)
         self._save_state()
 
     def get_revert_data(self, tweak_id: str) -> Optional[Any]:
-        """Возвращает данные для отката твика."""
         entry = self._applied.get(tweak_id)
         if entry:
             return entry.get("revert_data")
         return None
 
     def is_applied(self, tweak_id: str) -> bool:
-        """Проверяет, применён ли твик."""
         return tweak_id in self._applied
 
     def get_all_applied(self) -> list[str]:
-        """Возвращает список применённых твиков."""
         return list(self._applied.keys())
 
     def create_restore_point(self) -> tuple[bool, str]:
-        """Создаёт точку восстановления Windows."""
         try:
             import subprocess
 
@@ -125,7 +115,6 @@ class BackupManager:
             return False, str(exc)
 
     def export_restore_script(self) -> Path:
-        """Генерирует RESTORE.bat для экстренного отката."""
         script_path = Path(__file__).resolve().parent.parent / "RESTORE.bat"
         content = f"""@echo off
 chcp 65001 >nul

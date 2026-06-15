@@ -1,4 +1,3 @@
-"""Глобальный поиск твиков по всем категориям."""
 
 from __future__ import annotations
 
@@ -9,10 +8,10 @@ from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 from core.i18n import t
 from tweaks.base import TweakManager
 from ui.widgets.tweak_list_panel import TweakListPanel
+from utils.compatibility import is_tweak_visible
 
 
 class SearchPage(QWidget):
-    """Результаты поиска из всех категорий."""
 
     def __init__(
         self,
@@ -29,6 +28,7 @@ class SearchPage(QWidget):
         self.manager = manager
         self._is_compatible = is_compatible_fn
         self._on_toggle = on_toggle
+        self._last_query = ""
 
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -48,7 +48,11 @@ class SearchPage(QWidget):
         )
         outer.addWidget(self._panel, stretch=1)
 
+    def retranslate_ui(self, query: str = "") -> None:
+        self.refresh(query or self._last_query)
+
     def refresh(self, query: str) -> None:
+        self._last_query = query
         q = query.strip()
         if not q:
             self._hint.setText(t("search_prompt"))
@@ -56,6 +60,7 @@ class SearchPage(QWidget):
             return
 
         metas = self.manager.search(q)
+        metas = [m for m in metas if is_tweak_visible(m, self._is_compatible)]
         if not metas:
             self._hint.setText(t("search_no_results_query", q=q))
             self._panel.populate(

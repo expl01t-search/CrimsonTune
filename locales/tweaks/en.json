@@ -29,10 +29,45 @@
     "description": "Frees disk space equal to your RAM size",
     "hint": "Frees disk space equal to your RAM size. Results may differ on SSD and HDD. Requires administrator"
   },
-  "optimize_svchost": {
-    "name": "Optimize svchost",
-    "description": "Groups services to reduce the number of svchost processes",
-    "hint": "Groups services to reduce the number of svchost processes. Results may differ on SSD and HDD. Requires administrator · Reboot · Medium risk"
+  "ram_svchost_2gb": {
+    "name": "RAM Optimization (2 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 2 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
+  },
+  "ram_svchost_4gb": {
+    "name": "RAM Optimization (4 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 4 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
+  },
+  "ram_svchost_6gb": {
+    "name": "RAM Optimization (6 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 6 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
+  },
+  "ram_svchost_8gb": {
+    "name": "RAM Optimization (8 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 8 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
+  },
+  "ram_svchost_12gb": {
+    "name": "RAM Optimization (12 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 12 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
+  },
+  "ram_svchost_16gb": {
+    "name": "RAM Optimization (16 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 16 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
+  },
+  "ram_svchost_32gb": {
+    "name": "RAM Optimization (32 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 32 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
+  },
+  "ram_svchost_64gb": {
+    "name": "RAM Optimization (64 GB)",
+    "description": "SvcHostSplitThresholdInKB tuned for 64 GB RAM — optimal svchost grouping",
+    "hint": "Optimize #Expl01t · RAM Optimization profile. Requires administrator · Reboot · Medium risk"
   },
   "clear_temp_files": {
     "name": "Clear Temporary Files",
@@ -104,11 +139,6 @@
     "description": "Saves a DirectX report to the desktop",
     "hint": "Saves a DirectX report to the desktop. Close games before applying. One-time action"
   },
-  "directx_12_ultimate_hint": {
-    "name": "DirectX 12 Ultimate",
-    "description": "Information on enabling DX12 Ultimate via GPU driver",
-    "hint": "Information on enabling DX12 Ultimate via GPU driver. Close games before applying. One-time action"
-  },
   "force_discrete_gpu_opengl": {
     "name": "Discrete GPU for OpenGL",
     "description": "Forces the dedicated GPU for OpenGL applications",
@@ -118,21 +148,6 @@
     "name": "Disable VSync (OpenGL)",
     "description": "Removes frame rate cap tied to monitor refresh rate",
     "hint": "Removes frame rate cap tied to monitor refresh rate. For OpenGL games and emulators. Medium risk"
-  },
-  "nvidia_max_prerendered_frames": {
-    "name": "NVIDIA Pre-rendered Frames",
-    "description": "Optimizes frame queue to reduce latency",
-    "hint": "Optimizes frame queue to reduce latency. For OpenGL games and emulators. Requires administrator · Medium risk · NVIDIA only"
-  },
-  "nvidia_threaded_optimization": {
-    "name": "NVIDIA Threaded Optimization",
-    "description": "Tip: enable threaded optimization in NVIDIA Control Panel",
-    "hint": "Tip: enable threaded optimization in NVIDIA Control Panel. For OpenGL games and emulators. One-time action · NVIDIA only"
-  },
-  "amd_texture_quality_performance": {
-    "name": "AMD Texture Quality → Performance",
-    "description": "Tip: adjust texture filtering in Radeon Software",
-    "hint": "Tip: adjust texture filtering in Radeon Software. For OpenGL games and emulators. One-time action · AMD only"
   },
   "vulkan_validation_layers": {
     "name": "Vulkan Validation Layers",
@@ -313,11 +328,6 @@
     "name": "System Responsiveness = 0",
     "description": "Minimum latency for gaming MMCSS",
     "hint": "Minimum latency for gaming MMCSS. Restart the game after applying. Requires administrator"
-  },
-  "nvidia_reflex_hint": {
-    "name": "NVIDIA Reflex",
-    "description": "Guide to enable Reflex",
-    "hint": "Guide to enable Reflex. Restart the game after applying. One-time action · NVIDIA only"
   },
   "disable_mpo": {
     "name": "Disable MPO",

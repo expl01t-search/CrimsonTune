@@ -103,9 +103,9 @@
       "hint": "Освобождает место на диске, равное объёму RAM На SSD и HDD результат может отличаться. Нужен администратор"
     },
     {
-      "id": "optimize_svchost",
-      "name": "Оптимизация svchost",
-      "description": "Группирует службы для снижения количества процессов svchost",
+      "id": "ram_svchost_2gb",
+      "name": "Оптимизация RAM (2 GB)",
+      "description": "SvcHostSplitThresholdInKB для 2 GB RAM — оптимальная группировка процессов svchost",
       "category": "performance",
       "risk": "medium",
       "requires_admin": true,
@@ -116,8 +116,143 @@
       "gpu_vendor": [
         "all"
       ],
+      "ram_tier_gb": 2,
+      "source": "Optimize #Expl01t",
       "default": false,
-      "hint": "Группирует службы для снижения количества процессов svchost На SSD и HDD результат может отличаться. Нужен администратор · Перезагрузка · Средний риск"
+      "hint": "2 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "ram_svchost_4gb",
+      "name": "Оптимизация RAM (4 GB)",
+      "description": "SvcHostSplitThresholdInKB для 4 GB RAM — оптимальная группировка процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "ram_tier_gb": 4,
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "4 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "ram_svchost_6gb",
+      "name": "Оптимизация RAM (6 GB)",
+      "description": "SvcHostSplitThresholdInKB для 6 GB RAM — оптимальная группировка процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "ram_tier_gb": 6,
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "6 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "ram_svchost_8gb",
+      "name": "Оптимизация RAM (8 GB)",
+      "description": "SvcHostSplitThresholdInKB для 8 GB RAM — оптимальная группировка процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "ram_tier_gb": 8,
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "8 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "ram_svchost_12gb",
+      "name": "Оптимизация RAM (12 GB)",
+      "description": "SvcHostSplitThresholdInKB для 12 GB RAM — оптимальная группировка процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "ram_tier_gb": 12,
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "12 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "ram_svchost_16gb",
+      "name": "Оптимизация RAM (16 GB)",
+      "description": "SvcHostSplitThresholdInKB для 16 GB RAM — оптимальная группировка процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "ram_tier_gb": 16,
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "16 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "ram_svchost_32gb",
+      "name": "Оптимизация RAM (32 GB)",
+      "description": "SvcHostSplitThresholdInKB для 32 GB RAM — оптимальная группировка процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "ram_tier_gb": 32,
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "32 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
+    },
+    {
+      "id": "ram_svchost_64gb",
+      "name": "Оптимизация RAM (64 GB)",
+      "description": "SvcHostSplitThresholdInKB для 64 GB RAM — оптимальная группировка процессов svchost",
+      "category": "performance",
+      "risk": "medium",
+      "requires_admin": true,
+      "requires_reboot": true,
+      "compatible_os": [
+        "10.0"
+      ],
+      "gpu_vendor": [
+        "all"
+      ],
+      "ram_tier_gb": 64,
+      "source": "Optimize #Expl01t",
+      "default": false,
+      "hint": "64 GB RAM: SvcHostSplitThresholdInKB · Optimize #Expl01t. Администратор · Перезагрузка · Средний риск"
     },
     {
       "id": "clear_temp_files",
@@ -276,7 +411,7 @@
       "id": "disable_xbox_services",
       "name": "Отключить службы Xbox",
       "description": "Останавливает фоновые службы Xbox Live",
-      "category": "gaming",
+      "category": "expert",
       "risk": "safe",
       "requires_admin": true,
       "requires_reboot": false,
@@ -287,7 +422,7 @@
         "all"
       ],
       "default": false,
-      "hint": "Останавливает фоновые службы Xbox Live Перезапустите игру после применения. Нужен администратор"
+      "hint": "Эксперт · Останавливает фоновые службы Xbox Live Перезапустите игру после применения. Нужен администратор"
     },
     {
       "id": "enable_shader_cache",
@@ -358,23 +493,6 @@
       "hint": "Сохраняет отчёт DirectX на рабочий стол Закройте игры перед применением. Разовое действие"
     },
     {
-      "id": "directx_12_ultimate_hint",
-      "name": "DirectX 12 Ultimate",
-      "description": "Информация об активации DX12 Ultimate через драйвер GPU",
-      "category": "directx",
-      "risk": "safe",
-      "requires_admin": false,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "all"
-      ],
-      "default": false,
-      "hint": "Информация об активации DX12 Ultimate через драйвер GPU Закройте игры перед применением. Разовое действие"
-    },
-    {
       "id": "force_discrete_gpu_opengl",
       "name": "Дискретная GPU для OpenGL",
       "description": "Принудительно использует мощную видеокарту для OpenGL-приложений",
@@ -408,57 +526,6 @@
       ],
       "default": false,
       "hint": "Снимает ограничение кадров по частоте монитора Для OpenGL-игр и эмуляторов. Средний риск"
-    },
-    {
-      "id": "nvidia_max_prerendered_frames",
-      "name": "NVIDIA Pre-rendered Frames",
-      "description": "Оптимизация очереди кадров для снижения задержки",
-      "category": "opengl",
-      "risk": "medium",
-      "requires_admin": true,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "nvidia"
-      ],
-      "default": false,
-      "hint": "Оптимизация очереди кадров для снижения задержки Для OpenGL-игр и эмуляторов. Нужен администратор · Средний риск · Только NVIDIA"
-    },
-    {
-      "id": "nvidia_threaded_optimization",
-      "name": "NVIDIA Threaded Optimization",
-      "description": "Подсказка: включите многопоточную оптимизацию в панели NVIDIA",
-      "category": "opengl",
-      "risk": "safe",
-      "requires_admin": false,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "nvidia"
-      ],
-      "default": false,
-      "hint": "Подсказка: включите многопоточную оптимизацию в панели NVIDIA Для OpenGL-игр и эмуляторов. Разовое действие · Только NVIDIA"
-    },
-    {
-      "id": "amd_texture_quality_performance",
-      "name": "AMD Texture Quality → Performance",
-      "description": "Подсказка: настройка фильтрации текстур в Radeon Software",
-      "category": "opengl",
-      "risk": "safe",
-      "requires_admin": false,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "amd"
-      ],
-      "default": false,
-      "hint": "Подсказка: настройка фильтрации текстур в Radeon Software Для OpenGL-игр и эмуляторов. Разовое действие · Только AMD"
     },
     {
       "id": "vulkan_validation_layers",
@@ -906,7 +973,7 @@
       "id": "nvidia_max_performance",
       "name": "NVIDIA: Max Performance",
       "description": "Инструкция по настройке максимальной производительности GPU",
-      "category": "system",
+      "category": "nvidia",
       "risk": "safe",
       "requires_admin": false,
       "requires_reboot": false,
@@ -923,7 +990,7 @@
       "id": "nvidia_low_latency",
       "name": "NVIDIA: Low Latency Ultra",
       "description": "Инструкция по режиму минимальной задержки NVIDIA",
-      "category": "system",
+      "category": "nvidia",
       "risk": "safe",
       "requires_admin": false,
       "requires_reboot": false,
@@ -940,7 +1007,7 @@
       "id": "amd_anti_lag",
       "name": "AMD: Anti-Lag",
       "description": "Инструкция по включению AMD Anti-Lag в Radeon Software",
-      "category": "system",
+      "category": "amd",
       "risk": "safe",
       "requires_admin": false,
       "requires_reboot": false,
@@ -1077,24 +1144,6 @@
       "hint": "Минимальная задержка для игрового MMCSS Перезапустите игру после применения. Нужен администратор"
     },
     {
-      "id": "nvidia_reflex_hint",
-      "name": "NVIDIA Reflex",
-      "description": "Инструкция по включению Reflex",
-      "category": "gaming",
-      "risk": "safe",
-      "requires_admin": false,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "nvidia"
-      ],
-      "source": "ReadyPC",
-      "default": false,
-      "hint": "Инструкция по включению Reflex Перезапустите игру после применения. Разовое действие · Только NVIDIA"
-    },
-    {
       "id": "disable_mpo",
       "name": "Отключить MPO",
       "description": "Фикс стуттеров Multiplane Overlay",
@@ -1134,7 +1183,7 @@
       "id": "set_services_manual",
       "name": "Службы → Manual",
       "description": "Безопасный набор служб в ручной запуск",
-      "category": "performance",
+      "category": "expert",
       "risk": "medium",
       "requires_admin": true,
       "requires_reboot": false,
@@ -1146,7 +1195,7 @@
       ],
       "source": "WinUtil",
       "default": false,
-      "hint": "Безопасный набор служб в ручной запуск На SSD и HDD результат может отличаться. Разовое действие · Нужен администратор · Средний риск"
+      "hint": "Эксперт · Безопасный набор служб в ручной запуск На SSD и HDD результат может отличаться. Разовое действие · Нужен администратор · Средний риск"
     },
     {
       "id": "disable_widgets_board",
@@ -1512,7 +1561,7 @@
       "id": "remove_onedrive",
       "name": "Удалить OneDrive",
       "description": "Запускает деинсталляцию OneDrive",
-      "category": "system",
+      "category": "expert",
       "risk": "high",
       "requires_admin": true,
       "requires_reboot": false,
@@ -1523,7 +1572,7 @@
         "all"
       ],
       "source": "WinUtil",
-      "hint": "Создайте бэкап файлов OneDrive",
+      "hint": "Эксперт · Создайте бэкап файлов OneDrive",
       "default": false
     },
     {
@@ -1818,7 +1867,7 @@
       "id": "nvidia_disable_preemption",
       "name": "NVIDIA: отключить preemption",
       "description": "Снижает прерывания GPU-драйвера — меньше микрофризов",
-      "category": "gaming",
+      "category": "nvidia",
       "risk": "medium",
       "requires_admin": true,
       "requires_reboot": true,
@@ -2034,7 +2083,7 @@
       "id": "disable_error_reporting",
       "name": "Отключить WerSvc",
       "description": "Служба отчётов об ошибках Windows",
-      "category": "privacy",
+      "category": "expert",
       "risk": "safe",
       "requires_admin": true,
       "requires_reboot": false,
@@ -2046,7 +2095,7 @@
       ],
       "source": "WinUtil",
       "default": false,
-      "hint": "Служба отчётов об ошибках Windows Часть настроек активируется после перезагрузки. Нужен администратор"
+      "hint": "Эксперт · Служба отчётов об ошибках Windows Часть настроек активируется после перезагрузки. Нужен администратор"
     },
     {
       "id": "disable_teredo",

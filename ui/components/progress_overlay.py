@@ -1,4 +1,3 @@
-"""Overlay прогресса."""
 
 from __future__ import annotations
 
@@ -8,7 +7,6 @@ from PySide6.QtWidgets import QFrame, QLabel, QProgressBar, QVBoxLayout, QWidget
 
 
 class ProgressOverlay(QFrame):
-    """Полноэкранный overlay с прогресс-баром."""
 
     def __init__(self, parent) -> None:
         super().__init__(parent)
@@ -45,6 +43,9 @@ class ProgressOverlay(QFrame):
         card_layout.addWidget(self._status)
         card_layout.addWidget(self._bar, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(card, alignment=Qt.AlignmentFlag.AlignCenter)
+
+    def retranslate_ui(self) -> None:
+        self._title.setText(t("applying_tweaks"))
 
     def show_progress(self, current: int, total: int, tweak_name: str = "") -> None:
         if self.parent():

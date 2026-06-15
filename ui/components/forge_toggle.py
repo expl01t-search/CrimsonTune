@@ -1,4 +1,3 @@
-"""Анимированный переключатель — flat modern."""
 
 from __future__ import annotations
 
@@ -8,7 +7,6 @@ from PySide6.QtWidgets import QWidget
 
 from ui.theme import ACCENT_CRIMSON, BG_ELEVATED
 
-# Визуальные режимы (не путать «выбран для применения» и «уже активен в системе»)
 MODE_OFF = "off"
 MODE_SELECTED = "selected"
 MODE_ACTIVE = "active"
@@ -16,7 +14,6 @@ MODE_DISABLED = "disabled"
 
 
 class ForgeToggle(QWidget):
-    """Toggle: серый=выкл, красный=вкл, тёмный=недоступен."""
 
     toggled = Signal(bool)
 

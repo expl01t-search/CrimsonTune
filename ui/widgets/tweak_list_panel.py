@@ -1,4 +1,3 @@
-"""Панель списка твиков с переиспользованием виджетов."""
 
 from __future__ import annotations
 
@@ -16,7 +15,6 @@ from utils.tweak_state_ui import build_admin_blocked_state, build_incompatible_s
 
 
 class TweakListPanel(QWidget):
-    """Список твиков: обновляет строки на месте, не пересоздаёт 145 карточек."""
 
     def __init__(
         self,
@@ -31,7 +29,6 @@ class TweakListPanel(QWidget):
     ) -> None:
         super().__init__(parent)
         self.setObjectName("listPanelHost")
-        self.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, True)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.manager = manager
         self._is_compatible = is_compatible_fn
@@ -150,6 +147,7 @@ class TweakListPanel(QWidget):
                 else:
                     state = self.manager.get_tweak_state(meta.id, compatible=True)
                 if meta.id in self._rows:
+                    self._rows[meta.id].update_meta(meta)
                     self._rows[meta.id].apply_state(state, animate_toggle=False)
                 else:
                     row = TweakRow(
@@ -158,15 +156,12 @@ class TweakListPanel(QWidget):
                         on_toggle=self._on_toggle,
                         show_category=self._show_category,
                     )
-                    row.setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, True)
                     self._rows[meta.id] = row
 
             while self._list.count():
                 self._list.takeAt(0)
             for tid in new_order:
                 self._list.addWidget(self._rows[tid])
-                if not self.testAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen):
-                    self._rows[tid].setAttribute(Qt.WidgetAttribute.WA_DontShowOnScreen, False)
             self._order = new_order
 
         batch_widget_update(self._container, _update, repaint=False)

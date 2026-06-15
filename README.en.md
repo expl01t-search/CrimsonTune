@@ -123,7 +123,7 @@ CrimsonTune/
 ├── core/           # app, detector, backups, i18n
 ├── tweaks/         # tweak handlers by category
 ├── ui/             # windows, components, theme
-├── config/         # tweaks.json, profiles, blacklist
+├── config/         # tweaks.json, profiles
 ├── locales/        # RU / EN
 ├── tools/gen_icon.py
 └── main.py
@@ -133,7 +133,7 @@ CrimsonTune/
 
 ## Safety
 
-Risky and destructive tweaks are listed in `config/blacklist.json` and are **never** exposed in the app.
+Risky and destructive tweaks are grouped under the **Expert** tab — apply only if you understand the consequences.
 
 User data is stored in `%AppData%\CrimsonTune`  
 (with automatic migration from `VeloForge` / `WinTweaker`).

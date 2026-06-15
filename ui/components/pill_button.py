@@ -1,4 +1,3 @@
-"""Плоская pill-кнопка быстрых действий."""
 
 from __future__ import annotations
 
@@ -7,7 +6,6 @@ from PySide6.QtWidgets import QPushButton, QSizePolicy
 
 
 class PillButton(QPushButton):
-    """Кнопка-пилюля без glow-эффектов."""
 
     def __init__(self, text: str, *, variant: str = "primary", parent=None) -> None:
         super().__init__(text, parent)

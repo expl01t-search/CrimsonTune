@@ -1,4 +1,3 @@
-"""Плавный линейный график CPU/RAM."""
 
 from __future__ import annotations
 
@@ -10,7 +9,6 @@ from ui.theme import NEON_CYAN, NEON_MAGENTA, configure_painter_text, resolve_ui
 
 
 class LineChartWidget(QWidget):
-    """Двухлинейный график с заливкой под кривой."""
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)

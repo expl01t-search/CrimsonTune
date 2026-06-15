@@ -1,4 +1,3 @@
-"""Тесты локализации."""
 
 from __future__ import annotations
 
@@ -26,9 +25,14 @@ def test_i18n_defaults_to_russian():
 
 
 def test_tweak_locale_covers_catalog():
-    catalog = json.loads((ROOT / "config" / "tweaks.json").read_text(encoding="utf-8"))
+    from tweaks import create_manager
+
+    manager = create_manager()
+    from tweaks.supplemental_catalog import supplemental_en_strings
+
     en = json.loads((ROOT / "locales" / "tweaks" / "en.json").read_text(encoding="utf-8"))
-    ids = {item["id"] for item in catalog["tweaks"]}
+    en = {**supplemental_en_strings(), **en}
+    ids = {m.id for m in manager.get_all_meta()}
     assert ids == set(en), f"missing tweak locales: {ids - set(en)}"
     for tid in ids:
         entry = en[tid]

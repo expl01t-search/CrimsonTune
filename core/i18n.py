@@ -1,4 +1,3 @@
-"""Локализация CrimsonTune — RU (default) и EN."""
 
 from __future__ import annotations
 
@@ -33,12 +32,16 @@ _STATUS_KEYS: dict[TweakStatus, str] = {
 _CATEGORY_KEYS = {
     "performance": "nav_performance",
     "gaming": "nav_gaming",
+    "graphics": "nav_graphics",
     "directx": "nav_directx",
     "opengl": "nav_opengl",
     "network": "nav_network",
     "privacy": "nav_privacy",
     "visual": "nav_visual",
     "system": "nav_system",
+    "nvidia": "nav_nvidia",
+    "amd": "nav_amd",
+    "expert": "nav_expert",
 }
 
 _strings: dict[str, str] = {}
@@ -123,8 +126,20 @@ def init_locale(lang: str | None = None) -> str:
         _language = DEFAULT_LANGUAGE
     _strings = _load_strings(_language)
     _tweak_strings = _load_tweak_strings(_language)
+    if _language != DEFAULT_LANGUAGE:
+        from tweaks.supplemental_catalog import supplemental_en_strings
+
+        _tweak_strings = {**supplemental_en_strings(), **_tweak_strings}
     _profile_strings = _load_profile_strings(_language)
     return _language
+
+
+def set_language(lang: str) -> str:
+    lang = lang.lower()
+    if lang not in SUPPORTED_LANGUAGES:
+        lang = DEFAULT_LANGUAGE
+    save_language(lang)
+    return init_locale(lang)
 
 
 def get_language() -> str:
@@ -160,7 +175,6 @@ def nav_label(page_key: str) -> str:
 
 
 def localize_meta(meta):
-    """Подставляет name/description/hint из locales/tweaks/{lang}.json."""
     from dataclasses import replace
 
     tr = _tweak_strings.get(meta.id)
@@ -175,7 +189,6 @@ def localize_meta(meta):
 
 
 def localize_profile(profile: dict) -> dict:
-    """Локализует name/description профиля."""
     pid = str(profile.get("id", ""))
     tr = _profile_strings.get(pid)
     if not tr:
@@ -189,7 +202,6 @@ def localize_profile(profile: dict) -> dict:
 
 
 def restart_application() -> None:
-    """Перезапуск с корректным завершением Qt-потоков."""
     import os
     import sys
 

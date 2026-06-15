@@ -1,4 +1,3 @@
-"""Экспорт .reg бэкапа активных твиков в системе."""
 
 from __future__ import annotations
 
@@ -22,7 +21,6 @@ _HIVE_EXPORT = {
 
 
 def _parse_check_paths() -> dict[str, list[str]]:
-    """Извлекает пути реестра из SYSTEM_CHECKS в tweak_state.py."""
     import core.tweak_state as tweak_state_mod
 
     text = Path(tweak_state_mod.__file__).read_text(encoding="utf-8")
@@ -79,10 +77,6 @@ def _export_path_lines(path: str) -> list[str]:
 
 
 def export_active_baseline(manager: TweakManager) -> tuple[Path | None, str]:
-    """
-    Экспортирует .reg для твиков, активных в системе (is_active).
-    Возвращает (путь, сообщение).
-    """
     check_paths = _parse_check_paths()
     metas = manager.get_all_meta()
     compat = {m.id: True for m in metas}

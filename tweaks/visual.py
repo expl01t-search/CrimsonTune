@@ -1,4 +1,3 @@
-"""Визуальные твики Windows."""
 
 from __future__ import annotations
 

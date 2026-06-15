@@ -1,4 +1,3 @@
-"""Краткие подсказки для твиков — диалог «?»."""
 
 from __future__ import annotations
 
@@ -47,7 +46,6 @@ def _collect_tags(meta: TweakMeta) -> list[str]:
 
 
 def generate_hint_text(meta: TweakMeta) -> str:
-    """Генерирует hint для отображения в UI."""
     if meta.hint.strip():
         return meta.hint.strip()
 
@@ -66,7 +64,6 @@ def generate_hint_text(meta: TweakMeta) -> str:
 
 
 def build_display_hint(meta: TweakMeta) -> str:
-    """Текст для диалога «?» — компактно, без дублирования описания в строке."""
     body = meta.hint.strip() if meta.hint.strip() else generate_hint_text(meta)
     body = _truncate(body, 220)
 

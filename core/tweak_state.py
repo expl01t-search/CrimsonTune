@@ -1,4 +1,3 @@
-"""Определение текущего состояния твиков в системе."""
 
 from __future__ import annotations
 
@@ -13,7 +12,6 @@ from utils.subprocess_helper import run_command, run_powershell
 
 
 class TweakStatus(str, Enum):
-    """Статус твика относительно желаемого состояния."""
 
     INACTIVE = "inactive"              # Не применён — можно включать
     ACTIVE_SYSTEM = "active_system"    # Уже активен в Windows (вручную или другим софтом)
@@ -47,7 +45,6 @@ STATUS_COLORS = {
 
 @dataclass
 class TweakStateInfo:
-    """Полная информация о состоянии твика."""
 
     tweak_id: str
     status: TweakStatus
@@ -58,20 +55,15 @@ class TweakStateInfo:
     detail: str = ""
 
 
-# Разовые действия — не блокируем повтор, но не считаем «уже активным»
 ONE_SHOT_TWEAKS = {
     "clear_temp_files",
     "flush_dns",
     "clear_shader_cache",
     "export_dxdiag",
     "reset_winsock",
-    "directx_12_ultimate_hint",
-    "nvidia_threaded_optimization",
     "nvidia_max_performance",
     "nvidia_low_latency",
     "amd_anti_lag",
-    "amd_texture_quality_performance",
-    "nvidia_reflex_hint",
     "remove_onedrive",
     "set_services_manual",
     "disable_ipv6",
@@ -124,9 +116,24 @@ def _hibernation_off() -> bool:
     return ("hibernation" in lower and "not" in lower) or ("гибернация" in lower and "не" in lower)
 
 
-# Проверки: tweak_id → функция, возвращающая True если желаемое состояние УЖЕ достигнуто
+def _ram_svchost_active(tier_gb: int) -> bool:
+    from utils.ram_tiers import RAM_SVCHOST_THRESHOLD_KB
+
+    return _reg_eq(
+        r"HKLM\SYSTEM\CurrentControlSet\Control",
+        "SvcHostSplitThresholdInKB",
+        RAM_SVCHOST_THRESHOLD_KB[tier_gb],
+    )
+
+
+def _legacy_optimize_svchost_active() -> bool:
+    from core.detector import detect_system
+    from utils.ram_tiers import match_ram_tier
+
+    return _ram_svchost_active(match_ram_tier(detect_system().ram_total_gb))
+
+
 SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
-    # Performance
     "disable_sysmain": lambda: _service_disabled("SysMain"),
     "disable_search_indexing": lambda: _service_disabled("WSearch"),
     "disable_prefetch": lambda: _reg_eq(
@@ -142,10 +149,7 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
         "GlobalUserDisabled", True,
     ),
     "disable_hibernation": _hibernation_off,
-    "optimize_svchost": lambda: _reg_eq(
-        r"HKLM\SYSTEM\CurrentControlSet\Control",
-        "SvcHostSplitThresholdInKB", 380000,
-    ),
+    "optimize_svchost": _legacy_optimize_svchost_active,
     "disable_hags": lambda: _reg_eq(
         r"HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers", "HwSchMode", 1,
     ),
@@ -164,29 +168,27 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
         _service_disabled(s) for s in ["XblAuthManager", "XblGameSave", "XboxGipSvc", "XboxNetApiSvc"]
     ),
 
-    # DirectX
-    "enable_shader_cache": lambda: _reg_bool(
-        r"HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers", "DpiMapIommuContiguous", True,
+    "enable_shader_cache": lambda: any(
+        _reg_eq(path, "EnableShaderCache", 1)
+        for path in (
+            r"HKLM\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000",
+            r"HKLM\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0001",
+        )
     ),
     "disable_dxgi_flip_model": lambda: "SwapEffectUpgradeEnable=0" in str(
         reg.read_value(r"HKCU\Software\Microsoft\DirectX\UserGpuPreferences", "DirectXUserGlobalSettings", "")
     ),
 
-    # OpenGL
     "force_discrete_gpu_opengl": lambda: "GpuPreference=2" in str(
         reg.read_value(r"HKCU\Software\Microsoft\DirectX\UserGpuPreferences", "DirectXUserGlobalSettings", "")
     ),
     "disable_opengl_vsync": lambda: "VsyncOff=1" in str(
         reg.read_value(r"HKCU\Software\Microsoft\DirectX\UserGpuPreferences", "DirectXUserGlobalSettings", "")
     ),
-    "nvidia_max_prerendered_frames": lambda: _reg_bool(
-        r"HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Scheduler", "EnablePreemption", True,
-    ),
     "vulkan_validation_layers": lambda: _reg_bool(
         r"HKCU\Software\Khronos\Vulkan\Loader", "EnableLayerValidation", True,
     ),
 
-    # Network
     "set_dns_cloudflare": lambda: _dns_is(["1.1.1.1", "1.0.0.1"]),
     "set_dns_google": lambda: _dns_is(["8.8.8.8", "8.8.4.4"]),
     "disable_nagle": lambda: _reg_eq(
@@ -198,7 +200,6 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
     ),
     "disable_tcp_autotuning": lambda: _tcp_autotuning_disabled(),
 
-    # Privacy
     "disable_telemetry": lambda: _reg_eq(
         r"HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection", "AllowTelemetry", 0,
     ) and _service_disabled("DiagTrack"),
@@ -223,7 +224,6 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
         r"HKCU\Software\Microsoft\Windows\CurrentVersion\Privacy", "LetAppsAccessAccountInfo", 0,
     ),
 
-    # Visual
     "disable_animations": lambda: _reg_eq(r"HKCU\Control Panel\Desktop\WindowMetrics", "MinAnimate", "0"),
     "disable_transparency": lambda: _reg_bool(
         r"HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "EnableTransparency", False,
@@ -236,7 +236,6 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
         r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "UseCompactMode", True,
     ),
 
-    # System
     "high_performance_power": lambda: _power_plan_active("8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"),
     "ultimate_performance_power": lambda: _power_plan_active("e9a42b02-d5df-448d-aa00-03f14749eb61"),
     "disable_fast_startup": lambda: _reg_bool(
@@ -258,7 +257,6 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
     "enable_hpet": lambda: _bcd_has("useplatformclock", "true"),
     "disable_hpet": lambda: not _bcd_has("useplatformclock", "true"),
 
-    # Extended (WinUtil / Winhance / DLCI)
     "disable_game_bar_presence": lambda: _reg_bool(r"HKCU\Software\Microsoft\GameBar", "ShowStartupPanel", False),
     "enable_end_task_rightclick": lambda: _reg_bool(
         r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarEndTask", True,
@@ -324,7 +322,6 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
         r"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Hidden", True,
     ),
 
-    # Optimize #Expl01t
     "keyboard_data_queue_size": lambda: _reg_eq(
         r"HKLM\SYSTEM\CurrentControlSet\Services\kbdclass\Parameters", "KeyboardDataQueueSize", 50,
     ),
@@ -383,7 +380,6 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
     ),
     "disable_dynamic_tick": lambda: _bcd_has("disabledynamictick", "yes"),
 
-    # Open source (WinUtil / Sophia / Winhance)
     "disable_storage_sense": lambda: _reg_eq(
         r"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy", "01", 0,
     ),
@@ -437,6 +433,66 @@ SYSTEM_CHECKS: dict[str, Callable[[], bool]] = {
     ),
 }
 
+from utils.ram_tiers import RAM_SVCHOST_TIERS_GB, ram_svchost_tweak_id
+
+for _tier in RAM_SVCHOST_TIERS_GB:
+    SYSTEM_CHECKS[ram_svchost_tweak_id(_tier)] = (lambda t=_tier: _ram_svchost_active(t))
+
+
+def _batch_reg_active(entries) -> bool:
+    for entry in entries:
+        path, name, expected = entry[0], entry[1], entry[2]
+        if not _reg_eq(path, name, expected):
+            return False
+    return True
+
+
+def _register_supplemental_checks() -> None:
+    global _supplemental_checks_ready
+    if _supplemental_checks_ready:
+        return
+    from tweaks.supplemental_catalog import SUPPLEMENTAL_TWEAKS
+    from utils.gpu_reg import gpu_adapter_path
+
+    for item in SUPPLEMENTAL_TWEAKS:
+        if item.entries and item.id not in SYSTEM_CHECKS:
+            SYSTEM_CHECKS[item.id] = (lambda e=item.entries: _batch_reg_active(e))
+
+    _expert_checks = {
+        "disable_defender": lambda: _reg_eq(
+            r"HKLM\SOFTWARE\Policies\Microsoft\Windows Defender", "DisableAntiSpyware", 1,
+        ),
+        "disable_firewall": lambda: _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Services\mpssvc", "Start", 4,
+        ),
+        "disable_dns_cache": lambda: _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Services\Dnscache", "Start", 4,
+        ),
+        "disable_windows_update_completely": lambda: _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Services\wuauserv", "Start", 4,
+        ),
+        "disable_all_services": lambda: _service_disabled("SysMain") and _service_disabled("Dnscache"),
+        "disable_documents_tracking": lambda: _service_disabled("CDPUserSvc"),
+        "disable_delivery_optimization_full": lambda: _reg_eq(
+            r"HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization", "DOUploadMode", 0,
+        ),
+        "gray_selection_color": lambda: _reg_eq(
+            r"HKCU\Control Panel\Colors", "Hilight", "128 128 128",
+        ),
+        "nvidia_disable_pstate": lambda: _reg_eq(
+            gpu_adapter_path(0), "DisableDynamicPstate", 1,
+        ),
+        "nvidia_disable_telemetry": lambda: _service_disabled("NvTelemetryContainer"),
+    }
+    for tid, fn in _expert_checks.items():
+        if tid not in SYSTEM_CHECKS:
+            SYSTEM_CHECKS[tid] = fn
+
+    _supplemental_checks_ready = True
+
+
+_supplemental_checks_ready = False
+
 
 def _dns_is(servers: list[str]) -> bool:
     code, out, _ = run_powershell(
@@ -461,7 +517,6 @@ def _bcd_has(key: str, value: str) -> bool:
 
 
 class TweakStateDetector:
-    """Определяет состояние твиков в системе и в истории приложения."""
 
     def __init__(self, applied_by_app: Optional[set[str]] = None) -> None:
         self._applied_by_app = applied_by_app or set()
@@ -472,7 +527,9 @@ class TweakStateDetector:
         self._cache.clear()
 
     def check_system(self, tweak_id: str) -> bool:
-        """Проверяет, достигнуто ли желаемое состояние в Windows."""
+        global _supplemental_checks_ready
+        if not _supplemental_checks_ready:
+            _register_supplemental_checks()
         if tweak_id in ONE_SHOT_TWEAKS:
             return False
         checker = SYSTEM_CHECKS.get(tweak_id)
@@ -484,7 +541,6 @@ class TweakStateDetector:
             return False
 
     def get_state(self, tweak_id: str, *, compatible: bool = True) -> TweakStateInfo:
-        """Возвращает полное состояние твика."""
         cache_key = (tweak_id, compatible)
         if cache_key in self._cache:
             return self._cache[cache_key]
@@ -532,7 +588,6 @@ class TweakStateDetector:
         is_active = active_sys or (applied_app and not checker_exists)
         can_apply = not is_active or status == TweakStatus.APPLIED_APP and not active_sys
 
-        # Блокируем повторное применение если уже активно в системе
         if active_sys:
             can_apply = False
 
@@ -552,7 +607,6 @@ class TweakStateDetector:
         return {tid: self.get_state(tid, compatible=compatible_map.get(tid, True)) for tid in tweak_ids}
 
     def filter_applicable(self, tweak_ids: list[str], compatible_map: dict[str, bool]) -> tuple[list[str], list[str]]:
-        """Разделяет твики на применимые и уже активные."""
         from utils.tweak_ids import dedupe_preserve_order
 
         applicable, skipped = [], []
@@ -574,13 +628,11 @@ class TweakStateDetector:
         return applicable, skipped
 
     def scan_all(self, tweak_ids: list[str], compatible_map: dict[str, bool] | None = None) -> None:
-        """Полное сканирование — вызывать только из фонового потока."""
         compat = compatible_map or {tid: True for tid in tweak_ids}
         for tid in tweak_ids:
             self.get_state(tid, compatible=compat.get(tid, True))
 
     def invalidate(self, tweak_ids: Iterable[str] | None = None) -> None:
-        """Сбрасывает кэш для указанных твиков или полностью."""
         if tweak_ids is None:
             self._cache.clear()
         else:
@@ -590,11 +642,9 @@ class TweakStateDetector:
                     del self._cache[key]
 
     def clear_cache(self) -> None:
-        """Совместимость — полный сброс кэша."""
         self.invalidate()
 
     def count_active(self, tweak_ids: list[str], compatible_map: dict[str, bool]) -> dict[str, int]:
-        """Считает твики по статусам."""
         counts = {"active": 0, "inactive": 0, "one_shot": 0, "unknown": 0}
         for tid in tweak_ids:
             s = self.get_state(tid, compatible=compatible_map.get(tid, True))

@@ -1,4 +1,3 @@
-"""Твики из пакета Optimize #Expl01t."""
 
 from __future__ import annotations
 
@@ -9,7 +8,6 @@ from tweaks.helpers import reg_batch_apply, reg_batch_revert, reg_revert, reg_tw
 from utils.subprocess_helper import run_command, run_powershell
 
 
-# --- Input / latency ---
 
 def keyboard_data_queue_size_apply() -> TweakResult:
     return reg_tweak(
@@ -44,7 +42,6 @@ def usb_thread_priority_revert(data) -> TweakResult:
     return reg_batch_revert(data)
 
 
-# --- Visual / UX ---
 
 def show_seconds_in_clock_apply() -> TweakResult:
     return reg_tweak(
@@ -80,7 +77,6 @@ def disable_search_suggestions_revert(data) -> TweakResult:
     return reg_revert(data)
 
 
-# --- Startup / shutdown ---
 
 def disable_autoplay_apply() -> TweakResult:
     return reg_tweak(
@@ -116,7 +112,6 @@ def fast_app_shutdown_revert(data) -> TweakResult:
     return reg_batch_revert(data)
 
 
-# --- Storage ---
 
 def ntfs_last_access_off_apply() -> TweakResult:
     return reg_tweak(
@@ -198,22 +193,6 @@ def large_system_cache_on_revert(data) -> TweakResult:
     return reg_revert(data)
 
 
-# --- Gaming / GPU ---
-
-def nvidia_disable_preemption_apply() -> TweakResult:
-    return reg_batch_apply([
-        (r"HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Scheduler", "EnablePreemption", 0, 1),
-        (r"HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm", "DisablePreemption", 1, 0),
-        (r"HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm", "DisableCudaContextPreemption", 1, 0),
-        (r"HKLM\SYSTEM\CurrentControlSet\Services\GpuEnergyDrv", "Start", 4, 2),
-    ], message="NVIDIA preemption отключён")
-
-
-def nvidia_disable_preemption_revert(data) -> TweakResult:
-    return reg_batch_revert(data)
-
-
-# --- Privacy ---
 
 def disable_pc_experiments_apply() -> TweakResult:
     return reg_tweak(
@@ -243,7 +222,6 @@ def disable_voice_activation_revert(data) -> TweakResult:
     return reg_batch_revert(data)
 
 
-# --- Network (AutoTune-NIC из Optimize #Expl01t) ---
 
 _AUTOTUNE_NIC_PS = r"""
 $adapters = Get-NetAdapter -IncludeHidden | Where-Object {
@@ -306,7 +284,6 @@ def disable_device_power_saving_revert(_data) -> TweakResult:
     return TweakResult(True, "Включите энергосбережение в Диспетчере устройств")
 
 
-# --- Boot / timer ---
 
 def disable_dynamic_tick_apply() -> TweakResult:
     return run_cmd_tweak(
@@ -339,7 +316,6 @@ HANDLERS = {
     "disable_low_disk_warnings": (disable_low_disk_warnings_apply, disable_low_disk_warnings_revert),
     "nvme_fast_boot": (nvme_fast_boot_apply, nvme_fast_boot_revert),
     "large_system_cache_on": (large_system_cache_on_apply, large_system_cache_on_revert),
-    "nvidia_disable_preemption": (nvidia_disable_preemption_apply, nvidia_disable_preemption_revert),
     "disable_pc_experiments": (disable_pc_experiments_apply, disable_pc_experiments_revert),
     "disable_voice_activation": (disable_voice_activation_apply, disable_voice_activation_revert),
     "autotune_nic_ethernet": (autotune_nic_ethernet_apply, autotune_nic_ethernet_revert),

@@ -1,4 +1,3 @@
-"""Страница профилей."""
 
 from __future__ import annotations
 
@@ -16,7 +15,6 @@ from utils.tweak_ids import dedupe_preserve_order
 
 
 class ProfilesPage(QWidget):
-    """Готовые пресеты с прогрессом."""
 
     def __init__(
         self,
@@ -34,19 +32,31 @@ class ProfilesPage(QWidget):
 
         outer = QVBoxLayout(self)
         outer.setSpacing(10)
-        title = QLabel(t("nav_profiles"))
-        title.setObjectName("pageTitle")
-        sub = QLabel(t("profiles_subtitle"))
-        sub.setObjectName("pageSubtitle")
-        outer.addWidget(title)
-        outer.addWidget(sub)
+        self._title = QLabel(t("nav_profiles"))
+        self._title.setObjectName("pageTitle")
+        self._subtitle = QLabel(t("profiles_subtitle"))
+        self._subtitle.setObjectName("pageSubtitle")
+        outer.addWidget(self._title)
+        outer.addWidget(self._subtitle)
 
-        scroll = QScrollArea()
+        self._scroll = QScrollArea()
+        scroll = self._scroll
         scroll.setWidgetResizable(True)
-        container = QWidget()
+        self._container = QWidget()
+        container = self._container
         self._layout = QVBoxLayout(container)
         self._layout.setSpacing(12)
         style_scroll_area(scroll, container)
+
+        self._reload_cards()
+        scroll.setWidget(container)
+        outer.addWidget(scroll)
+
+    def _reload_cards(self) -> None:
+        while self._layout.count():
+            item = self._layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
 
         profiles_dir = resource_path("config", "profiles")
         for pf in sorted(profiles_dir.glob("*.json")):
@@ -55,8 +65,11 @@ class ProfilesPage(QWidget):
             self._layout.addWidget(self._make_card(profile))
 
         self._layout.addStretch()
-        scroll.setWidget(container)
-        outer.addWidget(scroll)
+
+    def retranslate_ui(self) -> None:
+        self._title.setText(t("nav_profiles"))
+        self._subtitle.setText(t("profiles_subtitle"))
+        self._reload_cards()
 
     def _make_card(self, profile: dict) -> QFrame:
         card = QFrame()
