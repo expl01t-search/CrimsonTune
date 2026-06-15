@@ -14,5 +14,9 @@
   "gamer_pro": {
     "name": "Gaming Profile",
     "description": "All gaming tweaks: Game Mode, HAGS, DVR off, network, and mouse"
+  },
+  "ssd": {
+    "name": "SSD",
+    "description": "SSD optimization: TRIM, defrag off, NTFS, indexing, hibernation"
   }
 }

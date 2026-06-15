@@ -1,0 +1,22 @@
+{
+  "id": "ssd",
+  "name": "SSD",
+  "description": "Оптимизация под SSD: TRIM, без дефрагментации, NTFS и индексирование",
+  "tweaks": [
+    "ssd_enable_trim",
+    "ssd_disable_superfetch_prefetch",
+    "disable_sysmain",
+    "disable_paging_executive",
+    "large_system_cache_on",
+    "ntfs_memory_ssd",
+    "ssd_disable_boot_defrag",
+    "ssd_disable_layout_ini",
+    "ntfs_8dot3_off",
+    "ntfs_last_access_off",
+    "disable_search_indexing",
+    "ssd_disable_volume_indexing",
+    "disable_hibernation",
+    "ssd_disable_defrag_service",
+    "ssd_disable_scheduled_defrag"
+  ]
+}

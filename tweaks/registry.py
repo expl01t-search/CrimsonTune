@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from tweaks import (
     amd,
+    community,
     directx,
     expert,
     exploit_extras,
     extended,
     gaming,
+    msi_mode,
     network,
     nvidia,
     opengl,
@@ -14,6 +16,7 @@ from tweaks import (
     optimize_pack,
     performance,
     privacy,
+    ssd,
     system,
     visual,
 )
@@ -21,13 +24,16 @@ from tweaks.base import TweakManager
 
 HANDLER_MODULES: tuple = (
     performance,
+    ssd,
     gaming,
+    msi_mode,
     nvidia,
     amd,
     directx,
     exploit_extras,
     opengl,
     network,
+    community,
     privacy,
     visual,
     system,

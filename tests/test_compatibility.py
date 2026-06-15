@@ -38,10 +38,10 @@ def test_incompatible_state_not_cached_as_inactive():
     from core.tweak_state import TweakStateDetector, TweakStatus
 
     det = TweakStateDetector()
-    s1 = det.get_state("amd_anti_lag", compatible=True)
+    s1 = det.get_state("nvidia_disable_pstate", compatible=True)
     assert s1.status != TweakStatus.INCOMPATIBLE
 
-    s2 = det.get_state("amd_anti_lag", compatible=False)
+    s2 = det.get_state("nvidia_disable_pstate", compatible=False)
     assert s2.status == TweakStatus.INCOMPATIBLE
     assert s2.can_apply is False
 

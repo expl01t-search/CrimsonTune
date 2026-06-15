@@ -5,19 +5,19 @@
 </p>
 
 <p align="center">
-  <img src="icon.ico" alt="CrimsonTune" width="96" height="96" />
+  <img src="icon.ico" alt="CrimsonTune" width="112" height="112" />
 </p>
 
 <h1 align="center">CrimsonTune</h1>
 
 <p align="center">
   <strong>Точная настройка Windows 10</strong><br>
-  Desktop-оптимизатор с умным сканированием, профилями и тёмно-красным интерфейсом
+  <sub>Desktop-оптимизатор · умное сканирование · профили · Crimson Dark UI</sub>
 </p>
 
 <p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/tag/v1.2.16">
-    <img src="https://img.shields.io/badge/v1.2.16-179_твиков-d63031?style=for-the-badge" alt="v1.2.16" />
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
+    <img src="https://img.shields.io/badge/v1.2.20-204_твика-d63031?style=for-the-badge" alt="v1.2.20" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
@@ -31,64 +31,94 @@
   <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge" alt="License" />
   </a>
-  <a href="README.en.md">
-    <img src="https://img.shields.io/badge/UI-Русский_·_English-d63031?style=for-the-badge" alt="RU / EN" />
-  </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune.exe">
-    <img src="https://img.shields.io/badge/⬇️_Скачать_CrimsonTune.exe-d63031?style=for-the-badge" alt="Download EXE" />
+    <img src="https://img.shields.io/badge/⬇️_Скачать_CrimsonTune.exe-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download" />
   </a>
 </p>
 
 ---
 
-## О проекте
+## Зачем CrimsonTune
 
-**CrimsonTune** — это современный твикер для Windows 10, собранный на **PySide6 (Qt 6)**. Приложение объединяет проверенные оптимизации из популярных источников, аккуратно упаковывает их в понятный интерфейс и помогает безопасно настроить систему без лишнего шума.
+Один инструмент вместо десятка `.reg`, `.bat` и полуручных гайдов. CrimsonTune собирает проверенные твики из **WinUtil**, **Optimize #Expl01t**, **BoosterX**, **SpeedGuide**, **MSI Mode Utility** и **SSD Mini Tweaker** — и даёт им понятный интерфейс с откатом, сканированием и профилями.
 
-> Запускайте от имени администратора — большинство твиков работают с реестром и системными службами.
+> Запускайте **от имени администратора** — твики работают с реестром, службами и планировщиком.
 
-> **Язык интерфейса:** русский и английский — переключается в **Настройки → Язык**.
+> **Язык:** русский и английский — **Настройки → Язык**.
 
 ---
 
-## Возможности
+## Что внутри
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### Производительность
+- CPU, RAM, службы, питание
+- **SSD-пакет** (TRIM, дефрагментация OFF, NTFS)
+- Отключение SysMain, hibernation, prefetch
+
+### Игры и сеть
+- **MSI Mode High** (GPU / USB / LAN)
+- MMCSS, Nagle OFF на NIC, TCP ECN/CTCP
+- Игровые твики и таймер
+
+</td>
+<td width="50%" valign="top">
+
+### Графика
+- NVIDIA: P-State, MaxFrameLatency, driver perf
+- DirectX / OpenGL / AMD (по железу)
+
+### Безопасность UI
+- Опасные твики — вкладка **Эксперт**
+- Умное сканирование: не включить дважды
+- Экспорт `.reg` и полный откат
+
+</td>
+</tr>
+</table>
 
 | | |
 |---|---|
-| **179 твиков** | WinUtil, Winhance, Sophia, Optimize #Expl01t, Custom-DirectX, DLCI, ReadyPC |
-| **10 вкладок** | Главная · Производительность · Игры · **Графика** · Сеть · Приватность · **Система** · **Эксперт** · Профили · Настройки |
-| **Графика** | NVIDIA, AMD, DirectX и OpenGL в одной вкладке; метки подкатегорий на карточках |
-| **Эксперт** | Опасные твики отдельно: Defender/Firewall OFF, массовое отключение служб, полный WU OFF и др. |
-| **GPU / RAM** | Твики NVIDIA/AMD только на совместимом железе; RAM-профили SvHost (2–64 GB) |
-| **Умное сканирование** | Определяет уже активные настройки и не даёт включить их повторно |
-| **4 профиля** | Balanced, Gamer Pro, Max Performance, Privacy |
+| **204 твика** | performance · SSD · gaming · graphics · network · privacy · system · expert |
+| **10 вкладок** | Главная · Производительность · Игры · Графика · Сеть · Приватность · Система · Эксперт · Профили · Настройки |
+| **5 профилей** | Balanced · Gamer Pro · Max Performance · Privacy · **SSD** |
 | **Фильтры** | Все · Доступные · Активные · Разовые |
-| **Бэкап .reg** | Экспорт активных настроек прямо из приложения |
-| **Crimson Dark UI** | Тёмная тема, анимации, splash-экран и автоскан при старте |
-| **RU / EN** | Полная локализация интерфейса и описаний твиков |
+| **Crimson Dark** | Тёмная тема, анимации, splash, автоскан при старте |
 
-### Вкладки
+---
 
-| Вкладка | Содержимое |
-|---------|------------|
-| **Графика** | NVIDIA (P-State, Telemetry, preemption), AMD Anti-Lag, DirectX/D3D (Custom-DirectX), OpenGL |
-| **Система** | Системные и визуальные твики (реестр, службы, интерфейс Windows) |
-| **Эксперт** | Деструктивные изменения — только при полном понимании последствий |
+## SSD-оптимизация
+
+На вкладке **Производительность** появилась подкатегория **SSD** — набор из SSD Mini Tweaker и связанных NTFS-твиков:
+
+| Твик | Действие |
+|------|----------|
+| TRIM | `fsutil DisableDeleteNotify=0` на томах |
+| Prefetch / Superfetch OFF | Не нужны на SSD |
+| Дефрагментация OFF | Служба, планировщик, boot defrag |
+| Layout.ini OFF | OptimalLayout + Prefetch scenario |
+| Индексирование дисков OFF | WMI/CIM на фиксированных томах |
+| Защита системы OFF | Освобождает место (risk: high) |
+
+Дополнительно в профиле **SSD**: `ntfs_memory_ssd`, `large_system_cache_on`, `disable_paging_executive`, `ntfs_8dot3_off`, `disable_hibernation` и др.
 
 ---
 
 ## Быстрый старт
 
-### Скачать готовый EXE
+### Скачать EXE
 
-1. Перейдите в [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
-2. Скачайте `CrimsonTune.exe` или `CrimsonTune-v*-win64.zip`
-3. Запустите **от имени администратора**
+1. [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
+2. `CrimsonTune.exe` или `CrimsonTune-v*-win64.zip`
+3. Запуск **от имени администратора**
 
-### Запуск из исходников
+### Из исходников
 
 ```bash
 git clone https://github.com/expl01t-search/CrimsonTune.git
@@ -97,27 +127,24 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### Сборка EXE
+### Сборка
 
 ```bash
 python tools/gen_icon.py
-python tools/gen_version_info.py   # метаданные версии для EXE (опционально — build.spec вызывает сам)
 pyinstaller build.spec
 ```
 
-Готовый файл: `dist/CrimsonTune.exe`
+→ `dist/CrimsonTune.exe`
 
 ---
 
 ## Скриншоты
 
 <p align="center">
-  <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — главная панель с мониторингом железа и статусом оптимизации" width="920" />
+  <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — главная панель" width="920" />
 </p>
 
-<p align="center">
-  <sub>Главная · мониторинг CPU/GPU/RAM · кольцо оптимизации · быстрая очистка</sub>
-</p>
+<p align="center"><sub>Главная · CPU/GPU/RAM · кольцо оптимизации · быстрая очистка</sub></p>
 
 ---
 
@@ -125,60 +152,40 @@ pyinstaller build.spec
 
 | Слой | Технология |
 |------|------------|
-| GUI | PySide6 + QSS `cyber_forge.qss` |
-| Анимации | `QPropertyAnimation`, `QEasingCurve` |
+| GUI | PySide6 + `cyber_forge.qss` |
 | Система | Python 3.11+, `winreg`, `psutil` |
 | Сборка | PyInstaller |
 
----
-
-## Структура проекта
-
 ```
 CrimsonTune/
-├── core/              # приложение, детектор, бэкапы, i18n
-├── tweaks/            # обработчики (performance, nvidia, expert, directx…)
-├── ui/                # окна, компоненты, тема
-├── config/            # tweaks.json, профили
-├── locales/           # RU / EN
-├── tools/
-│   ├── gen_icon.py
-│   └── gen_version_info.py
-└── main.py
+├── core/       # приложение, сканер, бэкапы, i18n
+├── tweaks/     # performance, ssd, nvidia, msi_mode, expert…
+├── ui/         # окна, компоненты, тема
+├── config/     # tweaks.json, профили (в т.ч. ssd.json)
+└── locales/    # RU / EN
 ```
 
 ---
 
-## Безопасность
-
-Опасные и деструктивные твики собраны во вкладке **Эксперт** — применяйте только если понимаете последствия.
-
-Данные пользователя хранятся в `%AppData%\CrimsonTune`  
-(с автоматической миграцией из `VeloForge` / `WinTweaker`).
-
----
-
-## Восстановление настроек
+## Восстановление
 
 ```bat
 RESTORE.bat
 ```
 
-или
+или `python main.py --restore-all`
 
-```bash
-python main.py --restore-all
-```
+Данные: `%AppData%\CrimsonTune` (миграция из VeloForge / WinTweaker).
 
 ---
 
 ## Changelog
 
-См. [CHANGELOG.md](CHANGELOG.md)
+[CHANGELOG.md](CHANGELOG.md)
 
 ---
 
 <p align="center">
-  <sub>Сделано с ❤️ для точной настройки Windows</sub><br>
-  <sub><a href="README.en.md">Read in English</a></sub>
+  <sub>Сделано для точной настройки Windows</sub><br>
+  <a href="README.en.md">Read in English</a>
 </p>

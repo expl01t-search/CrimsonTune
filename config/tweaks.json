@@ -970,57 +970,6 @@
       "hint": "Убирает поле поиска — больше места на панели Убедитесь, что понимаете последствия."
     },
     {
-      "id": "nvidia_max_performance",
-      "name": "NVIDIA: Max Performance",
-      "description": "Инструкция по настройке максимальной производительности GPU",
-      "category": "nvidia",
-      "risk": "safe",
-      "requires_admin": false,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "nvidia"
-      ],
-      "default": false,
-      "hint": "Инструкция по настройке максимальной производительности GPU Убедитесь, что понимаете последствия. Разовое действие · Только NVIDIA"
-    },
-    {
-      "id": "nvidia_low_latency",
-      "name": "NVIDIA: Low Latency Ultra",
-      "description": "Инструкция по режиму минимальной задержки NVIDIA",
-      "category": "nvidia",
-      "risk": "safe",
-      "requires_admin": false,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "nvidia"
-      ],
-      "default": false,
-      "hint": "Инструкция по режиму минимальной задержки NVIDIA Убедитесь, что понимаете последствия. Разовое действие · Только NVIDIA"
-    },
-    {
-      "id": "amd_anti_lag",
-      "name": "AMD: Anti-Lag",
-      "description": "Инструкция по включению AMD Anti-Lag в Radeon Software",
-      "category": "amd",
-      "risk": "safe",
-      "requires_admin": false,
-      "requires_reboot": false,
-      "compatible_os": [
-        "10.0"
-      ],
-      "gpu_vendor": [
-        "amd"
-      ],
-      "default": false,
-      "hint": "Инструкция по включению AMD Anti-Lag в Radeon Software Убедитесь, что понимаете последствия. Разовое действие · Только AMD"
-    },
-    {
       "id": "intel_panel_refresh_off",
       "name": "Intel: Panel Self Refresh OFF",
       "description": "Отключает энергосбережение встроенной графики Intel",

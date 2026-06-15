@@ -32,6 +32,9 @@ REMOVE_IDS = {
 def test_profile_ids_valid():
     tweaks_path = ROOT / "config" / "tweaks.json"
     catalog = {t["id"] for t in json.loads(tweaks_path.read_text(encoding="utf-8"))["tweaks"]}
+    from tweaks.supplemental_catalog import SUPPLEMENTAL_TWEAKS
+
+    catalog.update(t.id for t in SUPPLEMENTAL_TWEAKS)
     for pf in (ROOT / "config" / "profiles").glob("*.json"):
         profile = json.loads(pf.read_text(encoding="utf-8"))
         for tid in profile.get("tweaks", []):
@@ -44,12 +47,12 @@ def test_filter_skips_incompatible():
 
     det = TweakStateDetector()
     applicable, skipped = det.filter_applicable(
-        ["amd_anti_lag"],
-        {"amd_anti_lag": False},
+        ["nvidia_disable_pstate"],
+        {"nvidia_disable_pstate": False},
     )
     assert applicable == []
-    assert skipped == ["amd_anti_lag"]
-    state = det.get_state("amd_anti_lag", compatible=False)
+    assert skipped == ["nvidia_disable_pstate"]
+    state = det.get_state("nvidia_disable_pstate", compatible=False)
     assert state.status == TweakStatus.INCOMPATIBLE
 
 
@@ -97,9 +100,9 @@ def test_incompatible_toggle_blocked():
 
     app = QApplication.instance() or QApplication([])
     manager = create_manager()
-    meta = manager.get_meta("amd_anti_lag")
+    meta = manager.get_meta("nvidia_disable_pstate")
     assert meta is not None
-    state = build_incompatible_state(meta, "nvidia")
+    state = build_incompatible_state(meta, "amd")
     row = TweakRow(meta, state)
     assert row.is_selected() is False
     row._toggle.setChecked(True, animate=False)
@@ -204,12 +207,12 @@ def test_apply_category_filters_active_and_incompatible():
     from core.tweak_state import TweakStateDetector
 
     det = TweakStateDetector()
-    ids = ["amd_anti_lag", "enable_game_mode"]
+    ids = ["nvidia_disable_pstate", "enable_game_mode"]
     applicable, skipped = det.filter_applicable(
         ids,
-        {"amd_anti_lag": False, "enable_game_mode": True},
+        {"nvidia_disable_pstate": False, "enable_game_mode": True},
     )
-    assert "amd_anti_lag" in skipped
+    assert "nvidia_disable_pstate" in skipped
     assert "enable_game_mode" in applicable or "enable_game_mode" in skipped
 
 

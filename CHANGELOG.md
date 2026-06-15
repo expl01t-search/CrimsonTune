@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.2.20] - 2026-06-15
+
+### Added
+- **SSD-пакет** (SSD Mini Tweaker): TRIM, отключение Prefetch/Superfetch, дефрагментации при загрузке, Layout.ini
+- Отключение службы и плановой дефрагментации, индексирования томов, защиты системы (высокий риск)
+- Профиль **SSD** и подкатегория SSD на вкладке «Производительность»
+- Обновлённые README (RU/EN)
+
+## [1.2.19] - 2026-06-15
+
+### Added
+- **MSI Mode: High (GPU/USB/LAN)** — MSISupported + DevicePriority High как MSI Mode Utility v3
+- **NVIDIA:** MaxFrameLatency 1, отключение runtime PM, driver perf (nvlddmkm + NVTweak)
+
+## [1.2.18] - 2026-06-15
+
+### Removed
+- Твики-инструкции без реального применения: `nvidia_max_performance`, `nvidia_low_latency`, `amd_anti_lag`
+
+## [1.2.17] - 2026-06-15
+
+### Added
+- **+16 твиков** из BoosterX, SpeedGuide, CS2 Ping Optimizer, dimaoudegrim, RPG Russia:
+  - Nagle OFF на NIC (TcpDelAckTicks), Psched NonBestEffortLimit, MMCSS Games full priority
+  - TCP ECN, CTCP, отключение RSC, отключение сжатия памяти
+  - Explorer SeparateProcess, кэш иконок, отключение сжатия NTFS
+  - Nearby Sharing OFF, AutoRun OFF, Edge Startup Boost OFF, Phone Link OFF
+
 ## [1.2.16] - 2026-06-15
 
 ### Changed

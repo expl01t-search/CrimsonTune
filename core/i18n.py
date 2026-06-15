@@ -32,6 +32,7 @@ _STATUS_KEYS: dict[TweakStatus, str] = {
 _CATEGORY_KEYS = {
     "performance": "nav_performance",
     "gaming": "nav_gaming",
+    "ssd": "nav_ssd",
     "graphics": "nav_graphics",
     "directx": "nav_directx",
     "opengl": "nav_opengl",

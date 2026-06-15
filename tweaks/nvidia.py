@@ -7,30 +7,6 @@ from utils.gpu_reg import GPU_CLASS_GUID
 from utils.subprocess_helper import run_command, run_powershell
 
 
-def nvidia_max_performance_apply() -> TweakResult:
-    return TweakResult(
-        True,
-        "NVIDIA: Панель управления → Управление 3D → Режим управления питанием → Предпочтительно максимальная производительность",
-        revert_data=None,
-    )
-
-
-def nvidia_max_performance_revert(_data) -> TweakResult:
-    return TweakResult(True, "Настройте вручную в NVIDIA Control Panel")
-
-
-def nvidia_low_latency_apply() -> TweakResult:
-    return TweakResult(
-        True,
-        "NVIDIA: Управление 3D → Low Latency Mode → Ultra",
-        revert_data=None,
-    )
-
-
-def nvidia_low_latency_revert(_data) -> TweakResult:
-    return TweakResult(True, "Настройте вручную")
-
-
 def nvidia_disable_preemption_apply() -> TweakResult:
     return reg_batch_apply([
         (r"HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Scheduler", "EnablePreemption", 0, 1),
@@ -73,10 +49,44 @@ def nvidia_disable_telemetry_revert(_data) -> TweakResult:
     return TweakResult(True, "Включите телеметрию в NVIDIA Control Panel при необходимости")
 
 
+def nvidia_max_frame_latency_apply() -> TweakResult:
+    base = rf"HKLM\SYSTEM\CurrentControlSet\Control\Class\{GPU_CLASS_GUID}"
+    entries = [(f"{base}\\000{i}", "MaxFrameLatency", 1, 0) for i in range(8)]
+    return reg_batch_apply(entries, message="NVIDIA MaxFrameLatency=1 (меньше input lag)")
+
+
+def nvidia_max_frame_latency_revert(data) -> TweakResult:
+    return reg_batch_revert(data)
+
+
+def nvidia_disable_runtime_pm_apply() -> TweakResult:
+    base = rf"HKLM\SYSTEM\CurrentControlSet\Control\Class\{GPU_CLASS_GUID}"
+    entries = [(f"{base}\\000{i}", "EnableRuntimePowerManagement", 0, 1) for i in range(8)]
+    return reg_batch_apply(entries, message="NVIDIA runtime power management отключён")
+
+
+def nvidia_disable_runtime_pm_revert(data) -> TweakResult:
+    return reg_batch_revert(data)
+
+
+def nvidia_driver_perf_apply() -> TweakResult:
+    return reg_batch_apply([
+        (r"HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm", "EnableMClkSlowdown", 0, 1),
+        (r"HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm", "EnableNVClkSlowdown", 0, 1),
+        (r"HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm", "RmGpsEnableGlobalPerfOpt", 1, 0),
+        (r"HKLM\SOFTWARE\NVIDIA Corporation\Global\NVTweak", "DisplayPowerSaving", 0, 1),
+    ], message="NVIDIA driver perf tweaks применены")
+
+
+def nvidia_driver_perf_revert(data) -> TweakResult:
+    return reg_batch_revert(data)
+
+
 HANDLERS = {
-    "nvidia_max_performance": (nvidia_max_performance_apply, nvidia_max_performance_revert),
-    "nvidia_low_latency": (nvidia_low_latency_apply, nvidia_low_latency_revert),
     "nvidia_disable_preemption": (nvidia_disable_preemption_apply, nvidia_disable_preemption_revert),
     "nvidia_disable_pstate": (nvidia_disable_pstate_apply, nvidia_disable_pstate_revert),
     "nvidia_disable_telemetry": (nvidia_disable_telemetry_apply, nvidia_disable_telemetry_revert),
+    "nvidia_max_frame_latency": (nvidia_max_frame_latency_apply, nvidia_max_frame_latency_revert),
+    "nvidia_disable_runtime_pm": (nvidia_disable_runtime_pm_apply, nvidia_disable_runtime_pm_revert),
+    "nvidia_driver_perf": (nvidia_driver_perf_apply, nvidia_driver_perf_revert),
 }

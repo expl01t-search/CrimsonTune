@@ -13,12 +13,12 @@ from utils.subprocess_helper import run_command, run_powershell
 
 class TweakStatus(str, Enum):
 
-    INACTIVE = "inactive"              # Не применён — можно включать
-    ACTIVE_SYSTEM = "active_system"    # Уже активен в Windows (вручную или другим софтом)
-    APPLIED_APP = "applied_app"        # Применён через CrimsonTune
-    ACTIVE_BOTH = "active_both"        # И в системе, и записан в CrimsonTune
-    UNKNOWN = "unknown"                # Невозможно определить
-    ONE_SHOT = "one_shot"              # Разовое действие — не отслеживается
+    INACTIVE = "inactive"
+    ACTIVE_SYSTEM = "active_system"
+    APPLIED_APP = "applied_app"
+    ACTIVE_BOTH = "active_both"
+    UNKNOWN = "unknown"
+    ONE_SHOT = "one_shot"
     INCOMPATIBLE = "incompatible"
 
 
@@ -48,8 +48,8 @@ class TweakStateInfo:
 
     tweak_id: str
     status: TweakStatus
-    is_active: bool          # Желаемое состояние уже достигнуто
-    can_apply: bool          # Можно применять (не активен)
+    is_active: bool
+    can_apply: bool
     applied_by_app: bool
     active_in_system: bool
     detail: str = ""
@@ -61,9 +61,6 @@ ONE_SHOT_TWEAKS = {
     "clear_shader_cache",
     "export_dxdiag",
     "reset_winsock",
-    "nvidia_max_performance",
-    "nvidia_low_latency",
-    "amd_anti_lag",
     "remove_onedrive",
     "set_services_manual",
     "disable_ipv6",
@@ -94,7 +91,7 @@ def _reg_bool(path: str, name: str, expected: bool) -> bool:
 def _service_disabled(name: str) -> bool:
     code, out, _ = run_command(["sc", "query", name])
     if code != 0:
-        return True  # служба не найдена / не запущена
+        return True
     return "STOPPED" in out or "DISABLED" in out.upper()
 
 
@@ -447,12 +444,68 @@ def _batch_reg_active(entries) -> bool:
     return True
 
 
+def _netsh_tcp_global() -> str:
+    code, out, _ = run_command(["netsh", "int", "tcp", "show", "global"])
+    return out.lower() if code == 0 else ""
+
+
+def _nic_nagle_disabled() -> bool:
+    from utils.nic_reg import active_interface_reg_paths
+
+    paths = active_interface_reg_paths()
+    if not paths:
+        return False
+    path = paths[0]
+    return _reg_eq(path, "TCPNoDelay", 1) and _reg_eq(path, "TcpAckFrequency", 1)
+
+
+def _memory_compression_disabled() -> bool:
+    code, out, _ = run_powershell("(Get-MMACompressionStatus).IsEnabled")
+    if code != 0:
+        return False
+    return "false" in out.lower()
+
+
+def _trim_enabled() -> bool:
+    code, out, _ = run_powershell("fsutil behavior query DisableDeleteNotify")
+    if code != 0:
+        return False
+    return "disabledeletenotify = 0" in out.lower()
+
+
+def _defrag_tasks_disabled() -> bool:
+    code, out, _ = run_powershell(
+        "(Get-ScheduledTask -TaskPath '\\Microsoft\\Windows\\Defrag\\' -ErrorAction SilentlyContinue | "
+        "Where-Object { $_.State -ne 'Disabled' }).Count"
+    )
+    if code != 0:
+        return False
+    try:
+        return int(out.strip() or "0") == 0
+    except ValueError:
+        return False
+
+
+def _volume_indexing_disabled() -> bool:
+    code, out, _ = run_powershell(
+        "(Get-CimInstance Win32_Volume -Filter 'DriveType=3' | "
+        "Where-Object { $_.DriveLetter -and $_.IndexingEnabled }).Count"
+    )
+    if code != 0:
+        return False
+    try:
+        return int(out.strip() or "0") == 0
+    except ValueError:
+        return False
+
+
 def _register_supplemental_checks() -> None:
     global _supplemental_checks_ready
     if _supplemental_checks_ready:
         return
     from tweaks.supplemental_catalog import SUPPLEMENTAL_TWEAKS
     from utils.gpu_reg import gpu_adapter_path
+    from utils.msi_mode import primary_gpu_msi_active
 
     for item in SUPPLEMENTAL_TWEAKS:
         if item.entries and item.id not in SYSTEM_CHECKS:
@@ -483,8 +536,49 @@ def _register_supplemental_checks() -> None:
             gpu_adapter_path(0), "DisableDynamicPstate", 1,
         ),
         "nvidia_disable_telemetry": lambda: _service_disabled("NvTelemetryContainer"),
+        "nvidia_max_frame_latency": lambda: _reg_eq(gpu_adapter_path(0), "MaxFrameLatency", 1),
+        "nvidia_disable_runtime_pm": lambda: _reg_eq(gpu_adapter_path(0), "EnableRuntimePowerManagement", 0),
+        "nvidia_driver_perf": lambda: _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm", "RmGpsEnableGlobalPerfOpt", 1,
+        ),
+        "msi_mode_high_priority": lambda: primary_gpu_msi_active(),
     }
-    for tid, fn in _expert_checks.items():
+    _community_checks = {
+        "disable_nagle_nic_interfaces": lambda: _nic_nagle_disabled(),
+        "disable_memory_compression": lambda: _memory_compression_disabled(),
+        "tcp_ecn_gaming": lambda: "enabled" in _netsh_tcp_global().lower() and "ecn" in _netsh_tcp_global().lower(),
+        "tcp_congestion_ctcp": lambda: "ctcp" in _netsh_tcp_global().lower(),
+        "disable_tcp_rsc": lambda: "disabled" in _netsh_tcp_global().lower() and "rsc" in _netsh_tcp_global().lower(),
+    }
+    _ssd_checks = {
+        "ssd_enable_trim": lambda: _trim_enabled(),
+        "ssd_disable_boot_defrag": lambda: _reg_eq(
+            r"HKLM\SOFTWARE\Microsoft\Dfrg\BootOptimizeFunction", "Enable", "N",
+        ),
+        "ssd_disable_layout_ini": lambda: _reg_eq(
+            r"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OptimalLayout", "EnableAutoLayout", 0,
+        ) and _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters",
+            "ScenarioExecutionEnabled",
+            0,
+        ),
+        "ssd_disable_defrag_service": lambda: _service_disabled("defragsvc"),
+        "ssd_disable_system_restore": lambda: _reg_eq(
+            r"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore", "DisableSR", 1,
+        ),
+        "ssd_disable_scheduled_defrag": lambda: _defrag_tasks_disabled(),
+        "ssd_disable_superfetch_prefetch": lambda: _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters",
+            "EnablePrefetcher",
+            0,
+        ) and _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters",
+            "EnableSuperfetch",
+            0,
+        ),
+        "ssd_disable_volume_indexing": lambda: _volume_indexing_disabled(),
+    }
+    for tid, fn in {**_expert_checks, **_community_checks, **_ssd_checks}.items():
         if tid not in SYSTEM_CHECKS:
             SYSTEM_CHECKS[tid] = fn
 

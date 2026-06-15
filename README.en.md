@@ -5,19 +5,19 @@
 </p>
 
 <p align="center">
-  <img src="icon.ico" alt="CrimsonTune" width="96" height="96" />
+  <img src="icon.ico" alt="CrimsonTune" width="112" height="112" />
 </p>
 
 <h1 align="center">CrimsonTune</h1>
 
 <p align="center">
   <strong>Precise Windows 10 tuning</strong><br>
-  Desktop optimizer with smart scanning, profiles, and a crimson-dark interface
+  <sub>Desktop optimizer · smart scan · profiles · Crimson Dark UI</sub>
 </p>
 
 <p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/tag/v1.2.16">
-    <img src="https://img.shields.io/badge/v1.2.16-179_tweaks-d63031?style=for-the-badge" alt="v1.2.16" />
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
+    <img src="https://img.shields.io/badge/v1.2.20-204_tweaks-d63031?style=for-the-badge" alt="v1.2.20" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
@@ -31,64 +31,94 @@
   <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge" alt="License" />
   </a>
-  <a href="README.md">
-    <img src="https://img.shields.io/badge/UI-English_·_Русский-d63031?style=for-the-badge" alt="EN / RU" />
-  </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune.exe">
-    <img src="https://img.shields.io/badge/⬇️_Download_CrimsonTune.exe-d63031?style=for-the-badge" alt="Download EXE" />
+    <img src="https://img.shields.io/badge/⬇️_Download_CrimsonTune.exe-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download" />
   </a>
 </p>
 
 ---
 
-## About
+## Why CrimsonTune
 
-**CrimsonTune** is a modern Windows 10 tweaker built with **PySide6 (Qt 6)**. It bundles proven optimizations from popular sources into a clean UI and helps you tune your system safely — without noise or guesswork.
+One tool instead of dozens of `.reg` files, batch scripts, and half-manual guides. CrimsonTune bundles proven tweaks from **WinUtil**, **Optimize #Expl01t**, **BoosterX**, **SpeedGuide**, **MSI Mode Utility**, and **SSD Mini Tweaker** — with revert, smart scanning, and profiles.
 
-> Run as **Administrator** — most tweaks modify the registry and Windows services.
+> Run as **Administrator** — tweaks touch registry, services, and the task scheduler.
 
-> **UI language:** Russian and English — switch in **Settings → Language**.
+> **Language:** Russian and English — **Settings → Language**.
 
 ---
 
-## Features
+## Highlights
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### Performance
+- CPU, RAM, services, power plan
+- **SSD pack** (TRIM, defrag OFF, NTFS)
+- SysMain, hibernation, prefetch off
+
+### Gaming & network
+- **MSI Mode High** (GPU / USB / LAN)
+- MMCSS, per-NIC Nagle OFF, TCP ECN/CTCP
+- Game tweaks and timer resolution
+
+</td>
+<td width="50%" valign="top">
+
+### Graphics
+- NVIDIA: P-State, MaxFrameLatency, driver perf
+- DirectX / OpenGL / AMD (hardware-gated)
+
+### Safe UI
+- Risky tweaks under **Expert** tab
+- Smart scan prevents duplicate toggles
+- `.reg` export and full restore
+
+</td>
+</tr>
+</table>
 
 | | |
 |---|---|
-| **179 tweaks** | WinUtil, Winhance, Sophia, Optimize #Expl01t, Custom-DirectX, DLCI, ReadyPC |
-| **10 tabs** | Home · Performance · Gaming · **Graphics** · Network · Privacy · **System** · **Expert** · Profiles · Settings |
-| **Graphics** | NVIDIA, AMD, DirectX and OpenGL in one tab; subcategory chips on cards |
-| **Expert** | Risky tweaks separated: Defender/Firewall OFF, mass service disable, full WU OFF, etc. |
-| **GPU / RAM** | NVIDIA/AMD tweaks only on compatible hardware; SvHost RAM tiers (2–64 GB) |
-| **Smart scan** | Detects tweaks already active in Windows and prevents duplicate toggles |
-| **4 profiles** | Balanced, Gamer Pro, Max Performance, Privacy |
+| **204 tweaks** | performance · SSD · gaming · graphics · network · privacy · system · expert |
+| **10 tabs** | Home · Performance · Gaming · Graphics · Network · Privacy · System · Expert · Profiles · Settings |
+| **5 profiles** | Balanced · Gamer Pro · Max Performance · Privacy · **SSD** |
 | **Filters** | All · Available · Active · One-shot |
-| **`.reg` backup** | Export active tweak settings from the app |
-| **Crimson Dark UI** | Dark theme, animations, splash screen, auto-scan on launch |
-| **RU / EN** | Full UI and tweak description localization |
+| **Crimson Dark** | Dark theme, animations, splash, auto-scan on launch |
 
-### Tabs
+---
 
-| Tab | Contents |
-|-----|----------|
-| **Graphics** | NVIDIA (P-State, Telemetry, preemption), AMD Anti-Lag, DirectX/D3D (Custom-DirectX), OpenGL |
-| **System** | System and visual tweaks (registry, services, Windows UI) |
-| **Expert** | Destructive changes — use only if you fully understand the consequences |
+## SSD optimization
+
+Under **Performance**, the **SSD** subcategory includes SSD Mini Tweaker-style tweaks plus related NTFS settings:
+
+| Tweak | Action |
+|-------|--------|
+| TRIM | `fsutil DisableDeleteNotify=0` on volumes |
+| Prefetch / Superfetch OFF | Not needed on SSD |
+| Defrag OFF | Service, scheduler, boot defrag |
+| Layout.ini OFF | OptimalLayout + Prefetch scenario |
+| Volume indexing OFF | WMI/CIM on fixed drives |
+| System Restore OFF | Frees space (risk: high) |
+
+The **SSD** profile also applies `ntfs_memory_ssd`, `large_system_cache_on`, `disable_paging_executive`, `ntfs_8dot3_off`, `disable_hibernation`, and more.
 
 ---
 
 ## Quick start
 
-### Download the EXE
+### Download EXE
 
-1. Open [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
-2. Download `CrimsonTune.exe` or `CrimsonTune-v*-win64.zip`
+1. [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
+2. `CrimsonTune.exe` or `CrimsonTune-v*-win64.zip`
 3. Run **as Administrator**
 
-### Run from source
+### From source
 
 ```bash
 git clone https://github.com/expl01t-search/CrimsonTune.git
@@ -97,27 +127,24 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### Build EXE
+### Build
 
 ```bash
 python tools/gen_icon.py
-python tools/gen_version_info.py   # EXE version metadata (optional — build.spec runs it)
 pyinstaller build.spec
 ```
 
-Output: `dist/CrimsonTune.exe`
+→ `dist/CrimsonTune.exe`
 
 ---
 
 ## Screenshots
 
 <p align="center">
-  <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — home dashboard with hardware monitoring and optimization ring" width="920" />
+  <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — home dashboard" width="920" />
 </p>
 
-<p align="center">
-  <sub>Home · CPU/GPU/RAM monitoring · optimization ring · quick cleanup</sub>
-</p>
+<p align="center"><sub>Home · CPU/GPU/RAM · optimization ring · quick cleanup</sub></p>
 
 ---
 
@@ -125,60 +152,31 @@ Output: `dist/CrimsonTune.exe`
 
 | Layer | Technology |
 |-------|------------|
-| GUI | PySide6 + QSS `cyber_forge.qss` |
-| Animations | `QPropertyAnimation`, `QEasingCurve` |
+| GUI | PySide6 + `cyber_forge.qss` |
 | System | Python 3.11+, `winreg`, `psutil` |
 | Build | PyInstaller |
 
 ---
 
-## Project structure
-
-```
-CrimsonTune/
-├── core/              # app, detector, backups, i18n
-├── tweaks/            # handlers (performance, nvidia, expert, directx…)
-├── ui/                # windows, components, theme
-├── config/            # tweaks.json, profiles
-├── locales/           # RU / EN
-├── tools/
-│   ├── gen_icon.py
-│   └── gen_version_info.py
-└── main.py
-```
-
----
-
-## Safety
-
-Risky and destructive tweaks are grouped under the **Expert** tab — apply only if you understand the consequences.
-
-User data is stored in `%AppData%\CrimsonTune`  
-(with automatic migration from `VeloForge` / `WinTweaker`).
-
----
-
-## Restore settings
+## Restore
 
 ```bat
 RESTORE.bat
 ```
 
-or
+or `python main.py --restore-all`
 
-```bash
-python main.py --restore-all
-```
+Data: `%AppData%\CrimsonTune` (migrates from VeloForge / WinTweaker).
 
 ---
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md)
+[CHANGELOG.md](CHANGELOG.md)
 
 ---
 
 <p align="center">
-  <sub>Made with ❤️ for precise Windows tuning</sub><br>
-  <sub><a href="README.md">Читать на русском</a></sub>
+  <sub>Made for precise Windows tuning</sub><br>
+  <a href="README.md">Читать на русском</a>
 </p>

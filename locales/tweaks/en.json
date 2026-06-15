@@ -279,21 +279,6 @@
     "description": "Removes the search box — more taskbar space",
     "hint": "Removes the search box — more taskbar space. Make sure you understand the consequences."
   },
-  "nvidia_max_performance": {
-    "name": "NVIDIA: Max Performance",
-    "description": "Guide to configure maximum GPU performance",
-    "hint": "Guide to configure maximum GPU performance. Make sure you understand the consequences. One-time action · NVIDIA only"
-  },
-  "nvidia_low_latency": {
-    "name": "NVIDIA: Low Latency Ultra",
-    "description": "Guide to NVIDIA low latency mode",
-    "hint": "Guide to NVIDIA low latency mode. Make sure you understand the consequences. One-time action · NVIDIA only"
-  },
-  "amd_anti_lag": {
-    "name": "AMD: Anti-Lag",
-    "description": "Guide to enable AMD Anti-Lag in Radeon Software",
-    "hint": "Guide to enable AMD Anti-Lag in Radeon Software. Make sure you understand the consequences. One-time action · AMD only"
-  },
   "intel_panel_refresh_off": {
     "name": "Intel: Panel Self Refresh OFF",
     "description": "Disables Intel integrated graphics power saving",
