@@ -135,5 +135,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Local release artifacts (source lives in repo root)
+# Local release artifacts
 releases/
+CrimsonTune-*.zip
+*.zip
