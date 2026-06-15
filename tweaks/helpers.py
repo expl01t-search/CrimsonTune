@@ -157,3 +157,14 @@ def run_cmd_tweak(cmd: list[str], revert_cmd: Optional[list[str]] = None) -> Twe
     if code == 0:
         return TweakResult(True, out or "Выполнено", revert_data={"revert_cmd": revert_cmd})
     return TweakResult(False, err or out)
+
+
+def run_cmd_revert(data: Optional[dict], *, message: str = "Откачено") -> TweakResult:
+    cmd = (data or {}).get("revert_cmd")
+    if cmd:
+        run_command(cmd)
+    return TweakResult(True, message)
+
+
+def noop_revert(_data) -> TweakResult:
+    return TweakResult(True, "Не требуется")

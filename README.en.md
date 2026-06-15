@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/v2.1.2-204_tweaks-d63031?style=for-the-badge" alt="v2.1.2" />
+    <img src="https://img.shields.io/badge/v2.2.0-321_tweaks-d63031?style=for-the-badge" alt="v2.2.0" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
@@ -34,7 +34,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.1.2-win64.zip">
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.0-win64.zip">
     <img src="https://img.shields.io/badge/⬇️_Download_.zip-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download ZIP" />
   </a>
 </p>
@@ -45,7 +45,7 @@
   </a>
 </p>
 
-<p align="center"><sub>Crimson Dark · optimization ring · smart scan · 204 tweaks</sub></p>
+<p align="center"><sub>Crimson Dark · optimization ring · smart scan · 321 tweaks</sub></p>
 
 ---
 
@@ -93,9 +93,9 @@ One tool instead of dozens of `.reg` files, batch scripts, and half-manual guide
 
 | | |
 |---|---|
-| **204 tweaks** | performance · SSD · gaming · graphics · network · privacy · system · expert |
+| **321 tweaks** | performance · SSD · gaming · graphics · network · privacy · system · expert |
 | **10 tabs** | Home · Performance · Gaming · Graphics · Network · Privacy · System · Expert · Profiles · Settings |
-| **5 profiles** | Balanced · Gamer Pro · Max Performance · Privacy · **SSD** |
+| **7 profiles** | Balanced · Gamer Pro · **Gaming Plus** · Max Performance · Privacy · SSD · **Ghost Superlite** |
 | **Filters** | All · Available · Active · One-shot |
 | **Crimson Dark** | Dark theme, animations, splash, auto-scan on launch |
 
@@ -115,6 +115,24 @@ Under **Performance**, the **SSD** subcategory includes SSD Mini Tweaker-style t
 | System Restore OFF | Frees space (risk: high) |
 
 The **SSD** profile also applies `ntfs_memory_ssd`, `large_system_cache_on`, `disable_paging_executive`, `ntfs_8dot3_off`, `disable_hibernation`, and more.
+
+---
+
+## v2.2 — Backlog tweaks
+
+**+117 tweaks** from open-source tools (OptimizerNXT, GTweak, Optimize-Windows, Ghost Spectre):
+
+| Category | New | Examples |
+|----------|-----|----------|
+| Privacy | 43 | Recall, Spotlight, clipboard sync, browser telemetry |
+| UI | 22 | Snap Assist, Explorer Gallery, 24h clock |
+| Expert | 12 | Core Isolation, VBS, hosts-block, WU pause 2077 |
+| Performance | 9+ | Modern Standby, USB suspend, Compact OS |
+| Network / gaming | 11+ | NDU, netsh gaming, NIC LSO, FTH, MMCSS SFIO |
+
+**New profiles:**
+- **Gaming Plus** — top gaming + backlog (NDU, netsh, FTH, latency)
+- **Ghost Superlite** — Ghost Spectre–style privacy/debloat without Expert risks
 
 ---
 

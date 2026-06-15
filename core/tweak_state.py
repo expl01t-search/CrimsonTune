@@ -2,9 +2,9 @@
 from __future__ import annotations
 
 import os
-import winreg
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
 from typing import Callable, Iterable, Optional
 
 from utils import registry as reg
@@ -72,6 +72,13 @@ ONE_SHOT_TWEAKS = {
     "disable_device_power_saving",
     "classic_context_menu",
     "disable_teredo",
+    "debloat_uwp_apps",
+    "empty_standby_list",
+    "kill_gaming_overlays",
+    "flush_standby_memory",
+    "create_god_mode_folder",
+    "disable_telemetry_scheduled_tasks",
+    "enable_compact_os",
 }
 
 
@@ -119,11 +126,6 @@ def _service_disabled(name: str) -> bool:
     if "DISABLED" in upper:
         return True
     return False
-
-
-def _service_running(name: str) -> bool:
-    code, out, _ = run_command(["sc", "query", name])
-    return code == 0 and "RUNNING" in out
 
 
 def _power_plan_active(guid: str) -> bool:
@@ -560,6 +562,20 @@ def _volume_indexing_disabled() -> bool:
         return False
 
 
+def _register_entry_checks(items) -> None:
+    for item in items:
+        if item.entries and item.id not in SYSTEM_CHECKS:
+            SYSTEM_CHECKS[item.id] = (lambda e=item.entries: _batch_reg_active(e))
+
+
+def _legacy_photo_viewer_active() -> bool:
+    return _reg_eq(
+        r"HKLM\SOFTWARE\Microsoft\Windows Photo Viewer\Capabilities\FileAssociations",
+        "jpg",
+        "PhotoViewer.FileAssoc.Tiff",
+    )
+
+
 def _register_supplemental_checks() -> None:
     global _supplemental_checks_ready
     if _supplemental_checks_ready:
@@ -568,9 +584,7 @@ def _register_supplemental_checks() -> None:
     from utils.gpu_reg import gpu_adapter_path
     from utils.msi_mode import primary_gpu_msi_active
 
-    for item in SUPPLEMENTAL_TWEAKS:
-        if item.entries and item.id not in SYSTEM_CHECKS:
-            SYSTEM_CHECKS[item.id] = (lambda e=item.entries: _batch_reg_active(e))
+    _register_entry_checks(SUPPLEMENTAL_TWEAKS)
 
     _expert_checks = {
         "disable_defender": lambda: _reg_eq(
@@ -644,9 +658,83 @@ def _register_supplemental_checks() -> None:
             SYSTEM_CHECKS[tid] = fn
 
     _supplemental_checks_ready = True
+    _register_backlog_checks()
+
+
+def _register_backlog_checks() -> None:
+    global _backlog_checks_ready
+    if _backlog_checks_ready:
+        return
+    from tweaks.backlog_catalog import BACKLOG_SERVICE_MAP, BACKLOG_TWEAKS
+
+    _register_entry_checks(BACKLOG_TWEAKS)
+
+    for tid, svc in BACKLOG_SERVICE_MAP.items():
+        if tid not in SYSTEM_CHECKS:
+            SYSTEM_CHECKS[tid] = (lambda s=svc: _service_disabled(s))
+
+    _action_checks = {
+        "optimize_netsh_gaming": lambda: "disabled" in _netsh_tcp_global().lower()
+        and "ctcp" in _netsh_tcp_global().lower(),
+        "disable_boot_splash": lambda: _bcd_bootux_disabled(),
+        "block_microsoft_telemetry_domains": lambda: _hosts_blocks_telemetry(),
+        "disable_usb_selective_suspend": lambda: _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Services\USB", "DisableSelectiveSuspend", 1,
+        ),
+        "disable_cpu_core_parking": lambda: _reg_eq(
+            r"HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling", "PowerThrottlingOff", 1,
+        ),
+        "disable_nic_lso": lambda: _nic_lso_disabled(),
+        "disable_nic_rss": lambda: _nic_rss_disabled(),
+        "restore_legacy_photo_viewer": lambda: _legacy_photo_viewer_active(),
+    }
+    for tid, fn in _action_checks.items():
+        if tid not in SYSTEM_CHECKS:
+            SYSTEM_CHECKS[tid] = fn
+
+    _backlog_checks_ready = True
+
+
+def _nic_lso_disabled() -> bool:
+    code, out, _ = run_powershell(
+        "$up = @(Get-NetAdapter | Where-Object Status -eq 'Up'); "
+        "if (-not $up) { 'no'; exit 0 }; "
+        "$enabled = @($up | ForEach-Object { "
+        "(Get-NetAdapterLso -Name $_.Name -ErrorAction SilentlyContinue).IPv4Enabled "
+        "} | Where-Object { $_ -eq $true }); "
+        "if ($enabled.Count -eq 0) { 'yes' } else { 'no' }"
+    )
+    return code == 0 and out.strip().lower() == "yes"
+
+
+def _nic_rss_disabled() -> bool:
+    code, out, _ = run_powershell(
+        "$up = @(Get-NetAdapter | Where-Object Status -eq 'Up'); "
+        "if (-not $up) { 'no'; exit 0 }; "
+        "$enabled = @($up | ForEach-Object { "
+        "(Get-NetAdapterRss -Name $_.Name -ErrorAction SilentlyContinue).Enabled "
+        "} | Where-Object { $_ -eq $true }); "
+        "if ($enabled.Count -eq 0) { 'yes' } else { 'no' }"
+    )
+    return code == 0 and out.strip().lower() == "yes"
+
+
+def _bcd_bootux_disabled() -> bool:
+    code, out, _ = run_command(["bcdedit", "/enum", "{current}"])
+    return code == 0 and "bootuxdisabled" in out.lower() and "yes" in out.lower()
+
+
+def _hosts_blocks_telemetry() -> bool:
+    hosts = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "drivers" / "etc" / "hosts"
+    try:
+        text = hosts.read_text(encoding="utf-8", errors="ignore").lower()
+    except OSError:
+        return False
+    return "vortex-win.data.microsoft.com" in text and "127.0.0.1" in text
 
 
 _supplemental_checks_ready = False
+_backlog_checks_ready = False
 
 
 def _dns_is(servers: list[str]) -> bool:

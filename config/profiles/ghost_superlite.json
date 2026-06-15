@@ -1,0 +1,32 @@
+{
+  "id": "ghost_superlite",
+  "name": "Ghost Superlite",
+  "description": "Профиль в духе Ghost Spectre Superlite: приватность, фокус, игры, без Expert-рисков",
+  "tweaks": [
+    "disable_telemetry",
+    "disable_copilot",
+    "disable_cortana",
+    "disable_tips_suggestions",
+    "disable_error_reporting",
+    "disable_focus_assist",
+    "disable_clipboard_sync",
+    "disable_notification_center",
+    "disable_spotlight",
+    "disable_lockscreen_tips",
+    "disable_find_my_device",
+    "disable_print_spooler",
+    "disable_search_indexing",
+    "disable_fast_startup",
+    "disable_hpet",
+    "enable_game_mode",
+    "disable_game_dvr",
+    "disable_hibernation",
+    "pause_windows_update",
+    "disable_remote_desktop",
+    "disable_tablet_input_service",
+    "disable_nfc",
+    "disable_animations",
+    "disable_transparency",
+    "remove_onedrive"
+  ]
+}

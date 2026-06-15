@@ -18,5 +18,13 @@
   "ssd": {
     "name": "SSD",
     "description": "SSD optimization: TRIM, defrag off, NTFS, indexing, hibernation"
+  },
+  "gaming_plus": {
+    "name": "Gaming Plus",
+    "description": "Top gaming backlog: NDU, netsh, FTH, MMCSS, Game Mode, HAGS, latency network"
+  },
+  "ghost_superlite": {
+    "name": "Ghost Superlite",
+    "description": "Ghost Spectre–inspired preset: privacy, focus, gaming — without Expert risks"
   }
 }

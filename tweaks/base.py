@@ -163,6 +163,25 @@ class TweakManager:
                 self._tweaks[meta.id] = FunctionTweak(meta, apply_fn, revert_fn)
             metas.append(meta)
 
+        from tweaks.backlog_catalog import backlog_meta_items
+
+        for item in backlog_meta_items():
+            tid = item.get("id")
+            if not tid or tid in seen_ids:
+                continue
+            seen_ids.add(tid)
+            filtered = {k: v for k, v in item.items() if k in known}
+            self._source_items[tid] = filtered
+            meta = TweakMeta(**filtered)
+            from core.i18n import localize_meta
+
+            meta = localize_meta(meta)
+            self._meta[meta.id] = meta
+            if meta.id in self._handlers:
+                apply_fn, revert_fn = self._handlers[meta.id]
+                self._tweaks[meta.id] = FunctionTweak(meta, apply_fn, revert_fn)
+            metas.append(meta)
+
         self._handlers = {tid: self._handlers[tid] for tid in self._meta if tid in self._handlers}
         logger.info("Загружено %d твиков, %d с обработчиками", len(metas), len(self._tweaks))
         return metas

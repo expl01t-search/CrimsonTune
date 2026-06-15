@@ -49,13 +49,13 @@ def _meta(item: SupplementalTweak) -> dict[str, Any]:
     }
 
 
-def supplemental_meta_items() -> list[dict[str, Any]]:
-    return [_meta(t) for t in SUPPLEMENTAL_TWEAKS]
+def catalog_meta_items(tweaks: list[SupplementalTweak]) -> list[dict[str, Any]]:
+    return [_meta(t) for t in tweaks]
 
 
-def supplemental_en_strings() -> dict[str, dict[str, str]]:
+def catalog_en_strings(tweaks: list[SupplementalTweak]) -> dict[str, dict[str, str]]:
     out: dict[str, dict[str, str]] = {}
-    for t in SUPPLEMENTAL_TWEAKS:
+    for t in tweaks:
         if t.en_name:
             out[t.id] = {
                 "name": t.en_name,
@@ -63,6 +63,14 @@ def supplemental_en_strings() -> dict[str, dict[str, str]]:
                 "hint": t.en_hint or t.hint,
             }
     return out
+
+
+def supplemental_meta_items() -> list[dict[str, Any]]:
+    return catalog_meta_items(SUPPLEMENTAL_TWEAKS)
+
+
+def supplemental_en_strings() -> dict[str, dict[str, str]]:
+    return catalog_en_strings(SUPPLEMENTAL_TWEAKS)
 
 
 def build_reg_handlers(catalog: list[SupplementalTweak]) -> dict[str, tuple[Callable, Callable]]:
@@ -80,10 +88,7 @@ def build_reg_handlers(catalog: list[SupplementalTweak]) -> dict[str, tuple[Call
 
             return apply_fn
 
-        def make_revert():
-            return reg_batch_revert
-
-        handlers[item.id] = (make_apply(), make_revert())
+        handlers[item.id] = (make_apply(), reg_batch_revert)
     return handlers
 
 

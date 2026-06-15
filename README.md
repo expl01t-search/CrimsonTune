@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/v2.1.2-204_твика-d63031?style=for-the-badge" alt="v2.1.2" />
+    <img src="https://img.shields.io/badge/v2.2.0-321_твик-d63031?style=for-the-badge" alt="v2.2.0" />
   </a>
   <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
     <img src="https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&label=Release&color=d63031" alt="Release" />
@@ -34,7 +34,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.1.2-win64.zip">
+  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.0-win64.zip">
     <img src="https://img.shields.io/badge/⬇️_Скачать_.zip-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download ZIP" />
   </a>
 </p>
@@ -45,7 +45,7 @@
   </a>
 </p>
 
-<p align="center"><sub>Crimson Dark · кольцо оптимизации · умное сканирование · 204 твика</sub></p>
+<p align="center"><sub>Crimson Dark · кольцо оптимизации · умное сканирование · 321 твик</sub></p>
 
 ---
 
@@ -93,9 +93,9 @@
 
 | | |
 |---|---|
-| **204 твика** | performance · SSD · gaming · graphics · network · privacy · system · expert |
+| **321 твик** | performance · SSD · gaming · graphics · network · privacy · system · expert |
 | **10 вкладок** | Главная · Производительность · Игры · Графика · Сеть · Приватность · Система · Эксперт · Профили · Настройки |
-| **5 профилей** | Balanced · Gamer Pro · Max Performance · Privacy · **SSD** |
+| **7 профилей** | Balanced · Gamer Pro · **Gaming Plus** · Max Performance · Privacy · SSD · **Ghost Superlite** |
 | **Фильтры** | Все · Доступные · Активные · Разовые |
 | **Crimson Dark** | Тёмная тема, анимации, splash, автоскан при старте |
 
@@ -115,6 +115,24 @@
 | Защита системы OFF | Освобождает место (risk: high) |
 
 Дополнительно в профиле **SSD**: `ntfs_memory_ssd`, `large_system_cache_on`, `disable_paging_executive`, `ntfs_8dot3_off`, `disable_hibernation` и др.
+
+---
+
+## v2.2 — Backlog-твики
+
+**+117 твиков** из open-source твикеров (OptimizerNXT, GTweak, Optimize-Windows, Ghost Spectre). Категории:
+
+| Категория | Новых | Примеры |
+|-----------|-------|---------|
+| Приватность | 43 | Recall, Spotlight, clipboard sync, browser telemetry |
+| Интерфейс | 22 | Snap Assist, Explorer Gallery, 24h clock |
+| Эксперт | 12 | Core Isolation, VBS, hosts-block, WU pause 2077 |
+| Производительность | 9+ | Modern Standby, USB suspend, Compact OS |
+| Сеть / игры | 11+ | NDU, netsh gaming, NIC LSO, FTH, MMCSS SFIO |
+
+**Новые профили:**
+- **Gaming Plus** — топ gaming + backlog (NDU, netsh, FTH, latency)
+- **Ghost Superlite** — приватность и debloat в духе Ghost Spectre (без Expert-рисков)
 
 ---
 

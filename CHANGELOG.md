@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.2.0] - 2026-06-16
+
+### Added
+- **+117 твиков** (каталог **321**): модуль `backlog_catalog` + `backlog` — OptimizerNXT, GTweak, Optimize-Windows, Ghost Spectre, dimaoudegrim, Sparkle
+- **Приватность (43):** Recall, Spotlight, clipboard sync, Chrome/Firefox/VS/Office telemetry, CEIP, Find My Device, Focus Assist, NFC и др.
+- **Интерфейс (22):** Snap Assist, taskbar, Explorer (Gallery/Home, checkboxes), Photo Viewer, контекстное меню
+- **Эксперт (12):** Core Isolation, VBS, RDP, SmartScreen, pause WU до 2077, hosts-block telemetry
+- **Сеть/игры:** Active Probing, netsh gaming, NIC LSO/RSS, FTH, MMCSS SFIO, boot splash, windowed games opt
+- **Службы (21):** Ndu, PcaSvc, Spooler, TabletInput, Biometrics и др. — отдельными твиками
+- **Разовые:** debloat UWP, EmptyStandbyList, kill overlays, Compact OS, God Mode, CEIP tasks
+- **Профили:** `gaming_plus` (топ gaming+backlog), `ghost_superlite` (Ghost Spectre safe preset)
+- Подсказки RU + EN для каждого нового твика; проверки состояния в `tweak_state`
+
+### Changed
+- Версия приложения **2.2.0**
+- README: 321 твик, 7 профилей, ссылка на zip v2.2.0
+
+### Fixed
+- **USB Selective Suspend / Core Parking:** на кастомных планах (PowerX и др.) алиасы `SUB_USB`/`CPMINCORES` не работают — GUID + fallback через реестр
+- **Parental Controls:** служба `WpcMonSvc` вместо ошибочного `SEMgrSvc`
+- **pause_updates_extreme:** каталог, handler и проверка состояния синхронизированы
+- **restore_legacy_photo_viewer:** корректный статус «активен» (не ONE_SHOT)
+- Откат USB/Core Parking больше не маскирует ошибки реестра
+
 ## [2.1.2] - 2026-06-15
 
 ### Changed

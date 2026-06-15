@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from tweaks import (
     amd,
+    backlog,
     community,
     directx,
     expert,
@@ -23,6 +24,7 @@ from tweaks import (
 from tweaks.base import TweakManager
 
 HANDLER_MODULES: tuple = (
+    backlog,
     performance,
     ssd,
     gaming,

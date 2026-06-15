@@ -129,9 +129,10 @@ def init_locale(lang: str | None = None) -> str:
     _strings = _load_strings(_language)
     _tweak_strings = _load_tweak_strings(_language)
     if _language != DEFAULT_LANGUAGE:
+        from tweaks.backlog_catalog import backlog_en_strings
         from tweaks.supplemental_catalog import supplemental_en_strings
 
-        _tweak_strings = {**supplemental_en_strings(), **_tweak_strings}
+        _tweak_strings = {**supplemental_en_strings(), **backlog_en_strings(), **_tweak_strings}
     _profile_strings = _load_profile_strings(_language)
     return _language
 

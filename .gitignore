@@ -142,3 +142,9 @@ releases/
 CrimsonTune-*.zip
 *.zip
 version_info.txt
+
+# Local AI prompt — never commit or push to GitHub
+AI_LOCAL.md
+
+# Cursor IDE (local rules, not part of the release)
+.cursor/
