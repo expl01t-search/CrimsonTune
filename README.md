@@ -39,6 +39,14 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="assets/screenshots/dashboard.png">
+    <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — главная панель" width="920" />
+  </a>
+</p>
+
+<p align="center"><sub>Crimson Dark · кольцо оптимизации · умное сканирование · 204 твика</sub></p>
+
 ---
 
 ## Зачем CrimsonTune
@@ -152,11 +160,49 @@ pyinstaller build.spec
 
 ## Скриншоты
 
-<p align="center">
-  <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — главная панель" width="920" />
-</p>
-
-<p align="center"><sub>Главная · CPU/GPU/RAM · кольцо оптимизации · быстрая очистка</sub></p>
+<table>
+<tr>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/dashboard.png">
+    <img src="assets/screenshots/dashboard.png" alt="Главная" width="100%" />
+  </a>
+  <br><strong>Главная</strong><br>
+  <sub>CPU · GPU · RAM · диски · кольцо 88%</sub>
+</td>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/performance.png">
+    <img src="assets/screenshots/performance.png" alt="Производительность" width="100%" />
+  </a>
+  <br><strong>Производительность</strong><br>
+  <sub>SysMain · Prefetch · SSD · таймер · RAM</sub>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/games.png">
+    <img src="assets/screenshots/games.png" alt="Игры" width="100%" />
+  </a>
+  <br><strong>Игры</strong><br>
+  <sub>Game Mode · HAGS · DVR · бейдж «перезагрузка»</sub>
+</td>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/expert.png">
+    <img src="assets/screenshots/expert.png" alt="Эксперт" width="100%" />
+  </a>
+  <br><strong>Эксперт</strong><br>
+  <sub>Xbox · UAC · mitigations · разовые действия</sub>
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+  <a href="assets/screenshots/settings.png">
+    <img src="assets/screenshots/settings.png" alt="Настройки" width="78%" />
+  </a>
+  <br><strong>Настройки</strong><br>
+  <sub>RU / EN · автообновление · бэкап реестра · откат</sub>
+</td>
+</tr>
+</table>
 
 ---
 

@@ -39,6 +39,14 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="assets/screenshots/dashboard.png">
+    <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — home dashboard" width="920" />
+  </a>
+</p>
+
+<p align="center"><sub>Crimson Dark · optimization ring · smart scan · 204 tweaks</sub></p>
+
 ---
 
 ## Why CrimsonTune
@@ -152,11 +160,49 @@ End users only need the `.zip` from Releases. Two files keep PyInstaller out of 
 
 ## Screenshots
 
-<p align="center">
-  <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — home dashboard" width="920" />
-</p>
-
-<p align="center"><sub>Home · CPU/GPU/RAM · optimization ring · quick cleanup</sub></p>
+<table>
+<tr>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/dashboard.png">
+    <img src="assets/screenshots/dashboard.png" alt="Home" width="100%" />
+  </a>
+  <br><strong>Home</strong><br>
+  <sub>CPU · GPU · RAM · disks · 88% ring</sub>
+</td>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/performance.png">
+    <img src="assets/screenshots/performance.png" alt="Performance" width="100%" />
+  </a>
+  <br><strong>Performance</strong><br>
+  <sub>SysMain · Prefetch · SSD · timer · RAM</sub>
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/games.png">
+    <img src="assets/screenshots/games.png" alt="Games" width="100%" />
+  </a>
+  <br><strong>Games</strong><br>
+  <sub>Game Mode · HAGS · DVR · reboot badge</sub>
+</td>
+<td width="50%" valign="top" align="center">
+  <a href="assets/screenshots/expert.png">
+    <img src="assets/screenshots/expert.png" alt="Expert" width="100%" />
+  </a>
+  <br><strong>Expert</strong><br>
+  <sub>Xbox · UAC · mitigations · one-time actions</sub>
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+  <a href="assets/screenshots/settings.png">
+    <img src="assets/screenshots/settings.png" alt="Settings" width="78%" />
+  </a>
+  <br><strong>Settings</strong><br>
+  <sub>RU / EN · auto-update · registry backup · restore</sub>
+</td>
+</tr>
+</table>
 
 ---
 
