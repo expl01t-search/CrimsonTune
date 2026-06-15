@@ -15,7 +15,6 @@ from utils import registry as reg
 
 logger = setup_logger(__name__)
 
-ROOT = Path(__file__).resolve().parent.parent
 _HIVE_EXPORT = {
     "HKCU": "HKEY_CURRENT_USER",
     "HKLM": "HKEY_LOCAL_MACHINE",
@@ -24,7 +23,9 @@ _HIVE_EXPORT = {
 
 def _parse_check_paths() -> dict[str, list[str]]:
     """Извлекает пути реестра из SYSTEM_CHECKS в tweak_state.py."""
-    text = (ROOT / "core" / "tweak_state.py").read_text(encoding="utf-8")
+    import core.tweak_state as tweak_state_mod
+
+    text = Path(tweak_state_mod.__file__).read_text(encoding="utf-8")
     marker = "SYSTEM_CHECKS"
     if marker not in text:
         return {}

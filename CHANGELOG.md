@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.2] - 2026-06-15
+
+### Fixed
+- EXE: корректные пути к `config/tweaks.json` и `locales/` через `sys._MEIPASS`
+- Сборка: `icon.ico` включён в bundle, UPX отключён для стабильности
+
 ## [1.2.1] - 2026-06-15
 
 ### Changed

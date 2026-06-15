@@ -8,6 +8,7 @@ a = Analysis(
         ('config', 'config'),
         ('locales', 'locales'),
         ('ui/assets', 'ui/assets'),
+        ('icon.ico', '.'),
     ],
     hiddenimports=[
         'PySide6',
@@ -44,7 +45,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False,
     console=False,
     disable_windowed_traceback=False,
     icon='icon.ico',

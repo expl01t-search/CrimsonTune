@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
 )
 
 from core.backup import BackupManager
+from core.paths import resource_path
 from core.brand import APP_NAME
 from core.i18n import category_label, t
 from core.detector import detect_system
@@ -499,7 +500,7 @@ class MainWindow(QMainWindow):
                 on_confirm=lambda: self._run_apply(["clear_temp_files"]),
             ).exec()
             return
-        path = Path(__file__).resolve().parent.parent / "config" / "profiles" / f"{action}.json"
+        path = resource_path("config", "profiles", f"{action}.json")
         if path.exists():
             from core.i18n import localize_profile
 

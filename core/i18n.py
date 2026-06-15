@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from core.logger import get_app_data_dir
+from core.paths import resource_path
 from core.tweak_state import TweakStatus
 
 SUPPORTED_LANGUAGES: dict[str, str] = {
@@ -13,7 +14,11 @@ SUPPORTED_LANGUAGES: dict[str, str] = {
     "en": "English",
 }
 DEFAULT_LANGUAGE = "ru"
-_LOCALES_DIR = Path(__file__).resolve().parent.parent / "locales"
+
+
+def _locales_dir() -> Path:
+    return resource_path("locales")
+
 
 _STATUS_KEYS: dict[TweakStatus, str] = {
     TweakStatus.INACTIVE: "status_available",
@@ -78,7 +83,7 @@ def save_language(lang: str) -> None:
 def _load_tweak_strings(lang: str) -> dict[str, dict[str, str]]:
     if lang == DEFAULT_LANGUAGE:
         return {}
-    path = _LOCALES_DIR / "tweaks" / f"{lang}.json"
+    path = _locales_dir() / "tweaks" / f"{lang}.json"
     if not path.exists():
         return {}
     try:
@@ -91,7 +96,7 @@ def _load_tweak_strings(lang: str) -> dict[str, dict[str, str]]:
 def _load_profile_strings(lang: str) -> dict[str, dict[str, str]]:
     if lang == DEFAULT_LANGUAGE:
         return {}
-    path = _LOCALES_DIR / "profiles" / f"{lang}.json"
+    path = _locales_dir() / "profiles" / f"{lang}.json"
     if not path.exists():
         return {}
     try:
@@ -102,9 +107,9 @@ def _load_profile_strings(lang: str) -> dict[str, dict[str, str]]:
 
 
 def _load_strings(lang: str) -> dict[str, str]:
-    path = _LOCALES_DIR / f"{lang}.json"
+    path = _locales_dir() / f"{lang}.json"
     if not path.exists():
-        path = _LOCALES_DIR / f"{DEFAULT_LANGUAGE}.json"
+        path = _locales_dir() / f"{DEFAULT_LANGUAGE}.json"
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):

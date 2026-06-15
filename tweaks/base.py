@@ -11,6 +11,7 @@ from typing import Any, Callable, Optional
 
 from core.backup import BackupManager
 from core.logger import setup_logger
+from core.paths import resource_path
 from core.tweak_state import ONE_SHOT_TWEAKS, TweakStateDetector, TweakStateInfo
 
 logger = setup_logger(__name__)
@@ -102,9 +103,7 @@ class TweakManager:
     """Центральный менеджер всех твиков."""
 
     def __init__(self, config_path: Optional[Path] = None) -> None:
-        self.config_path = config_path or (
-            Path(__file__).resolve().parent.parent / "config" / "tweaks.json"
-        )
+        self.config_path = config_path or resource_path("config", "tweaks.json")
         self.blacklist_path = self.config_path.parent / "blacklist.json"
         self.backup = BackupManager()
         self.state_detector = TweakStateDetector(set(self.backup.get_all_applied()))
@@ -135,6 +134,10 @@ class TweakManager:
 
     def load_config(self) -> list[TweakMeta]:
         """Загружает метаданные твиков из JSON."""
+        if not self.config_path.exists():
+            raise FileNotFoundError(
+                f"Не найден {self.config_path}. Переустановите CrimsonTune или соберите EXE с config/."
+            )
         with open(self.config_path, encoding="utf-8") as f:
             data = json.load(f)
 

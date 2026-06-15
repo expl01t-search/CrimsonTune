@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from core.paths import resource_path
 from typing import Callable
 
 from PySide6.QtCore import Qt
@@ -48,7 +48,7 @@ class ProfilesPage(QWidget):
         self._layout.setSpacing(12)
         style_scroll_area(scroll, container)
 
-        profiles_dir = Path(__file__).resolve().parent.parent / "config" / "profiles"
+        profiles_dir = resource_path("config", "profiles")
         for pf in sorted(profiles_dir.glob("*.json")):
             with open(pf, encoding="utf-8") as f:
                 profile = localize_profile(json.load(f))
