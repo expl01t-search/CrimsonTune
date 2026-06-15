@@ -1,152 +1,61 @@
-<p align="center">
-  <a href="README.md"><strong>🇷🇺 Русский</strong></a>
-  &nbsp;·&nbsp;
-  <a href="README.en.md"><strong>🇬🇧 English</strong></a>
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="icon.ico" alt="CrimsonTune" width="112" height="112" />
-</p>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=d63031&height=140&section=header&text=CrimsonTune&fontSize=38&fontColor=ffffff&animation=fadeIn" alt="CrimsonTune" />
 
-<h1 align="center">CrimsonTune</h1>
+**Точная настройка Windows 10** · desktop · RU/EN · Crimson Dark
 
-<p align="center">
-  <strong>Точная настройка Windows 10</strong><br>
-  <sub>Desktop-оптимизатор · умное сканирование · профили · Crimson Dark UI</sub>
-</p>
+<br>
 
-<p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/v2.2.1-321_твик-d63031?style=for-the-badge" alt="v2.2.1" />
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/Release-v2.2.1-d63031?style=for-the-badge" alt="Release v2.2.1" />
-    </a>
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/Windows-10%20x64-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows 10" />
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/requirements.txt">
-    <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/actions/workflows/ci.yml">
-    <img src="https://img.shields.io/badge/CI-build-2ea44f?style=for-the-badge" alt="CI" />
-  </a>
-</p>
+[![v2.2.1](https://img.shields.io/badge/v2.2.1-321_твика-d63031?style=for-the-badge)](https://github.com/expl01t-search/CrimsonTune/releases/latest)
+[![Windows 10](https://img.shields.io/badge/Windows-10_x64-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/expl01t-search/CrimsonTune)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://github.com/expl01t-search/CrimsonTune/blob/main/requirements.txt)
+[![MIT](https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge)](https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE)
 
-<p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip">
-    <img src="https://img.shields.io/badge/⬇️_Скачать_.zip-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download ZIP" />
-  </a>
-</p>
+<br>
 
-<p align="center">
-  <a href="assets/screenshots/dashboard.png">
-    <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — главная панель" width="920" />
-  </a>
-</p>
+[![⬇ Скачать ZIP](https://img.shields.io/badge/⬇_Скачать_CrimsonTune-d63031?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip)
+[![English](https://img.shields.io/badge/🇬🇧_English-README.en.md-555?style=for-the-badge)](README.en.md)
 
-<p align="center"><sub>Crimson Dark · кольцо оптимизации · умное сканирование · 321 твик</sub></p>
+<br>
+
+<a href="assets/screenshots/dashboard.png">
+  <img src="assets/screenshots/dashboard.png" alt="Главная панель CrimsonTune" width="880" />
+</a>
+
+<sub>321 твик · 7 профилей · умное сканирование · откат · автообновление</sub>
+
+</div>
 
 ---
 
-## Зачем CrimsonTune
+## О проекте
 
-Один инструмент вместо десятка `.reg`, `.bat` и полуручных гайдов. CrimsonTune собирает проверенные твики из **WinUtil**, **Optimize #Expl01t**, **BoosterX**, **SpeedGuide**, **MSI Mode Utility** и **SSD Mini Tweaker** — и даёт им понятный интерфейс с откатом, сканированием и профилями.
+**CrimsonTune** — один инструмент вместо `.reg`, `.bat` и длинных гайдов. Твики из проверенных источников (WinUtil, Optimize #Expl01t, BoosterX, MSI Mode, SSD Mini Tweaker и др.) с понятным UI, фильтрами и полным откатом.
 
-> Запускайте **от имени администратора** — твики работают с реестром, службами и планировщиком.
-
-> **Язык:** русский и английский — **Настройки → Язык**.
+> ⚠️ Запуск **от имени администратора** — работа с реестром, службами и планировщиком.
 
 ---
 
-## Что внутри
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### Производительность
-- CPU, RAM, службы, питание
-- **SSD-пакет** (TRIM, дефрагментация OFF, NTFS)
-- Отключение SysMain, hibernation, prefetch
-
-### Игры и сеть
-- **MSI Mode High** (GPU / USB / LAN)
-- MMCSS, Nagle OFF на NIC, TCP ECN/CTCP
-- Игровые твики и таймер
-
-</td>
-<td width="50%" valign="top">
-
-### Графика
-- NVIDIA: P-State, MaxFrameLatency, driver perf
-- DirectX / OpenGL / AMD (по железу)
-
-### Безопасность UI
-- Опасные твики — вкладка **Эксперт**
-- Умное сканирование: не включить дважды
-- Экспорт `.reg` и полный откат
-
-</td>
-</tr>
-</table>
+## Возможности
 
 | | |
-|---|---|
-| **321 твик** | performance · SSD · gaming · graphics · network · privacy · system · expert |
-| **10 вкладок** | Главная · Производительность · Игры · Графика · Сеть · Приватность · Система · Эксперт · Профили · Настройки |
-| **7 профилей** | Balanced · Gamer Pro · **Gaming Plus** · Max Performance · Privacy · SSD · **Ghost Superlite** |
-| **Фильтры** | Все · Доступные · Активные · Разовые |
-| **Crimson Dark** | Тёмная тема, анимации, splash, автоскан при старте |
-
----
-
-## SSD-оптимизация
-
-На вкладке **Производительность** появилась подкатегория **SSD** — набор из SSD Mini Tweaker и связанных NTFS-твиков:
-
-| Твик | Действие |
-|------|----------|
-| TRIM | `fsutil DisableDeleteNotify=0` на томах |
-| Prefetch / Superfetch OFF | Не нужны на SSD |
-| Дефрагментация OFF | Служба, планировщик, boot defrag |
-| Layout.ini OFF | OptimalLayout + Prefetch scenario |
-| Индексирование дисков OFF | WMI/CIM на фиксированных томах |
-| Защита системы OFF | Освобождает место (risk: high) |
-
-Дополнительно в профиле **SSD**: `ntfs_memory_ssd`, `large_system_cache_on`, `disable_paging_executive`, `ntfs_8dot3_off`, `disable_hibernation` и др.
-
----
-
-## v2.2 — Backlog-твики
-
-**+117 твиков** из open-source твикеров (OptimizerNXT, GTweak, Optimize-Windows, Ghost Spectre). Категории:
-
-| Категория | Новых | Примеры |
-|-----------|-------|---------|
-| Приватность | 43 | Recall, Spotlight, clipboard sync, browser telemetry |
-| Интерфейс | 22 | Snap Assist, Explorer Gallery, 24h clock |
-| Эксперт | 12 | Core Isolation, VBS, hosts-block, WU pause 2077 |
-| Производительность | 9+ | Modern Standby, USB suspend, Compact OS |
-| Сеть / игры | 11+ | NDU, netsh gaming, NIC LSO, FTH, MMCSS SFIO |
-
-**Новые профили:**
-- **Gaming Plus** — топ gaming + backlog (NDU, netsh, FTH, latency)
-- **Ghost Superlite** — приватность и debloat в духе Ghost Spectre (без Expert-рисков)
+|:--|:--|
+| **321 твик** | Performance · SSD · Gaming · Graphics · Network · Privacy · System · Expert |
+| **7 профилей** | Balanced · Gamer Pro · Gaming Plus · Max Performance · Privacy · SSD · Ghost Superlite |
+| **Умный UI** | Скан состояния · фильтры · бейджи «активен / перезагрузка» · кольцо % на главной |
+| **Безопасность** | Expert-вкладка · экспорт `.reg` · `RESTORE.bat` / `--restore-all` |
+| **i18n** | Русский и English — **Настройки → Язык** |
 
 ---
 
 ## Быстрый старт
 
-### Скачать
+1. Скачай [**CrimsonTune-v2.2.1-win64.zip**](https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip)
+2. Распакуй и запусти **`CrimsonTune.exe` от администратора**
+3. Выбери профиль или включай твики по категориям — **Настройки → Проверить обновления**
 
-1. [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
-2. Архив `CrimsonTune-v*-win64.zip` — распакуйте и запустите `CrimsonTune.exe` **от администратора**
-3. К каждому релизу приложен `RELEASE_NOTES.md` (changelog этой версии)
-
-### Из исходников
+<details>
+<summary><strong>Из исходников / сборка</strong></summary>
 
 ```bash
 git clone https://github.com/expl01t-search/CrimsonTune.git
@@ -155,115 +64,37 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### Сборка
+Сборка EXE: `pip install -r requirements-dev.txt` → `python tools/gen_icon.py` → `pyinstaller build.spec`
 
-```bash
-pip install -r requirements-dev.txt
-python tools/gen_icon.py
-pyinstaller build.spec
-```
+Данные приложения: `%AppData%\CrimsonTune`
 
-→ `dist/CrimsonTune.exe`
-
-### Зависимости
-
-| Файл | Назначение |
-|------|------------|
-| `requirements.txt` | **Только для запуска** — PySide6 и psutil |
-| `requirements-dev.txt` | **Сборка и CI** — подключает runtime + PyInstaller |
-
-Обычным пользователям достаточно скачать `.zip` из Releases. Два файла — чтобы не тянуть PyInstaller тем, кто просто запускает `python main.py`.
-
-> В репозитории нет папки `tests/` — она остаётся локально для разработки. В релизный архив попадает только `CrimsonTune.exe`.
+</details>
 
 ---
 
 ## Скриншоты
 
-<table>
-<tr>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/dashboard.png">
-    <img src="assets/screenshots/dashboard.png" alt="Главная" width="100%" />
-  </a>
-  <br><strong>Главная</strong><br>
-  <sub>CPU · GPU · RAM · диски · кольцо 88%</sub>
-</td>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/performance.png">
-    <img src="assets/screenshots/performance.png" alt="Производительность" width="100%" />
-  </a>
-  <br><strong>Производительность</strong><br>
-  <sub>SysMain · Prefetch · SSD · таймер · RAM</sub>
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/games.png">
-    <img src="assets/screenshots/games.png" alt="Игры" width="100%" />
-  </a>
-  <br><strong>Игры</strong><br>
-  <sub>Game Mode · HAGS · DVR · бейдж «перезагрузка»</sub>
-</td>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/expert.png">
-    <img src="assets/screenshots/expert.png" alt="Эксперт" width="100%" />
-  </a>
-  <br><strong>Эксперт</strong><br>
-  <sub>Xbox · UAC · mitigations · разовые действия</sub>
-</td>
-</tr>
-<tr>
-<td colspan="2" align="center">
-  <a href="assets/screenshots/settings.png">
-    <img src="assets/screenshots/settings.png" alt="Настройки" width="78%" />
-  </a>
-  <br><strong>Настройки</strong><br>
-  <sub>RU / EN · автообновление · бэкап реестра · откат</sub>
-</td>
-</tr>
-</table>
-
----
-
-## Стек
-
-| Слой | Технология |
-|------|------------|
-| GUI | PySide6 + `cyber_forge.qss` |
-| Система | Python 3.11+, `winreg`, `psutil` |
-| Сборка | PyInstaller |
-
-```
-CrimsonTune/
-├── core/       # приложение, сканер, бэкапы, i18n
-├── tweaks/     # performance, ssd, nvidia, msi_mode, expert…
-├── ui/         # окна, компоненты, тема
-├── config/     # tweaks.json, профили (в т.ч. ssd.json)
-└── locales/    # RU / EN
-```
-
----
-
-## Восстановление
-
-```bat
-RESTORE.bat
-```
-
-или `python main.py --restore-all`
-
-Данные: `%AppData%\CrimsonTune` (миграция из VeloForge / WinTweaker).
+<p align="center">
+  <a href="assets/screenshots/performance.png"><img src="assets/screenshots/performance.png" width="440" alt="Производительность" /></a>
+  <a href="assets/screenshots/games.png"><img src="assets/screenshots/games.png" width="440" alt="Игры" /></a>
+</p>
+<p align="center">
+  <a href="assets/screenshots/expert.png"><img src="assets/screenshots/expert.png" width="440" alt="Эксперт" /></a>
+  <a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" width="440" alt="Настройки" /></a>
+</p>
 
 ---
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md)
+История версий — [**CHANGELOG.md**](CHANGELOG.md) · релизы — [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases)
 
 ---
 
-<p align="center">
-  <sub>Сделано для точной настройки Windows</sub><br>
-  <a href="README.en.md">Read in English</a>
-</p>
+<div align="center">
+
+<sub>PySide6 · Python 3.11+ · PyInstaller</sub>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=d63031&height=80&section=footer&animation=fadeIn" alt="" />
+
+</div>

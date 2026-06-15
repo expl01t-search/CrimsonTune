@@ -1,152 +1,61 @@
-<p align="center">
-  <a href="README.md"><strong>🇷🇺 Русский</strong></a>
-  &nbsp;·&nbsp;
-  <a href="README.en.md"><strong>🇬🇧 English</strong></a>
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="icon.ico" alt="CrimsonTune" width="112" height="112" />
-</p>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=d63031&height=140&section=header&text=CrimsonTune&fontSize=38&fontColor=ffffff&animation=fadeIn" alt="CrimsonTune" />
 
-<h1 align="center">CrimsonTune</h1>
+**Precise Windows 10 tuning** · desktop · RU/EN · Crimson Dark
 
-<p align="center">
-  <strong>Precise Windows 10 tuning</strong><br>
-  <sub>Desktop optimizer · smart scan · profiles · Crimson Dark UI</sub>
-</p>
+<br>
 
-<p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/v2.2.1-321_tweaks-d63031?style=for-the-badge" alt="v2.2.1" />
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/Release-v2.2.1-d63031?style=for-the-badge" alt="Release v2.2.1" />
-    </a>
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest">
-    <img src="https://img.shields.io/badge/Windows-10%20x64-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows 10" />
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/requirements.txt">
-    <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  </a>
-  <a href="https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge" alt="License" />
-  </a>
-</p>
+[![v2.2.1](https://img.shields.io/badge/v2.2.1-321_tweaks-d63031?style=for-the-badge)](https://github.com/expl01t-search/CrimsonTune/releases/latest)
+[![Windows 10](https://img.shields.io/badge/Windows-10_x64-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/expl01t-search/CrimsonTune)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://github.com/expl01t-search/CrimsonTune/blob/main/requirements.txt)
+[![MIT](https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge)](https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE)
 
-<p align="center">
-  <a href="https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip">
-    <img src="https://img.shields.io/badge/⬇️_Download_.zip-d63031?style=for-the-badge&logo=windows&logoColor=white" alt="Download ZIP" />
-  </a>
-</p>
+<br>
 
-<p align="center">
-  <a href="assets/screenshots/dashboard.png">
-    <img src="assets/screenshots/dashboard.png" alt="CrimsonTune — home dashboard" width="920" />
-  </a>
-</p>
+[![⬇ Download ZIP](https://img.shields.io/badge/⬇_Download_CrimsonTune-d63031?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip)
+[![Русский](https://img.shields.io/badge/🇷🇺_Русский-README.md-555?style=for-the-badge)](README.md)
 
-<p align="center"><sub>Crimson Dark · optimization ring · smart scan · 321 tweaks</sub></p>
+<br>
+
+<a href="assets/screenshots/dashboard.png">
+  <img src="assets/screenshots/dashboard.png" alt="CrimsonTune home dashboard" width="880" />
+</a>
+
+<sub>321 tweaks · 7 profiles · smart scan · revert · auto-update</sub>
+
+</div>
 
 ---
 
-## Why CrimsonTune
+## About
 
-One tool instead of dozens of `.reg` files, batch scripts, and half-manual guides. CrimsonTune bundles proven tweaks from **WinUtil**, **Optimize #Expl01t**, **BoosterX**, **SpeedGuide**, **MSI Mode Utility**, and **SSD Mini Tweaker** — with revert, smart scanning, and profiles.
+**CrimsonTune** replaces scattered `.reg` files, batch scripts, and long guides with one desktop app. Proven tweaks (WinUtil, Optimize #Expl01t, BoosterX, MSI Mode, SSD Mini Tweaker, and more) with filters, profiles, and full restore.
 
-> Run as **Administrator** — tweaks touch registry, services, and the task scheduler.
-
-> **Language:** Russian and English — **Settings → Language**.
+> ⚠️ Run **as Administrator** — registry, services, and scheduled tasks.
 
 ---
 
-## Highlights
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### Performance
-- CPU, RAM, services, power plan
-- **SSD pack** (TRIM, defrag OFF, NTFS)
-- SysMain, hibernation, prefetch off
-
-### Gaming & network
-- **MSI Mode High** (GPU / USB / LAN)
-- MMCSS, per-NIC Nagle OFF, TCP ECN/CTCP
-- Game tweaks and timer resolution
-
-</td>
-<td width="50%" valign="top">
-
-### Graphics
-- NVIDIA: P-State, MaxFrameLatency, driver perf
-- DirectX / OpenGL / AMD (hardware-gated)
-
-### Safe UI
-- Risky tweaks under **Expert** tab
-- Smart scan prevents duplicate toggles
-- `.reg` export and full restore
-
-</td>
-</tr>
-</table>
+## Features
 
 | | |
-|---|---|
-| **321 tweaks** | performance · SSD · gaming · graphics · network · privacy · system · expert |
-| **10 tabs** | Home · Performance · Gaming · Graphics · Network · Privacy · System · Expert · Profiles · Settings |
-| **7 profiles** | Balanced · Gamer Pro · **Gaming Plus** · Max Performance · Privacy · SSD · **Ghost Superlite** |
-| **Filters** | All · Available · Active · One-shot |
-| **Crimson Dark** | Dark theme, animations, splash, auto-scan on launch |
-
----
-
-## SSD optimization
-
-Under **Performance**, the **SSD** subcategory includes SSD Mini Tweaker-style tweaks plus related NTFS settings:
-
-| Tweak | Action |
-|-------|--------|
-| TRIM | `fsutil DisableDeleteNotify=0` on volumes |
-| Prefetch / Superfetch OFF | Not needed on SSD |
-| Defrag OFF | Service, scheduler, boot defrag |
-| Layout.ini OFF | OptimalLayout + Prefetch scenario |
-| Volume indexing OFF | WMI/CIM on fixed drives |
-| System Restore OFF | Frees space (risk: high) |
-
-The **SSD** profile also applies `ntfs_memory_ssd`, `large_system_cache_on`, `disable_paging_executive`, `ntfs_8dot3_off`, `disable_hibernation`, and more.
-
----
-
-## v2.2 — Backlog tweaks
-
-**+117 tweaks** from open-source tools (OptimizerNXT, GTweak, Optimize-Windows, Ghost Spectre):
-
-| Category | New | Examples |
-|----------|-----|----------|
-| Privacy | 43 | Recall, Spotlight, clipboard sync, browser telemetry |
-| UI | 22 | Snap Assist, Explorer Gallery, 24h clock |
-| Expert | 12 | Core Isolation, VBS, hosts-block, WU pause 2077 |
-| Performance | 9+ | Modern Standby, USB suspend, Compact OS |
-| Network / gaming | 11+ | NDU, netsh gaming, NIC LSO, FTH, MMCSS SFIO |
-
-**New profiles:**
-- **Gaming Plus** — top gaming + backlog (NDU, netsh, FTH, latency)
-- **Ghost Superlite** — Ghost Spectre–style privacy/debloat without Expert risks
+|:--|:--|
+| **321 tweaks** | Performance · SSD · Gaming · Graphics · Network · Privacy · System · Expert |
+| **7 profiles** | Balanced · Gamer Pro · Gaming Plus · Max Performance · Privacy · SSD · Ghost Superlite |
+| **Smart UI** | State scan · filters · status badges · optimization ring on home |
+| **Safety** | Expert tab · `.reg` export · `RESTORE.bat` / `--restore-all` |
+| **i18n** | Russian & English — **Settings → Language** |
 
 ---
 
 ## Quick start
 
-### Download
+1. Download [**CrimsonTune-v2.2.1-win64.zip**](https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip)
+2. Extract and run **`CrimsonTune.exe` as Administrator**
+3. Pick a profile or tweak by category — **Settings → Check for updates**
 
-1. [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases/latest)
-2. `CrimsonTune-v*-win64.zip` — extract and run `CrimsonTune.exe` **as Administrator**
-3. Each release includes `RELEASE_NOTES.md` (changelog for that version)
-
-### From source
+<details>
+<summary><strong>From source / build</strong></summary>
 
 ```bash
 git clone https://github.com/expl01t-search/CrimsonTune.git
@@ -155,106 +64,37 @@ pip install -r requirements.txt
 python main.py
 ```
 
-### Build
+Build EXE: `pip install -r requirements-dev.txt` → `python tools/gen_icon.py` → `pyinstaller build.spec`
 
-```bash
-pip install -r requirements-dev.txt
-python tools/gen_icon.py
-pyinstaller build.spec
-```
+App data: `%AppData%\CrimsonTune`
 
-→ `dist/CrimsonTune.exe`
-
-### Dependencies
-
-| File | Purpose |
-|------|---------|
-| `requirements.txt` | **Runtime only** — PySide6 and psutil |
-| `requirements-dev.txt` | **Build & CI** — runtime deps + PyInstaller |
-
-End users only need the `.zip` from Releases. Two files keep PyInstaller out of a simple `python main.py` setup.
-
-> The `tests/` folder is not in the repository — keep it locally for development. Release archives contain only `CrimsonTune.exe`.
+</details>
 
 ---
 
 ## Screenshots
 
-<table>
-<tr>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/dashboard.png">
-    <img src="assets/screenshots/dashboard.png" alt="Home" width="100%" />
-  </a>
-  <br><strong>Home</strong><br>
-  <sub>CPU · GPU · RAM · disks · 88% ring</sub>
-</td>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/performance.png">
-    <img src="assets/screenshots/performance.png" alt="Performance" width="100%" />
-  </a>
-  <br><strong>Performance</strong><br>
-  <sub>SysMain · Prefetch · SSD · timer · RAM</sub>
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/games.png">
-    <img src="assets/screenshots/games.png" alt="Games" width="100%" />
-  </a>
-  <br><strong>Games</strong><br>
-  <sub>Game Mode · HAGS · DVR · reboot badge</sub>
-</td>
-<td width="50%" valign="top" align="center">
-  <a href="assets/screenshots/expert.png">
-    <img src="assets/screenshots/expert.png" alt="Expert" width="100%" />
-  </a>
-  <br><strong>Expert</strong><br>
-  <sub>Xbox · UAC · mitigations · one-time actions</sub>
-</td>
-</tr>
-<tr>
-<td colspan="2" align="center">
-  <a href="assets/screenshots/settings.png">
-    <img src="assets/screenshots/settings.png" alt="Settings" width="78%" />
-  </a>
-  <br><strong>Settings</strong><br>
-  <sub>RU / EN · auto-update · registry backup · restore</sub>
-</td>
-</tr>
-</table>
-
----
-
-## Stack
-
-| Layer | Technology |
-|-------|------------|
-| GUI | PySide6 + `cyber_forge.qss` |
-| System | Python 3.11+, `winreg`, `psutil` |
-| Build | PyInstaller |
-
----
-
-## Restore
-
-```bat
-RESTORE.bat
-```
-
-or `python main.py --restore-all`
-
-Data: `%AppData%\CrimsonTune` (migrates from VeloForge / WinTweaker).
+<p align="center">
+  <a href="assets/screenshots/performance.png"><img src="assets/screenshots/performance.png" width="440" alt="Performance" /></a>
+  <a href="assets/screenshots/games.png"><img src="assets/screenshots/games.png" width="440" alt="Games" /></a>
+</p>
+<p align="center">
+  <a href="assets/screenshots/expert.png"><img src="assets/screenshots/expert.png" width="440" alt="Expert" /></a>
+  <a href="assets/screenshots/settings.png"><img src="assets/screenshots/settings.png" width="440" alt="Settings" /></a>
+</p>
 
 ---
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md)
+Version history — [**CHANGELOG.md**](CHANGELOG.md) · releases — [**Releases**](https://github.com/expl01t-search/CrimsonTune/releases)
 
 ---
 
-<p align="center">
-  <sub>Made for precise Windows tuning</sub><br>
-  <a href="README.md">Читать на русском</a>
-</p>
+<div align="center">
+
+<sub>PySide6 · Python 3.11+ · PyInstaller</sub>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=d63031&height=80&section=footer&animation=fadeIn" alt="" />
+
+</div>
