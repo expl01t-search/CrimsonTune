@@ -1,20 +1,17 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=d63031&height=140&section=header&text=CrimsonTune&fontSize=38&fontColor=ffffff&animation=fadeIn" alt="CrimsonTune" />
+<img src="assets/banner.svg" width="100%" alt="CrimsonTune — точная настройка Windows 10" />
 
-**Точная настройка Windows 10** · desktop · RU/EN · Crimson Dark
-
-<br>
-
-[![v2.2.1](https://img.shields.io/badge/v2.2.1-321_твика-d63031?style=for-the-badge)](https://github.com/expl01t-search/CrimsonTune/releases/latest)
-[![Windows 10](https://img.shields.io/badge/Windows-10_x64-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/expl01t-search/CrimsonTune)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://github.com/expl01t-search/CrimsonTune/blob/main/requirements.txt)
-[![MIT](https://img.shields.io/badge/License-MIT-8b1e1e?style=for-the-badge)](https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE)
+[![Релиз](https://img.shields.io/github/v/release/expl01t-search/CrimsonTune?style=for-the-badge&color=d63031&labelColor=161b22&label=релиз)](https://github.com/expl01t-search/CrimsonTune/releases/latest)
+[![321 твик](https://img.shields.io/badge/твики-321-d63031?style=for-the-badge&labelColor=161b22)](#возможности)
+[![Windows 10](https://img.shields.io/badge/Windows-10_x64-d63031?style=for-the-badge&labelColor=161b22&logo=windows&logoColor=d63031)](https://github.com/expl01t-search/CrimsonTune)
+[![Python](https://img.shields.io/badge/Python-3.11+-d63031?style=for-the-badge&labelColor=161b22&logo=python&logoColor=d63031)](https://github.com/expl01t-search/CrimsonTune/blob/main/requirements.txt)
+[![MIT](https://img.shields.io/badge/лицензия-MIT-d63031?style=for-the-badge&labelColor=161b22)](https://github.com/expl01t-search/CrimsonTune/blob/main/LICENSE)
 
 <br>
 
-[![⬇ Скачать ZIP](https://img.shields.io/badge/⬇_Скачать_CrimsonTune-d63031?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip)
-[![English](https://img.shields.io/badge/🇬🇧_English-README.en.md-555?style=for-the-badge)](README.en.md)
+[![⬇ Скачать ZIP](https://img.shields.io/badge/⬇_Скачать_CrimsonTune-v2.2.1_·_Windows_x64-d63031?style=for-the-badge&labelColor=0d1117&logo=windows&logoColor=white)](https://github.com/expl01t-search/CrimsonTune/releases/latest/download/CrimsonTune-v2.2.1-win64.zip)
+[![English](https://img.shields.io/badge/English-README.en.md-161b22?style=for-the-badge)](README.en.md)
 
 <br>
 
@@ -93,8 +90,8 @@ python main.py
 
 <div align="center">
 
-<sub>PySide6 · Python 3.11+ · PyInstaller</sub>
+<img src="assets/divider.svg" width="100%" alt="" />
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=d63031&height=80&section=footer&animation=fadeIn" alt="" />
+<sub>PySide6 · Python 3.11+ · PyInstaller · автор — <a href="https://github.com/expl01t-search">Expl01t</a></sub>
 
 </div>
